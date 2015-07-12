@@ -1,0 +1,28 @@
+void Bitree_Copy_Nonrecursive(Bitree T,Bitree &U){
+	//·ÇµÝ¹é¸´ÖÆ¶þ²æÊ÷
+	InitStack(S1);
+	InitStack(S2);
+	push(S1,T);
+	U=(BTNode*)malloc(sizeof(BTNode));
+	U->data=T->data;
+	q=U;push(S2,U);
+	while(!StackEmpty(S)){
+		while(Gettop(S1,p)&&p){
+			q->lchild=(BTNode*)malloc(sizeof(BTNode));
+			q=q->lchild;
+			q->data=p->data;
+			push(S1,p->lchild);
+			push(S2,q);
+		}
+		pop(S1,p);
+		pop(S2,q);
+		if(!StackEmpty(S1)){
+			pop(S1,p);pop(S2,q);
+			q->rchild=(BTNode*)malloc(sizeof(BTNode));
+			q=q->rchild;
+			q->data=p->data;
+			push(S1,p->rchild);
+			push(S2,q);
+		}
+	}
+}
