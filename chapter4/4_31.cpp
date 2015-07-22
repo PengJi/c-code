@@ -1,0 +1,45 @@
+void getPubSub(StringType S,StringType T){
+	//求串S和串T的最大公共子串位置和长度
+	if(S[0]>=T[0]){
+		StrAssign(A,S);
+		StrAssign(B,T);
+	}else{
+		StrAssign(A,T);
+		StrAssign(B,S);
+	}
+	for(maxlen=0,i=1-B[0];i<A[0];i++){
+		if(i<0){
+			jmin=1;
+			jmax=i+B[0];
+		}else if(i>A[0]-B[0]){
+			jmin=i;
+			jmax=A[0];
+		}else{
+			jmin=i;
+			jmax=i+B[0];
+		}
+		for(k=0,j=jmin;j<=jmax;j++){
+			if(A[j]==B[j-i])
+				k++;
+			else
+				k=0;
+			if(k>maxlen){
+				pos1=j-k+1;
+				pos2=j-i-k+1;
+				maxlen=k;
+			}
+		}
+	}
+	if(maxlen){
+		if(S[0]>=T[0]){
+			posS=pos1;
+			posT=pos2;
+		}else{
+			posS=pos2;
+			posT=pos1;
+		}
+		cout<<"最长公共子串长度:"<<maxlen<<endl;
+		cout<<"S中位置:"<<posS<<" "<<"T中位置:"<<posT<<endl;
+	}else
+		cout<<"没有公共子串"<<endl;
+}
