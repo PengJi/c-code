@@ -1,0 +1,30 @@
+void Free_BS(freelist &avail,char *addr,int n){
+	//伙伴系统的空闲块回收算法
+	buddy=addr%(2*n)?(addr-n):(addr+n);
+	addr->tag=0;
+	addr->kval=n;
+	for(i=0;avail[i].nodesize<n;i++);
+	if(!avail[i].first){
+		addr->llink=addr;
+		addr->rlink=addr;
+		avail[i].first=addr;
+	}else{
+		for(p=avail[i].first;p1=buddy && p!=avail[i].first;p=p->rlink);
+		if(p==buddy){
+			if(p->rlink==p)
+				avail[i].first=NULL;
+			else{
+				p->llink->rlink=p->rlink;
+				p->rlink->llink=p->llink;
+			}
+			new=addr>p?p:addr;
+			Free_BS(avail,new,2*n);
+		}else{
+			q=p->rlink;
+			p->rlink=addr;
+			addr->llink=p;
+			q->llink=addr;
+			addr->rlink=q;
+		}
+	}
+}
