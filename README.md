@@ -1,4 +1,2 @@
-# vc6_practice
-C/C++ algorithm practice
-C/C++算法练习
-《数据结构》习题答案
+# C/C++练习代码
+环境基于vc6或linux
