@@ -1,0 +1,6 @@
+#include <assert.h>
+void assert( int expression );
+
+注意：assert是宏，而不是函数。在C的assert.h头文件中。
+
+assert的作用是先计算表达式expression，如果其值为假（即为0），那么它先向标准错误流stderr打印一条出错信息，然后通过调用abort来终止程序运行；否则，assert()无任何作用。宏assert（）一般用于确认程序的正常操作，其中表达式构造无错时才为真值。完成调试后，不必从源代码中删除assert()语句，因为宏NDEBUG有定义时，宏assert()的定义为空。
