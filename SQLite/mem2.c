@@ -1,44 +1,3 @@
-/*
-** 2007 August 15
-**
-** The author disclaims copyright to this source code.  In place of
-** a legal notice, here is a blessing:
-**
-**    May you do good and not evil.
-**    May you find forgiveness for yourself and forgive others.
-**    May you share freely, never taking more than you give.
-**
-*************************************************************************
-**
-** This file contains low-level memory allocation drivers for when
-** SQLite will use the standard C-library malloc/realloc/free interface
-** to obtain the memory it needs while adding lots of additional debugging
-** information to each allocation in order to help detect and fix memory
-** leaks and memory usage errors.
-**
-** This file contains implementations of the low-level memory allocation
-** routines specified in the sqlite3_mem_methods object.
-**
-** 该文件包含了底层内存分配时，SQLite的驱动程序将使用标准的c-library malloc/realloc/free接口获取内存需求，
-** 同时，添加很多额外的调试信息，每个分配以帮助检测和修复内存泄漏和内存使用错误。
-
-** 该文件包含的底层的内存分配例程在sqlite3_mem_methods指定对象的实现。
-*/
-#include "sqliteInt.h"
-
-/*
-** This version of the memory allocator is used only if the
-** SQLITE_MEMDEBUG macro is defined
-**
-** 这个版本的内存分配器是只有SQLITE_MEMDEBUG宏定义时使用。
-*/
-#ifdef SQLITE_MEMDEBUG
-
-/*
-** The backtrace functionality is only available with GLIBC
-**
-** 回溯功能仅可使用GLIBC
-*/
 #ifdef __GLIBC__
   extern int backtrace(void**,int); //函数用于获取当前线程的调用堆栈，获取的信息将会被存在指针数组中，函数返回值是实际获取的指针的个数。
   extern void backtrace_symbols_fd(void*const*,int,int);  //从backtrace函数获取的信息转化为一个字符串数组，函数返回将结果写入文件描述符为fd的文件中，每个函数对应一行。
@@ -47,39 +6,58 @@
 # define backtrace_symbols_fd(A,B,C)
 #endif
 #include <stdio.h>
+#include <stdlib.h>
+#include <assert.h>
 
-/*
-** Each memory allocation looks like this:
-**
-**  ------------------------------------------------------------------------
-**  | Title |  backtrace pointers |  MemBlockHdr |  allocation |  EndGuard |
-**  ------------------------------------------------------------------------
-**
-** The application code sees only a pointer to the allocation.  We have
-** to back up from the allocation pointer to find the MemBlockHdr.  The
-** MemBlockHdr tells us the size of the allocation and the number of
-** backtrace pointers.  There is also a guard word at the end of the
-** MemBlockHdr.
-**
-** 每个内存分配看起来像这样：
-**
-**  ------------------------------------------------------------------------
-**  | 标题 |  回溯指针 | 内存块内HDR |  配置|  尾|
-**  ------------------------------------------------------------------------
-**
-** 应用程序代码只看到一个指向分配。我们必须再从分配指针
-** 找到内存块内HDR。该HDR告诉我们分配的大小和回溯的指针数。
-** 这也有保护语句在内存块内HDR的尾端。
+#ifdef SQLITE_INT64_TYPE
+  typedef SQLITE_INT64_TYPE sqlite_int64;
+  typedef unsigned SQLITE_INT64_TYPE sqlite_uint64;
+#elif defined(_MSC_VER) || defined(__BORLANDC__)
+  typedef __int64 sqlite_int64;
+  typedef unsigned __int64 sqlite_uint64;
+#else
+  typedef long long int sqlite_int64;
+  typedef unsigned long long int sqlite_uint64;
+#endif
+typedef sqlite_int64 sqlite3_int64;
+typedef sqlite_uint64 sqlite3_uint64;
+typedef sqlite3_int64 i64;
+typedef unsigned char u8; 
+#define MEMTYPE_HEAP       0x01
+#define SQLITE_PTR_TO_INT(X)  ((int)(((char*)X)-(char*)0))
+#define ROUND8(x)     (((x)+7)&~7)
 
-** Title：用于描述这段内存，在出错时可以打印出来
-** backtrace pointer：用于保留调用堆栈
-** MemBlockHdr：负责这片内存的管理，以及串联未释放的MemBlock
-** allocation：分配给上层的空间
-** EndGuard：尾部的哨兵，用于检查内存被踩。还有个“HeadGaurd ”在MemBlockHdr中。
-** 应用程序代码将只有一个指针分配。
-** 我们必须从分配指针备份找到MemBlockHdr。
-** 所述MemBlockHdr告诉我们的分配的大小和回溯指针的数目。还有在MemBlockHdr结束保护字。
-*/
+#define SQLITE_OK           0   /* Successful result */
+  /* beginning-of-error-codes */
+#define SQLITE_ERROR        1   /* SQL error or missing database */
+#define SQLITE_INTERNAL     2   /* Internal logic error in SQLite */
+#define SQLITE_PERM         3   /* Access permission denied */
+#define SQLITE_ABORT        4   /* Callback routine requested an abort */
+#define SQLITE_BUSY         5   /* The database file is locked */
+#define SQLITE_LOCKED       6   /* A table in the database is locked */
+#define SQLITE_NOMEM        7   /* A malloc() failed */
+#define SQLITE_READONLY     8   /* Attempt to write a readonly database */
+#define SQLITE_INTERRUPT    9   /* Operation terminated by sqlite3_interrupt()*/
+#define SQLITE_IOERR       10   /* Some kind of disk I/O error occurred */
+#define SQLITE_CORRUPT     11   /* The database disk image is malformed */
+#define SQLITE_NOTFOUND    12   /* Unknown opcode in sqlite3_file_control() */
+#define SQLITE_FULL        13   /* Insertion failed because database is full */
+#define SQLITE_CANTOPEN    14   /* Unable to open the database file */
+#define SQLITE_PROTOCOL    15   /* Database lock protocol error */
+#define SQLITE_EMPTY       16   /* Database is empty */
+#define SQLITE_SCHEMA      17   /* The database schema changed */
+#define SQLITE_TOOBIG      18   /* String or BLOB exceeds size limit */
+#define SQLITE_CONSTRAINT  19   /* Abort due to constraint violation */
+#define SQLITE_MISMATCH    20   /* Data type mismatch */
+#define SQLITE_MISUSE      21   /* Library used incorrectly */
+#define SQLITE_NOLFS       22   /* Uses OS features not supported on host */
+#define SQLITE_AUTH        23   /* Authorization denied */
+#define SQLITE_FORMAT      24   /* Auxiliary database format error */
+#define SQLITE_RANGE       25   /* 2nd parameter to sqlite3_bind out of range */
+#define SQLITE_NOTADB      26   /* File opened that is not a database file */
+#define SQLITE_ROW         100  /* sqlite3_step() has another row ready */
+#define SQLITE_DONE        101  /* sqlite3_step() has finished executing */
+
 //内存分配结构
 struct MemBlockHdr {
   i64 iSize;                          /* Size of this allocation  分配的大小*/
@@ -89,96 +67,44 @@ struct MemBlockHdr {
   u8 nTitle;                          /* Bytes of title; includes '\0'    标题字节,包括 '\0'*/
   u8 eType;                           /* Allocation type code    分配类型代码*/
   int iForeGuard;                     /* Guard word for sanity     保护字*/
-};
+} MemBlockHdr;
 
-/*
-** Guard words  
-** 
-** 保护字段
-*/
+//保护字段
 #define FOREGUARD 0x80F5E153
 #define REARGUARD 0xE4676B53
 
-/*
-** Number of malloc size increments to track.
-**
-** 对malloc的大小增量数量进行跟踪。
-*/
 #define NCSIZE  1000
 
-/*
-** All of the static variables used by this module are collected
-** into a single structure named "mem".  This is to keep the
-** static variables organized and to reduce namespace pollution
-** when this module is combined with other in the amalgamation.
-**
-** 所有该模块所使用的静态变量被收集到一个单一的结构，命名为“mem”。
-** 这是让静态变量变得更容易组织和减少该模块结合其他的时产生的命名空间污染。
-*/
 static struct {
   
-  /*
-  ** Mutex to control access to the memory allocation subsystem.
-  **
-  ** 互斥控制访问所述内存分配子系统
-  */
-  sqlite3_mutex *mutex;
+  //sqlite3_mutex *mutex;
+  int mutex;
 
-  /*
-  ** Head and tail of a linked list of all outstanding allocations
-  **
-  ** 所有未分配的链表的头和尾
-  */
   struct MemBlockHdr *pFirst;
   struct MemBlockHdr *pLast;
   
-  /*
-  ** The number of levels of backtrace to save in new allocations.
-  **
-  ** 在新的分配中，保存回溯的级别数
-  */
   int nBacktrace;
   void (*xBacktrace)(int, int, void **);
 
-  /*
-  ** Title text to insert in front of each block
-  **
-  ** 在每个块的前部插入标题文本
-  */
   int nTitle;        /* Bytes of zTitle to save.  Includes '\0' and padding  保存zTitle的字节,包括'\ 0'和填充*/
   char zTitle[100];  /* The title text 标题文本 */
 
-  /* 
-  ** sqlite3MallocDisallow() increments the following counter.
-  ** sqlite3MallocAllow() decrements it.
-  **
-  ** sqlite3MallocDisallow()递增以下计数器
-  ** sqlite3MallocAllow()递减它
-  */
   int disallow; /* Do not allow memory allocation  不让内存分配*/
 
-  /*
-  ** Gather statistics on the sizes of memory allocations.
-  ** nAlloc[i] is the number of allocation attempts of i*8
-  ** bytes.  i==NCSIZE is the number of allocation attempts for
-  ** sizes more than NCSIZE*8 bytes.
-  **
-  ** 收集有关内存分配大小的统计数据。nAlloc[i]是分配尝试的次数为i*8个字节。
-  ** i==NCSIZE是参数ncsize分配尝试的大小超过参数ncsize*8个字节。
-  */
   int nAlloc[NCSIZE];      /* Total number of allocations 分配总数*/
   int nCurrent[NCSIZE];    /* Current number of allocations 当前分配数量*/
   int mxCurrent[NCSIZE];   /* Highwater mark for nCurrent 分配数量的高水平线*/
 
 } mem;
 
+int sqlite3Strlen30(const char *z){
+  const char *z2 = z;
+  if( z==0 ) return 0;
+    while( *z2 ){ z2++; }
+  return 0x3fffffff & (int)(z2 - z);
+}
 
-/*
-** Adjust memory usage statistics
-** 
-** 调整内存使用情况统计
-*/
-
+//调整内存使用情况
 static void adjustStats(int iSize, int increment){
   int i = ROUND8(iSize)/8;
   if( i>NCSIZE-1 ){
@@ -196,15 +122,6 @@ static void adjustStats(int iSize, int increment){
   }
 }
 
-/*
-** Given an allocation, find the MemBlockHdr for that allocation.
-**
-** This routine checks the guards at either end of the allocation and
-** if they are incorrect it asserts.
-**
-** 给定一个分配器，寻找该分配器的MemBlockHdr
-** 如果不是正确的声明，这个例程将检查配置的任意一段保护。
-*/
 //函数设置哨兵对内存破坏进行检查
 static struct MemBlockHdr *sqlite3MemsysGetHeader(void *pAllocation){
   struct MemBlockHdr *p;
@@ -229,11 +146,6 @@ static struct MemBlockHdr *sqlite3MemsysGetHeader(void *pAllocation){
   return p;
 }
 
-/*
-** Return the number of bytes currently allocated at address p.
-**
-** 返回当前分配在地址P的字节数
-*/
 static int sqlite3MemSize(void *p){
   struct MemBlockHdr *pHdr;
   if( !p ){
@@ -243,49 +155,27 @@ static int sqlite3MemSize(void *p){
   return pHdr->iSize;
 }
 
-/*
-** Initialize the memory allocation subsystem.
-**
-** 初始化内存分配子系统
-*/
 static int sqlite3MemInit(void *NotUsed){
-  UNUSED_PARAMETER(NotUsed);
+  //UNUSED_PARAMETER(NotUsed);
   assert( (sizeof(struct MemBlockHdr)&7) == 0 );
-  if( !sqlite3GlobalConfig.bMemstat ){
+  //if( !sqlite3GlobalConfig.bMemstat ){
     /* If memory status is enabled, then the malloc.c wrapper will already
     ** hold the STATIC_MEM mutex when the routines here are invoked. */
     /*如果内存状态为已启动, 那么例程将在malloc.c封装于已持有的ATATIC_MEM互斥体里时调用。*/
-    mem.mutex = sqlite3MutexAlloc(SQLITE_MUTEX_STATIC_MEM);
-  }
+    //mem.mutex = sqlite3MutexAlloc(SQLITE_MUTEX_STATIC_MEM);
+  //}
   return SQLITE_OK;
 }
 
-/*
-** Deinitialize the memory allocation subsystem.
-**
-** 取消初始化内存分配子系统
-*/
 static void sqlite3MemShutdown(void *NotUsed){
-  UNUSED_PARAMETER(NotUsed);
+  //UNUSED_PARAMETER(NotUsed);
   mem.mutex = 0;
 }
 
-/*
-** Round up a request size to the next valid allocation size.
-**
-** 向上舍入请求大小到一个有效分配的大
-*/
 static int sqlite3MemRoundup(int n){
   return ROUND8(n);
 }
 
-/*
-** Fill a buffer with pseudo-random bytes.  This is used to preset
-** the content of a new memory allocation to unpredictable values and
-** to clear the content of a freed allocation to unpredictable values.
-**
-** 填充伪随机字节的缓冲区。这用于预置一个新的内存分配到不可预测值的内容，并清除释放分配的不可预测值的内容。
-*/
 //函数填充伪随机字节的缓冲区，预留一个内存分配到不可预测值并清除释放不可预测值的内容。
 static void randomFill(char *pBuf, int nByte){
   unsigned int x, y, r;
@@ -307,11 +197,7 @@ static void randomFill(char *pBuf, int nByte){
   }
 }
 
-/*
-** Allocate nByte bytes of memory.
-**
-** 分配内存nByte字节
-*/
+//分配内存
 static void *sqlite3MemMalloc(int nByte){
   struct MemBlockHdr *pHdr;
   void **pBt;
@@ -320,7 +206,7 @@ static void *sqlite3MemMalloc(int nByte){
   void *p = 0;
   int totalSize;
   int nReserve;
-  sqlite3_mutex_enter(mem.mutex);
+  //sqlite3_mutex_enter(mem.mutex);
   assert( mem.disallow==0 );
   nReserve = ROUND8(nByte);
   totalSize = nReserve + sizeof(*pHdr) + sizeof(int) +
@@ -366,25 +252,20 @@ static void *sqlite3MemMalloc(int nByte){
     memset(((char*)pInt)+nByte, 0x65, nReserve-nByte);
     p = (void*)pInt;
   }
-  sqlite3_mutex_leave(mem.mutex);
+  //sqlite3_mutex_leave(mem.mutex);
   return p; 
 }
 
-/*
-** Free memory.
-**
-** 释放内存
-*/
+//释放内存
 static void sqlite3MemFree(void *pPrior){
   struct MemBlockHdr *pHdr;
   void **pBt;
   char *z;
-  assert( sqlite3GlobalConfig.bMemstat || sqlite3GlobalConfig.bCoreMutex==0 
-       || mem.mutex!=0 );
+  //assert( sqlite3GlobalConfig.bMemstat || sqlite3GlobalConfig.bCoreMutex==0 || mem.mutex!=0 );
   pHdr = sqlite3MemsysGetHeader(pPrior);
   pBt = (void**)pHdr;
   pBt -= pHdr->nBacktraceSlots;
-  sqlite3_mutex_enter(mem.mutex);
+  //sqlite3_mutex_enter(mem.mutex);
   if( pHdr->pPrev ){
     assert( pHdr->pPrev->pNext==pHdr );
     pHdr->pPrev->pNext = pHdr->pNext;
@@ -405,23 +286,10 @@ static void sqlite3MemFree(void *pPrior){
   randomFill(z, sizeof(void*)*pHdr->nBacktraceSlots + sizeof(*pHdr) +
                 pHdr->iSize + sizeof(int) + pHdr->nTitle);
   free(z);
-  sqlite3_mutex_leave(mem.mutex);  
+  //sqlite3_mutex_leave(mem.mutex);  
 }
 
-/*
-** Change the size of an existing memory allocation.
-**
-** For this debugging implementation, we *always* make a copy of the
-** allocation into a new place in memory.  In this way, if the 
-** higher level code is using pointer to the old allocation, it is 
-** much more likely to break and we are much more liking to find
-** the error.
-**
-** 更改现有的内存分配的大小。
-** 对于这种调试的实现，我们总是做一分配副本储存在内存的新位置。
-** 用这种方法，如果更高级别的代码将用指针回到旧配置上， 
-** 这样更易中断并且我们更容易找出错误
-*/
+//调整内存
 static void *sqlite3MemRealloc(void *pPrior, int nByte){
   struct MemBlockHdr *pOldHdr;
   void *pNew;
@@ -440,11 +308,6 @@ static void *sqlite3MemRealloc(void *pPrior, int nByte){
 }
 
 /*
-** Populate the low-level memory allocation function pointers in
-** sqlite3GlobalConfig.m with pointers to the routines in this file.
-**
-** 在sqlite3GlobalConfig.m与这个文件指针的例程中填充底层内存分配函数指针。
-*/
 void sqlite3MemSetDefault(void){
   static const sqlite3_mem_methods defaultMethods = {
      sqlite3MemMalloc,
@@ -458,15 +321,12 @@ void sqlite3MemSetDefault(void){
   };
   sqlite3_config(SQLITE_CONFIG_MALLOC, &defaultMethods);
 }
-
-/*
-** Set the "type" of an allocation.
-**
-** 设置分配的“类型
 */
+
 //设置内存分配的类型
 void sqlite3MemdebugSetType(void *p, u8 eType){
-  if( p && sqlite3GlobalConfig.m.xMalloc==sqlite3MemMalloc ){
+  //if( p && sqlite3GlobalConfig.m.xMalloc==sqlite3MemMalloc ){
+  if( p){
     struct MemBlockHdr *pHdr;
     pHdr = sqlite3MemsysGetHeader(p);
     assert( pHdr->iForeGuard==FOREGUARD );
@@ -474,24 +334,11 @@ void sqlite3MemdebugSetType(void *p, u8 eType){
   }
 }
 
-/*
-** Return TRUE if the mask of type in eType matches the type of the
-** allocation p.  Also return true if p==NULL.
-**
-** This routine is designed for use within an assert() statement, to
-** verify the type of an allocation.  For example:
-**
-**     assert( sqlite3MemdebugHasType(p, MEMTYPE_DB) );
-**
-** 如果eType的类型与分配P类型相匹配，则返回真。
-** 如果p==NULL则也返回真。
-** 这个程序被设计用于在assert（）验证配置类型的一个声明。
-** 举例如：assert( sqlite3MemdebugHasType(p, MEMTYPE_DB) );
-*/
 //函数使用assert（）语句验证内存分配的类型
 int sqlite3MemdebugHasType(void *p, u8 eType){
   int rc = 1;
-  if( p && sqlite3GlobalConfig.m.xMalloc==sqlite3MemMalloc ){
+  //if( p && sqlite3GlobalConfig.m.xMalloc==sqlite3MemMalloc ){
+  if( p ){
     struct MemBlockHdr *pHdr;
     pHdr = sqlite3MemsysGetHeader(p);
     assert( pHdr->iForeGuard==FOREGUARD );         /* Allocation is valid 分配是有效的*/
@@ -502,24 +349,11 @@ int sqlite3MemdebugHasType(void *p, u8 eType){
   return rc;
 }
 
-/*
-** Return TRUE if the mask of type in eType matches no bits of the type of the
-** allocation p.  Also return true if p==NULL.
-**
-** This routine is designed for use within an assert() statement, to
-** verify the type of an allocation.  For example:
-**
-**     assert( sqlite3MemdebugNoType(p, MEMTYPE_DB) );
-**
-** 如果eType的字节掩码与分配的P无相匹配字节则返回真。
-** 如果p为空则也为真。
-** 这个程序被设计用于在一个assert（）声明里，用于验证配置类型。
-** 举个例子：assert( sqlite3MemdebugNoType(p, MEMTYPE_DB) );
-*/
 //验证内存分配的类型
 int sqlite3MemdebugNoType(void *p, u8 eType){
   int rc = 1;
-  if( p && sqlite3GlobalConfig.m.xMalloc==sqlite3MemMalloc ){
+  //if( p && sqlite3GlobalConfig.m.xMalloc==sqlite3MemMalloc ){
+  if( p ){
     struct MemBlockHdr *pHdr;
     pHdr = sqlite3MemsysGetHeader(p);
     assert( pHdr->iForeGuard==FOREGUARD );         /* Allocation is valid 分配是有效的*/
@@ -530,14 +364,6 @@ int sqlite3MemdebugNoType(void *p, u8 eType){
   return rc;
 }
 
-/*
-** Set the number of backtrace levels kept for each allocation.
-** A value of zero turns off backtracing.  The number is always rounded
-** up to a multiple of 2.
-**
-** 设置保持各分配回溯跟踪级别数。
-** 如果值为零将关闭回溯,数字始终四舍五入到 2 的倍数。
-*/
 //函数设置每个内存分配回溯跟踪级别数
 void sqlite3MemdebugBacktrace(int depth){
   if( depth<0 ){ depth = 0; }
@@ -551,20 +377,15 @@ void sqlite3MemdebugBacktraceCallback(void (*xBacktrace)(int, int, void **)){
   mem.xBacktrace = xBacktrace;
 }
 
-/*
-** Set the title string for subsequent allocations.
-**
-** 设置标题字符串进行后续分配
-*/
 //函数设置标题字符串进行后续的分配
 void sqlite3MemdebugSettitle(const char *zTitle){
   unsigned int n = sqlite3Strlen30(zTitle) + 1;
-  sqlite3_mutex_enter(mem.mutex);
+  //sqlite3_mutex_enter(mem.mutex);
   if( n>=sizeof(mem.zTitle) ) n = sizeof(mem.zTitle)-1;
   memcpy(mem.zTitle, zTitle, n);
   mem.zTitle[n] = 0;
   mem.nTitle = ROUND8(n);
-  sqlite3_mutex_leave(mem.mutex);
+  //sqlite3_mutex_leave(mem.mutex);
 }
 
 //函数同步
@@ -577,12 +398,6 @@ void sqlite3MemdebugSync(){
   }
 }
 
-/*
-** Open the file indicated and write a log of all unfreed memory 
-** allocations into that log.
-**
-** 打开指定的文件，并写入日志所有未释放内存分配到该日志。
-*/
 //函数打印调用栈
 void sqlite3MemdebugDump(const char *zFilename){
   FILE *out;
@@ -623,11 +438,6 @@ void sqlite3MemdebugDump(const char *zFilename){
   fclose(out);
 }
 
-/*
-** Return the number of times sqlite3MemMalloc() has been called.
-**
-** 返回的是函数sqlite3MemMalloc()被调用的次数。
-*/
 //函数返回sqlite3MemdebugMalloc()被调用的次数
 int sqlite3MemdebugMallocCount(){
   int i;
@@ -638,5 +448,24 @@ int sqlite3MemdebugMallocCount(){
   return nTotal;
 }
 
+int main(){
+	void *p = NULL;
+	void *p1 = NULL;
+	int memSize;
+	printf("mem2 test\n");
 
-#endif /* SQLITE_MEMDEBUG */
+	printf("分配内存...\n");
+	p = sqlite3MemMalloc(1024);
+	memSize = sqlite3MemSize(p);
+	printf("分配大小为:%d\n",memSize);
+
+	printf("调整内存大小...\n");
+	p1 = sqlite3MemRealloc(p,2048);
+	memSize = sqlite3MemSize(p1);
+	printf("调整后的内存大小为:%d\n",memSize);
+
+	printf("释放内存...\n");
+	sqlite3MemFree(p1);
+
+	return 0;
+}
