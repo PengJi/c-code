@@ -1,46 +1,6 @@
-//#include "sqliteInt.h"
+#include "tmp.h"
 
 //#ifdef SQLITE_ENABLE_MEMSYS5
-
-#include <stdio.h>
-#include <assert.h> 
-
-typedef unsigned char u8;
-typedef unsigned int u32; 
-//typedef sqlite3_uint64 u64;
-typedef unsigned int u64;  //改变数据类型 
-typedef u64 sqlite3_int64;
-
-#define SQLITE_OK           0   /* Successful result */
-/* beginning-of-error-codes */
-#define SQLITE_ERROR        1   /* SQL error or missing database */
-#define SQLITE_INTERNAL     2   /* Internal logic error in SQLite */
-#define SQLITE_PERM         3   /* Access permission denied */
-#define SQLITE_ABORT        4   /* Callback routine requested an abort */
-#define SQLITE_BUSY         5   /* The database file is locked */
-#define SQLITE_LOCKED       6   /* A table in the database is locked */
-#define SQLITE_NOMEM        7   /* A malloc() failed */
-#define SQLITE_READONLY     8   /* Attempt to write a readonly database */
-#define SQLITE_INTERRUPT    9   /* Operation terminated by sqlite3_interrupt()*/
-#define SQLITE_IOERR       10   /* Some kind of disk I/O error occurred */
-#define SQLITE_CORRUPT     11   /* The database disk image is malformed */
-#define SQLITE_NOTFOUND    12   /* Unknown opcode in sqlite3_file_control() */
-#define SQLITE_FULL        13   /* Insertion failed because database is full */
-#define SQLITE_CANTOPEN    14   /* Unable to open the database file */
-#define SQLITE_PROTOCOL    15   /* Database lock protocol error */
-#define SQLITE_EMPTY       16   /* Database is empty */
-#define SQLITE_SCHEMA      17   /* The database schema changed */
-#define SQLITE_TOOBIG      18   /* String or BLOB exceeds size limit */
-#define SQLITE_CONSTRAINT  19   /* Abort due to constraint violation */
-#define SQLITE_MISMATCH    20   /* Data type mismatch */
-#define SQLITE_MISUSE      21   /* Library used incorrectly */
-#define SQLITE_NOLFS       22   /* Uses OS features not supported on host */
-#define SQLITE_AUTH        23   /* Authorization denied */
-#define SQLITE_FORMAT      24   /* Auxiliary database format error */
-#define SQLITE_RANGE       25   /* 2nd parameter to sqlite3_bind out of range */
-#define SQLITE_NOTADB      26   /* File opened that is not a database file */
-#define SQLITE_ROW         100  /* sqlite3_step() has another row ready */
-#define SQLITE_DONE        101  /* sqlite3_step() has finished executing */
 
 typedef struct Mem5Link Mem5Link;
 struct Mem5Link {
@@ -62,6 +22,7 @@ struct Mem5Global {
   
   //互斥访问内存子系统
   //sqlite3_mutex *mutex;  
+  int *mutex;  
 
   //性能统计信息
   u64 nAlloc;         /* Total number of calls to malloc  调用malloc总数*/
@@ -73,11 +34,6 @@ struct Mem5Global {
   u32 maxCount;       /* Maximum instantaneous currentCount  currentCount 瞬时最大值*/
   u32 maxRequest;     /* Largest allocation (exclusive of internal frag)  最大分配（不包括内部碎片）*/
 
-  /* 整体思想为buddy算法
-  ** 使用了一个大小为31个元素的空闲链表来保存空闲的block,每个block的大小为mem5.szAtom，值为-1表示是空链表；
-  ** aiFreelist[0] 保存了大小为 mem5.szAtom个字节的空闲block  
-  ** aiFreelist[1] 保存了大小为 mem5.szAtom*2个字节的空闲block  
-  */
   int aiFreelist[LOGMAX+1];
 
   u8 *aCtrl; //用于追踪检出块和每块的大小，每个块一个字节
@@ -126,10 +82,12 @@ static void memsys5Link(int i, int iLogsize){
 //该内存分配器加互斥锁
 static void memsys5Enter(void){
   //sqlite3_mutex_enter(mem5.mutex);        /*加互斥锁*/
+  printf("获取互斥锁\n");
 }
 //解锁
 static void memsys5Leave(void){
   //sqlite3_mutex_leave(mem5.mutex);        /*退出互斥锁*/
+  printf("释放互斥锁\n");
 }
 
 //返回一个以字节为单位的未分配的内存大小,省略了8字节大小的头开销
@@ -245,8 +203,7 @@ static void memsys5FreeUnsafe(void *pOld){
   assert( mem5.currentCount>0 || mem5.currentOut==0 );
 
   mem5.aCtrl[iBlock] = CTRL_FREE | iLogsize;
-  //while( ALWAYS(iLogsize<LOGMAX) ){
-  while( iLogsize<LOGMAX ){
+  while( ALWAYS(iLogsize<LOGMAX) ){
     int iBuddy;
     if( (iBlock>>iLogsize) & 1 ){
       iBuddy = iBlock - size;
@@ -340,7 +297,7 @@ static int memsys5Init(void *NotUsed){
   //UNUSED_PARAMETER(NotUsed);
 
   /* For the purposes of this routine, disable the mutex */
-  //mem5.mutex = 0;          /*禁用互斥锁*/
+  mem5.mutex = 0;          /*禁用互斥锁*/
 
   /* The size of a Mem5Link object must be a power of two.  Verify that
   ** this is case.
@@ -352,13 +309,13 @@ static int memsys5Init(void *NotUsed){
   //nByte = sqlite3GlobalConfig.nHeap;
   nByte = 1024;
   //zByte = (u8*)sqlite3GlobalConfig.pHeap;
-  zByte = (u8*) 00000001;
+  zByte = (u8*) malloc(10240);
   assert( zByte!=0 );  /* sqlite3_config() does not allow otherwise 若zByte==0，则返回*/
   /* boundaries on sqlite3GlobalConfig.mnReq are enforced in sqlite3_config() */
   /*在sqlite3GlobalConfig.mnReq边界强制执行sqlite3_config（）*/
   //nMinLog = memsys5Log(sqlite3GlobalConfig.mnReq);
   //nMinLog = memsys5Log(sqlite3GlobalConfig.mnReq);
-  nMinLog = 8;
+  nMinLog = 128;
   mem5.szAtom = (1<<nMinLog);
   while( (int)sizeof(Mem5Link)>mem5.szAtom ){
     mem5.szAtom = mem5.szAtom << 1;
@@ -461,12 +418,25 @@ const sqlite3_mem_methods *sqlite3MemGetMemsys5(void){
 //#endif /* SQLITE_ENABLE_MEMSYS5 */
 
 int main(int argc, char *argv[]){
-	void *notUsed=NULL;
-	void *address=NULL;
-	int a;
-	a=memsys5Init(notUsed);
-	address=memsys5Malloc(1024);
-	printf("mem5.c test\n");
+	void *p = NULL;
+	void *p1 = NULL;
+	int memSize;
+	printf("mem5 test\n");
+
+	printf("初始化内存分配器\n");
+	memsys5Init(p);
+
+	printf("分配内存...\n");
+	p = memsys5Malloc(8);
+
+	memSize = memsys5Size(p);
+	printf("分配内存的大小为:%d\n",memSize);
+
+	printf("调整内存大小\n");
+	p1 = memsys5Realloc(p,16);
+
+	memSize = memsys5Size(p1);
+	printf("调整后的内存大小为:%d\n",memSize);
 
 	return 0;
 }
