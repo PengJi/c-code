@@ -438,5 +438,8 @@ int main(int argc, char *argv[]){
 	memSize = memsys5Size(p1);
 	printf("调整后的内存大小为:%d\n",memSize);
 
+	printf("释放内存...\n");
+	memsys5Free(p1);
+
 	return 0;
 }
