@@ -460,6 +460,13 @@ const sqlite3_mem_methods *sqlite3MemGetMemsys5(void){
 
 //#endif /* SQLITE_ENABLE_MEMSYS5 */
 
-int main(){
+int main(int argc, char *argv[]){
+	void *notUsed=NULL;
+	void *address=NULL;
+	int a;
+	a=memsys5Init(notUsed);
+	address=memsys5Malloc(1024);
 	printf("mem5.c test\n");
+
+	return 0;
 }
