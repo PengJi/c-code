@@ -468,4 +468,7 @@ int main(){
 	sqlite3MemFree(p1);
 
 	return 0;
+	/*
+	 * 每次分配多占用36字节
+	 */
 }
