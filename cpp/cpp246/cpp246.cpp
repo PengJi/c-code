@@ -1,3 +1,4 @@
+//虚函数
 #include <iostream>
 using namespace std;
 
@@ -22,7 +23,7 @@ public:
 	}
 };
 
-void main(){
+int main(){
 	Base1 *ptr1;
 	Base2 *ptr2;
 	Derived obj3;
@@ -32,4 +33,6 @@ void main(){
 
 	ptr2=&obj3;
 	ptr2->fun();
+
+	return 0;
 }

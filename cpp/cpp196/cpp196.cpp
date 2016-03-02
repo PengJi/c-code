@@ -1,3 +1,4 @@
+//纯虚函数
 #include <iostream>
 using namespace std;
 

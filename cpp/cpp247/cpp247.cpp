@@ -1,4 +1,4 @@
-//ÀûÓÃC++¶àÌ¬ĞÔ£¬¼ÆËãÈı½ÇĞÎ¡¢¾ØĞÎºÍÔ²µÄÃæ»ı
+//åˆ©ç”¨C++å¤šæ€æ€§ï¼Œè®¡ç®—ä¸‰è§’å½¢ã€çŸ©å½¢å’Œåœ†çš„é¢ç§¯
 #include <iostream>
 using namespace std;
 
@@ -8,7 +8,7 @@ public:
 		x=a;y=b;
 	}
 	virtual void area(){
-		cout<<"ÔÚ»ùÀàÖĞ¶¨ÒåĞéº¯Êı£¬ÎªÅÉÉúÀàÌá¹©Ò»¸ö¹«¹²½Ó¿Ú£¬ÒÔ±ãÅÉÉúÀà¸ù¾İĞèÒªÖØĞÂ¶¨ÒåĞéº¯Êı¡£"<<endl;
+		cout<<"åœ¨åŸºç±»ä¸­å®šä¹‰è™šå‡½æ•°ï¼Œä¸ºæ´¾ç”Ÿç±»æä¾›ä¸€ä¸ªå…¬å…±æ¥å£ï¼Œä»¥ä¾¿æ´¾ç”Ÿç±»æ ¹æ®éœ€è¦é‡æ–°å®šä¹‰è™šå‡½æ•°ã€‚"<<endl;
 	}
 protected:
 	double x,y;
@@ -18,8 +18,8 @@ class Triangle:public Figure{
 public:
 	Triangle(double a,double b):Figure(a,b){}
 	void area(){
-		cout<<"Èı½ÇĞÎµÄ¸ßÊÇ "<<x<<"£¬µ×ÊÇ "<<y;
-		cout<<"£¬Ãæ»ıÊÇ "<<0.5*x*y<<endl;
+		cout<<"ä¸‰è§’å½¢çš„é«˜æ˜¯ "<<x<<"ï¼Œåº•æ˜¯ "<<y;
+		cout<<"ï¼Œé¢ç§¯æ˜¯ "<<0.5*x*y<<endl;
 	}
 };
 
@@ -27,8 +27,8 @@ class Square:public Figure{
 public:
 	Square(double a,double b):Figure(a,b){}
 	void area(){
-		cout<<"¾ØĞÎµÄ³¤ÊÇ "<<x<<"£¬¿íÊÇ "<<y;
-		cout<<"£¬Ãæ»ıÊÇ "<<x*y<<endl;
+		cout<<"çŸ©å½¢çš„é•¿æ˜¯ "<<x<<"ï¼Œå®½æ˜¯ "<<y;
+		cout<<"ï¼Œé¢ç§¯æ˜¯ "<<x*y<<endl;
 	}
 };
 
@@ -36,8 +36,8 @@ class Circle:public Figure{
 public:
 	Circle(double a):Figure(a,a){}
 	void area(){
-		cout<<"Ô²µÄ°ë¾¶ÊÇ "<<x;
-		cout<<"£¬Ãæ»ıÊÇ "<<3.1416*x*x<<endl;
+		cout<<"åœ†çš„åŠå¾„æ˜¯ "<<x;
+		cout<<"ï¼Œé¢ç§¯æ˜¯ "<<3.1416*x*x<<endl;
 	}
 };
 

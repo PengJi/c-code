@@ -1,6 +1,8 @@
-//利用抽象类，建立两种类型的表：队列和堆栈
+//鍒╃敤鎶借薄绫伙紝寤虹珛涓ょ绫诲瀷鐨勮〃锛氶槦鍒楀拰鍫嗘爤
 #include <iostream>
+#include <cstdlib>
 using namespace std;
+
 class list{
 public:
 	list *head;

@@ -1,4 +1,4 @@
-//5.20
+//çº¯è™šå‡½æ•°
 #include <iostream>
 using namespace std;
 
@@ -20,6 +20,7 @@ public:
 	virtual double volume()=0;
 };
 
+//çƒä½“
 class Sphere:public Container{
 public:
 	Sphere(double ra):Container(ra){}
@@ -31,6 +32,7 @@ public:
 	}
 };
 
+//åœ†æŸ±ä½“
 class Cylinder:public Container{
 public:
 	Cylinder(double ra,double he):Container(ra){
@@ -44,6 +46,7 @@ public:
 	}
 };
 
+//ç«‹æ–¹ä½“
 class Cube:public Container{
 public:
 	Cube(double ra):Container(ra){}
@@ -61,18 +64,18 @@ int main(){
 	Cylinder obj2(3,5);
 	Cube obj3(5.0);
 	ptr=&obj1;
-	cout<<"ÇòÌå°ë¾¶:"<<ptr->print_ra()<<endl;
-	cout<<"ÇòÌå±íÃæ»ı:"<<ptr->sruface_area()<<endl;
-	cout<<"ÇòÌåÌå»ı:"<<ptr->volume()<<endl;
+	cout<<"çƒä½“çš„åŠå¾„:"<<ptr->print_ra()<<endl;
+	cout<<"çƒä½“è¡¨é¢ç§¯:"<<ptr->sruface_area()<<endl;
+	cout<<"çƒä½“ä½“ç§¯:"<<ptr->volume()<<endl;
 	ptr=&obj2;
-	cout<<"Ô²ÖùÌå°ë¾¶:"<<ptr->print_ra()<<endl;
-	cout<<"Ô²ÖùÌå¸ß:"<<ptr->print_he()<<endl;
-	cout<<"Ô²ÖùÌå±íÃæ»ı:"<<ptr->sruface_area()<<endl;
-	cout<<"Ô²ÖùÌåÌå»ı:"<<ptr->volume()<<endl;
+	cout<<"åœ†æŸ±ä½“åŠå¾„:"<<ptr->print_ra()<<endl;
+	cout<<"åœ†æŸ±ä½“é«˜:"<<ptr->print_he()<<endl;
+	cout<<"åœ†æŸ±ä½“è¡¨é¢ç§¯:"<<ptr->sruface_area()<<endl;
+	cout<<"åœ†æŸ±ä½“ä½“ç§¯:"<<ptr->volume()<<endl;
 	ptr=&obj3;
-	cout<<"Õı·½Ìå±ä³¤:"<<ptr->print_ra()<<endl;
-	cout<<"Õı·½Ìå±íÃæ»ı:"<<ptr->sruface_area()<<endl;
-	cout<<"Õı·½ÌåÌå»ı:"<<ptr->volume()<<endl;
+	cout<<"ç«‹æ–¹ä½“é•¿:"<<ptr->print_ra()<<endl;
+	cout<<"ç«‹æ–¹ä½“è¡¨é¢ç§¯:"<<ptr->sruface_area()<<endl;
+	cout<<"ç«‹æ–¹ä½“ä½“ç§¯:"<<ptr->volume()<<endl;
 
 	return 0;
 }

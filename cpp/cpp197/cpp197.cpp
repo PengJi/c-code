@@ -1,4 +1,4 @@
-//4.24
+//函数继承
 #include <iostream>
 using namespace std;
 

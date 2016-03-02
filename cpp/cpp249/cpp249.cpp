@@ -1,4 +1,4 @@
-//Ê¹ÓÃ´¿Ğéº¯ÊıµÄÀı×Ó
+//ä½¿ç”¨çº¯è™šå‡½æ•°çš„ä¾‹å­
 #include <iostream>
 using namespace std;
 
@@ -7,7 +7,7 @@ public:
 	void setr(int x){
 		r=x;
 	}
-	virtual void show()=0;//´¿Ğéº¯Êı
+	virtual void show()=0;//çº¯è™šå‡½æ•°
 protected:
 	int r;
 };
@@ -15,14 +15,14 @@ protected:
 class Area:public Circle{
 public:
 	void show(){
-		cout<<"Õâ¸öÔ²µÄÃæ»ıÊÇ "<<3.14*r*r<<endl;
+		cout<<"è¿™ä¸ªåœ†çš„é¢ç§¯æ˜¯ "<<3.14*r*r<<endl;
 	}
 };
 
 class Perimeter:public Circle{
 public:
 	void show(){
-		cout<<"Õâ¸öÔ²µÄÖÜ³¤ÊÇ "<<2*3.14*r<<endl;
+		cout<<"è¿™ä¸ªåœ†çš„å‘¨é•¿æ˜¯ "<<2*3.14*r<<endl;
 	}
 };
 
