@@ -1,19 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <sqlite3.h>
-
-#define RED                  "\e[0;31m"
-#define GREEN                "\e[0;32m"
-#define L_GREEN              "\e[1;32m"
-#define YELLOW               "\e[1;33m"
-#define L_PURPLE             "\e[1;35m"
-#define L_CYAN               "\e[1;36m"
-#define NONE                 "\e[0m"
-
-//#define SQLITE_ENABLE_MEMSYS3	
-//#define SQLITE_ENABLE_MEMSYS5
-//#define SQLITE_ZERO_MALLOC
-#define SQLITE_MEMDEBUG
+#include "test.h"
 
 static int callback(void *data, int argc, char **argv, char **azColName){
    int i;
@@ -43,6 +28,7 @@ int main(int argc, char* argv[])
 	}else{
 		printf(L_PURPLE "not enable the memory allocation status collection logic\n");
 	}
+	/*
 	void *p = malloc(80000);
 	status = sqlite3_config(SQLITE_CONFIG_HEAP,p,80001,8);
 	if(status == SQLITE_OK){
@@ -50,6 +36,7 @@ int main(int argc, char* argv[])
 	}else{
 		printf(L_PURPLE "switch memory allocator unsuccessfully!\n");
 	}
+	*/
 
 	/*calculate memory use*/
 	used =  sqlite3_memory_used();
