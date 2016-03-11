@@ -33,7 +33,7 @@
 int main(void)
 {
     printf("This is a character control test!\n" );
-    sleep(3);
+//    sleep(3);
     printf("[%2u]" CLEAR "CLEAR\n" NONE, __LINE__);
 
     printf("[%2u]" BLACK "BLACK " L_BLACK "L_BLACK\n" NONE, __LINE__);
@@ -55,20 +55,20 @@ int main(void)
 
     printf("Cursor test begins!\n" );
     printf("=======!\n" );
-    sleep(10);
+//    sleep(10);
     printf("[%2u]" "\e[2ACursor up 2 lines\n" NONE, __LINE__);
-    sleep(10);
+//    sleep(10);
     printf("[%2u]" "\e[2BCursor down 2 lines\n" NONE, __LINE__);
-    sleep(5);
+//    sleep(5);
     printf("[%2u]" "\e[?25lCursor hide\n" NONE, __LINE__);
-    sleep(5);
+//    sleep(5);
     printf("[%2u]" "\e[?25hCursor display\n" NONE, __LINE__);
-    sleep(5);
+//    sleep(5);
 
     printf("Test ends!\n" );
-    sleep(3);
+//    sleep(3);
     printf("[%2u]" "\e[2ACursor up 2 lines\n" NONE, __LINE__);
-    sleep(5);
+//    sleep(5);
     printf("[%2u]" "\e[KClear from cursor downward\n" NONE, __LINE__);
 
     return 0 ;
