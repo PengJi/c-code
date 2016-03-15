@@ -29,6 +29,7 @@ aux_source_directory(. DIR_SRCS)
 add_executable(Demo ${DIR_SRCS})
 target_link_libraries (Demo  ${EXTRA_LIBS})
 
+#生成的 Demo 文件和 MathFunctions 函数库 libMathFunctions.o 文件将会被复制到 /usr/local/bin 中，而 MathFunctions.h 和生成的 config.h 文件则会被复制到 /usr/local/include 中
 # 指定安装路径
 install (TARGETS Demo DESTINATION bin)
 install (FILES "${PROJECT_BINARY_DIR}/config.h"
