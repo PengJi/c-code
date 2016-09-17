@@ -2,7 +2,7 @@ cmake_minimum_required (VERSION 2.8)
 
 # 项目信息
 project (Demo7)
-#分别指定当前的项目的主版本号和副版本号
+# 分别指定当前的项目的主版本号和副版本号
 set (Demo_VERSION_MAJOR 1)
 set (Demo_VERSION_MINOR 0)
 

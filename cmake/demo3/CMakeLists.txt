@@ -14,6 +14,6 @@ add_subdirectory(math)
 # 指定生成目标
 add_executable(Demo ${DIR_SRCS})
 
-#指明可执行文件 main 需要连接一个名为 MathFunctions 的链接库 
 # 添加链接库
+# 指明可执行文件 main 需要连接一个名为 MathFunctions 的链接库 
 target_link_libraries(Demo MathFunctions)

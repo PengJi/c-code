@@ -29,8 +29,8 @@ aux_source_directory(. DIR_SRCS)
 add_executable(Demo ${DIR_SRCS})
 target_link_libraries (Demo  ${EXTRA_LIBS})
 
-#生成的 Demo 文件和 MathFunctions 函数库 libMathFunctions.o 文件将会被复制到 /usr/local/bin 中，而 MathFunctions.h 和生成的 config.h 文件则会被复制到 /usr/local/include 中
 # 指定安装路径
+# 生成的 Demo 文件和 MathFunctions 函数库 libMathFunctions.o 文件将会被复制到 /usr/local/bin 中，而 MathFunctions.h 和生成的 config.h 文件则会被复制到 /usr/local/include 中
 install (TARGETS Demo DESTINATION bin)
 install (FILES "${PROJECT_BINARY_DIR}/config.h"
          DESTINATION include)
@@ -56,13 +56,13 @@ set_tests_properties (test_usage
 # add_test (test_10_5 Demo 10 5)
 
 # set_tests_properties (test_10_5
-#  PROPERTIES PASS_REGULAR_EXPRESSION "is 100000")
+# PROPERTIES PASS_REGULAR_EXPRESSION "is 100000")
 
 # 测试 2 的 10 次方
 # add_test (test_2_10 Demo 2 10)
 
 # set_tests_properties (test_2_10
-#  PROPERTIES PASS_REGULAR_EXPRESSION "is 1024")
+# PROPERTIES PASS_REGULAR_EXPRESSION "is 1024")
 
 # 定义一个宏，用来简化测试工作
 macro (do_test arg1 arg2 result)

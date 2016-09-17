@@ -4,8 +4,8 @@ cmake_minimum_required (VERSION 2.8)
 # 项目信息
 project (Demo6)
 
-#文件中添加 CheckFunctionExists.cmake 宏，并调用 check_function_exists 命令测试链接器是否能够在链接阶段找到 pow 函数
 # 检查系统是否支持 pow 函数
+# 文件中添加 CheckFunctionExists.cmake 宏，并调用 check_function_exists 命令测试链接器是否能够在链接阶段找到 pow 函数
 include (${CMAKE_ROOT}/Modules/CheckFunctionExists.cmake)
 check_function_exists (pow HAVE_POW)
 
