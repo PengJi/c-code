@@ -37,6 +37,7 @@ public:
 		return exponent<0?1/r:r;
 	}
 
+	// 反转链表
 	//输入一个链表，反转链表后，输出链表的所有元素。
     ListNode* ReverseList(ListNode* pHead) {
 		/*
@@ -65,6 +66,7 @@ public:
         return pre;
     }
 	
+	// 合并两个排序的列表
 	// 输入两个单调递增的链表，输出两个链表合成后的链表，当然我们需要合成后的链表满足单调不减规则。
 	ListNode* Merge(ListNode* pHead1, ListNode* pHead2)
     {
@@ -93,11 +95,21 @@ public:
         return H->next; 
     }
 
+	// 树的子结构
 	// https://www.nowcoder.com/practice/6e196c44c7004d15b1610b9afca8bd88?tpId=13&tqId=11170&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking
 	// 输入两棵二叉树A，B，判断B是不是A的子结构。（ps：我们约定空树不是任意一个树的子结构）
+    bool isSubtree(TreeNode* pRoota,TreeNode* pRootb){
+        if(pRootb == NULL) return true;
+        if(pRoota == NULL) return false;
+        if(pRoota -> val == pRootb -> val){
+            return isSubtree(pRoota->left,pRootb->left) && isSubtree(pRoota -> right,pRootb -> right);
+        }else 
+            return false;
+    }
 	bool HasSubtree(TreeNode* pRoot1, TreeNode* pRoot2)
     {
-
+        if(pRoot1 == NULL || pRoot2 == NULL) return false;
+        return isSubtree(pRoot1,pRoot2) || HasSubtree(pRoot1->left,pRoot2) || HasSubtree(pRoot1 -> right,pRoot2);
     }
 
 	// https://www.nowcoder.com/practice/564f4c26aa584921bc75623e48ca3011?tpId=13&tqId=11171&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking
