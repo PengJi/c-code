@@ -81,8 +81,9 @@ int main(int argc, char **argv) {
     reply = redisCommand(c,"GET %s",keyname);
     printf("GET foo: %s\n", reply->str);
 	char* test = reply->str;
-	double test1 = atof(test);
-	printf("test value: %f\n",test1);
+	double test1;
+	//double test1 = atof(test);
+	//printf("test value: %f\n",test1);
     freeReplyObject(reply);
 
     reply = redisCommand(c,"SETNX %s %f", "test", 0.0);
@@ -95,16 +96,33 @@ int main(int argc, char **argv) {
 	test1 = atof(reply->str);
 	printf("test1 value: %f\n",test1);
 
+
 	double RTS;
-    reply = redisCommand(c,"GET %u",13);
+	int roleId=30;
+	char key1[10];
+	printf("before sizeof()/sizeof: %d\n",sizeof(key1)/sizeof(key1[0]));
+	int a = sprintf(key1, "%d" , roleId);
+	printf("a: %d\n",a);  // 成功写入的字符数
+	int b = sprintf(key1,"%d",(int)321);
+	printf("b: %d\n",b);  // 成功写入的字符数
+	printf("before key1: %s\n",key1);
+	printf("after sizeof()/sizeof: %d\n",sizeof(key1)/sizeof(key1[0]));
+	char* key2 = "RTS";
+	strcat(key1,key2);
+	printf("after key1: %s\n",key1);
+	printf("key1[2]: %c\n",key1[2]);
+	printf("sizeof()/sizeof: %d\n",sizeof(key1)/sizeof(key1[0]));
+
+    reply = redisCommand(c,"GET %s",key1);
 	if(reply->str == NULL)
 		RTS = 0.0;
 	else
 		RTS = atof(reply->str);  // 得到之前总和
-    redisCommand(c,"del %u",13);
+	printf("before RTS: %f\n",RTS);
+    redisCommand(c,"del %s",key1);
     RTS = RTS + (553781316544076.000000 - 553781302580089.000000);
-	printf("RTS: %f\n",RTS);
-    redisCommand(c,"SETNX %u %f",13,RTS);
+	printf("after RTS: %f\n",RTS);
+    redisCommand(c,"SETNX %s %f",key1,RTS);
 
     freeReplyObject(reply);
 
