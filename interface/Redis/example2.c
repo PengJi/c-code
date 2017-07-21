@@ -101,10 +101,10 @@ int main(int argc, char **argv) {
 	int roleId=30;
 	char key1[10];
 	printf("before sizeof()/sizeof: %d\n",sizeof(key1)/sizeof(key1[0]));
-	int a = sprintf(key1, "%d" , roleId);
-	printf("a: %d\n",a);  // 成功写入的字符数
-	int b = sprintf(key1,"%d",(int)321);
-	printf("b: %d\n",b);  // 成功写入的字符数
+	sprintf(key1, "%d" , roleId);
+	printf("akey1: %s\n",key1);  // 成功写入的字符数
+	sprintf(key1,"%d",(int)321);
+	printf("bkey1: %s\n",key1);  // 成功写入的字符数
 	printf("before key1: %s\n",key1);
 	printf("after sizeof()/sizeof: %d\n",sizeof(key1)/sizeof(key1[0]));
 	char* key2 = "RTS";
@@ -124,10 +124,30 @@ int main(int argc, char **argv) {
 	printf("after RTS: %f\n",RTS);
     redisCommand(c,"SETNX %s %f",key1,RTS);
 
-    freeReplyObject(reply);
+	int d = 50;
+	float f = 50*0.1;
+	printf("数据类型: %f\n",f);
 
+	redisCommand(c,"set %s %d","asdf",2);
+	redisCommand(c,"INCR %s","asdf");
+	redisCommand(c,"DECR %s","asdf");
+
+	redisCommand(c,"DEL *NWP");
+
+	long int a = 553878151594346;
+   	printf("long int: %f\n",a*(-0.8));	
+	int b = 2;
+	double e = a*(-0.8)+2*0.2;
+	printf("POR: %f\n",c);
+
+    freeReplyObject(reply);
     /* Disconnects and frees the context */
     redisFree(c);
+
+	long int test11 = 14913136;
+	long int test21 = 65162549;
+	double test31 = (double)test21/test11;
+	printf("test %f\n",test31);
 
     return 0;
 }
