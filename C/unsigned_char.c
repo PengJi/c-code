@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 /*
+ * char 与 unsigned char的本质区别
  * http://www.cnblogs.com/qytan36/archive/2010/09/27/1836569.html
  */
 
