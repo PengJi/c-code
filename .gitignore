@@ -24,4 +24,5 @@ math/Makefile
 math/cmake_install.cmake
 *.a
 
+test.c
 
