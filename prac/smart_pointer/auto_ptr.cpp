@@ -48,6 +48,8 @@ int main(){
 	ptest2->print();
 	if(ptest.get()==NULL)  // 赋值以后，原指针变为空
 		cout<<"ptest == NULL\n";
+	
+	ptest2.release();  // 把智能指针赋为空，它指向的内存并没有被释放
 
 	return 0;
 }
