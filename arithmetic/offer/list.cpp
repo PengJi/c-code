@@ -2,6 +2,10 @@
 
 using namespace std;
 
+/*
+ * 数据结构list训练
+ */
+
 struct ListNode {
 	int val;
 	struct ListNode *next;
