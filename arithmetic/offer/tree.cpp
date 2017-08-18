@@ -188,5 +188,223 @@ public:
         return lastLeft; 
     }
 
+	/*
+	 * 二叉树的深度
+	 * 输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，
+	 * 最长路径的长度为树的深度。
+	 */
+	int TreeDepth(TreeNode* pRoot){
+        if(pRoot == NULL) return 0;
+        return max(1+TreeDepth(pRoot->left),1+TreeDepth(pRoot->right));
+    }
+
+    /*
+     * 平衡二叉树
+     * 输入一棵二叉树，判断该二叉树是否是平衡二叉树
+     * 
+     * 后续遍历二叉树，遍历过程中求子树高度，判断是否平衡
+     */
+    bool IsBalanced_Solution(TreeNode* pRoot) {
+        int dep = 0;
+        return IsBalanced(pRoot,dep);
+    }
+    
+    bool IsBalanced(TreeNode *root,int &dep){
+        if(root == NULL){
+            return true;
+        }
+        int left = 0;
+        int right = 0;
+        if(IsBalanced(root->left,left) && IsBalanced(root->right,right)){
+            int dif = left-right;
+            if(dif<-1 || dif >1) return false;
+            dep = (left>right ? left:right)+1;
+            return true;
+        }
+        return false;
+    }
+
+    /*
+     * 二叉树的下一个结点
+     * 给定一个二叉树和其中的一个结点，
+     * 请找出中序遍历顺序的下一个结点并且返回。
+     * 注意，树中的结点不仅包含左右子结点，同时包含指向父结点的指针。
+     *
+     * 	分两种情况：
+     * 1.该节点存在右子节点，则下一个节点是右子树的最左节点。
+     * 2.该节点不存在右子节点，则 下一个节点是 该节点的第一个父子关系为左的祖先节点中的父节点。
+     */
+    struct TreeLinkNode {
+    int val;
+    struct TreeLinkNode *left;
+    struct TreeLinkNode *right;
+    struct TreeLinkNode *next;
+    TreeLinkNode(int x) :val(x), left(NULL), right(NULL), next(NULL) {}
+	};
+    TreeLinkNode* GetNext(TreeLinkNode* pNode)
+    {
+        if(pNode == NULL)
+            return NULL;
+        if(pNode->right != NULL){ //有右子树
+            pNode = pNode->right;
+            while(pNode->left)
+                pNode = pNode->left;
+            return pNode;
+        }
+        TreeLinkNode* p = pNode->next; //没有右子树，是父结点的左子树
+        while(p && pNode == p->right){ //没有右子树，并且是父结点的右子树
+            pNode = p;
+            p = pNode->next;
+        }
+        return p;
+    }
+
+    /*
+     * 对称的二叉树
+     * 请实现一个函数，用来判断一颗二叉树是不是对称的。
+     * 注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。
+     *
+     * 
+     */
+    bool isSymmetrical(TreeNode* pRoot)
+    {
+        if(pRoot == NULL)
+           return true;
+        
+        return func(pRoot->left,pRoot->right);
+    }
+    
+    bool func(TreeNode* left,TreeNode* right){
+        if(left == NULL &&　right == NULL)
+            return true;
+        if(left != NULL && right != NULL)
+            return (left->val == right->val) && func(left->left,right->right) && func(left->left,right->right);
+        
+        return false;
+    }
+
+    /*
+     * 按之字形顺序打印二叉树
+     * 请实现一个函数按照之字形打印二叉树，
+     * 即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，
+     * 第三行按照从左到右的顺序打印，其他行以此类推。
+     */
+    vector<vector<int> > Print(TreeNode* pRoot) {
+        vector<vector<int>> res;
+        if (pRoot == NULL)
+            return res;
+        vector<TreeNode*> q1;
+        vector<TreeNode*> q2;
+        q1.push_back(pRoot);
+        bool model = true;//ture表示方向从左向右
+        while (!q1.empty()){
+            q2 = q1;
+            q1.clear();
+            vector<int> row;
+            while (!q2.empty()){//把当前层全部访问，并将孩子按一定顺序入栈
+                TreeNode *temp = q2.back();
+                q2.pop_back();
+                row.push_back(temp->val);
+                if (model == true){//turew为从左向右
+                    if (temp->left) q1.push_back(temp->left);
+                    if (temp->right) q1.push_back(temp->right);
+                }
+                else{//false为从右向左
+                    if (temp->right) q1.push_back(temp->right);
+                    if (temp->left) q1.push_back(temp->left);
+                }
+            }
+            model = !model;//变换方向
+            res.push_back(row);
+        }
+        return res;
+    }
+
+	/*
+	 * 把二叉树打印成多行
+	 * 从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。
+	 * 
+	 */
+	vector<vector<int> > Print(TreeNode* pRoot) {
+            
+        	vector<vector<int>> vec;
+            if(pRoot == NULL) return vec;
+            
+            queue<TreeNode*> q;
+            q.push(pRoot);
+            
+            while(!q.empty()){
+                
+                int i=0,size=q.size();
+                vector<int> v;
+                for(i;i<size;i++){
+                    TreeNode *t = q.front();
+                    v.push_back(t->val);
+                    q.pop();
+                    if(t->left)
+                        q.push(t->left);
+                    if(t->right)
+                        q.push(t->right);
+                }
+                vec.push_back(v);
+            }
+            
+            return vec;
+     }
+
+     /*
+      * 系列化二叉树
+      * 请实现两个函数，分别用来序列化和反序列化二叉树
+      */
+    TreeNode* decode(char *&str) {
+        if(*str=='#'){
+            str++;
+            return NULL;
+        }
+        int num = 0;
+        while(*str != ',')
+            num = num*10 + (*(str++)-'0');
+        str++;
+        TreeNode *root = new TreeNode(num);
+        root->left = decode(str);
+        root->right = decode(str);
+        return root;
+    }
+    char* Serialize(TreeNode *root) {    
+        if(!root) return "#";
+        string r = to_string(root->val);
+        r.push_back(',');
+        char *left = Serialize(root->left);
+        char *right = Serialize(root->right);
+        char *ret = new char[strlen(left) + strlen(right) + r.size()];
+        strcpy(ret, r.c_str());
+        strcat(ret, left);
+        strcat(ret, right);
+        return ret;
+    }
+    TreeNode* Deserialize(char *str) {
+        return decode(str);
+    }
+
+    /*
+     * 二叉搜索树的第k个结点
+     * 给定一颗二叉搜索树，请找出其中的第k大的结点。
+     * 例如， 5 / \ 3 7 /\ /\ 2 4 6 8 中，按结点数值大小顺序第三个结点的值为4。
+     *
+     * 二叉搜索树按照中序遍历的顺序打印出来正好就是排序好的顺序。
+     * 所以，按照中序遍历顺序找到第k个结点就是结果。
+     */
+    int count = 0;
+    TreeNode* KthNode(TreeNode* pRoot, int k)
+    {
+        if(pRoot){
+            TreeNode *t = KthNode(pRoot->left,k);
+            if(t) return t;
+            if(++count==k)  return pRoot;
+            t = KthNode(pRoot->right,k);
+            if(t) return t;
+        }
+        return NULL;
+    }
 }
  
