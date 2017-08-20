@@ -2,6 +2,10 @@
 
 using namespace std;
 
+/*
+ * 树的算法
+ */
+
  struct TreeNode {
       int val;
       TreeNode *left;

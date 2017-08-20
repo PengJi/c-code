@@ -3,7 +3,7 @@
 using namespace std;
 
 /*
- * 数据结构list训练
+ * 链表
  */
 
 struct ListNode {
