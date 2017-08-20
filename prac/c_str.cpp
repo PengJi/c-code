@@ -2,6 +2,12 @@
 #include <cstring>
 #include <string>
 
+using namespace std;
+
+/*
+ * c_str()生成一个const char* 指针，指向以空字符终止的数组
+ */
+
 int main ()
 {
   std::string str ("Please split this sentence into tokens");
@@ -19,5 +25,14 @@ int main ()
   }
 
   delete[] cstr;
+
+  char* c = new char[20];
+  string s = "123";
+
+  strcpy(c,s.c_str());
+  cout << c << endl;
+  s="abc";
+  cout << c << endl;
+
   return 0;
 }
