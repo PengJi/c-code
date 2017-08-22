@@ -1,12 +1,22 @@
 #include <iostream>
-#include <string>
-#include <vector>
-#include <memory>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#include <cstdlib>
 #include <algorithm>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <vector>
+#include <string>
+#include <memory>
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <memory.h>
+#include <stdbool.h>
+
+using namespace std;
 
 using namespace std;
 
