@@ -1,6 +1,12 @@
 #include <iostream>
 #include <string>
+#include <vector>
+#include <memory>
 #include <algorithm>
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <memory.h>
 
 using namespace std;
 
@@ -151,8 +157,8 @@ public:
      * 对vector容器内的数据进行排序，
      * 按照 将a和b转为string后 
      * 若 a＋b<b+a a排在在前 的规则排序, 
-     * 如 2 21 因为 212 < 221 所以 排序后为 21 2 to_string() 
-     * 可以将int 转化为string
+     * 如 2 21 因为 212 < 221 所以 排序后为 21 2 
+     * to_string() 可以将int转化为string
      */
     static bool cmp(int a,int b){
     	string A,AB;
@@ -187,5 +193,63 @@ public:
     		ans += to_string(numbers[i]);
     	}
     	return ans;
+    }
+
+    /*
+     * 数组中只出现一次的数字
+     * 一个整型数组里除了两个数字之外，其他的数字都出现了两次。
+     * 请写程序找出这两个只出现一次的数字。
+     *
+     * 使用异或，但是与在出现的数字中查找一个单独的数字不同的是需要
+     * 利用异或结果的最低位为1的flag将数组中的数字分为两类，一类是
+     * 与flag按为与为0，另一类不为0，这样在分别异或一次就能够找出这两个数。
+     */
+    void FindNumsAppearOnce(vector<int> data,int* num1,int *num2) { 
+    	if(data.size()<2) return;
+    	int myxor = 0;
+    	int flag = 1;
+    	for(int i=0;i < data.size();++i)
+    		myxor ^= data[i];
+    	while((myxor & flag) == 0 ) flag <<= 1;
+    	*num1 = myxor;
+    	*num2 = myxor;
+    	for(int i = 0;i<data.size();++i){
+    		if((flag & data[i]) == 0)
+    			*num2 ^= data[i];
+    		else
+    			*num1 ^= data[i];
+    	}
+    }
+
+    /*
+     * 数组中重复的数字
+     * 在一个长度为n的数组里的所有数字都在0到n-1的范围内。 
+     * 数组中某些数字是重复的，但不知道有几个数字是重复的。
+     * 也不知道每个数字重复几次。请找出数组中任意一个重复的数字。 
+     * 例如，如果输入长度为7的数组{2,3,1,0,2,5,3}，
+     * 那么对应的输出是第一个重复的数字2。
+     *
+     * 数组里数字的范围保证在0~n-1之间，所以可以开勇现有的数组设置标志，
+     * 当一个数字被访问过后，可以设置对应位上的数+n，
+     * 之后再遇到相同的数时，会发现对应位撒花姑娘的数已经大于等于n了，
+     * 那么直接返回这个数即可。
+。   */
+    // Parameters:
+	//        numbers:     an array of integers
+    //        length:      the length of array numbers
+    //        duplication: (Output) the duplicated number in the array number
+    // Return value:       true if the input is valid, and there are some duplications in the array number
+    //                     otherwise false
+    bool duplicate(int numbers[], int length, int* duplication) {
+    	bool[] k = new bool[length];
+    	for (int i = 0; i < length; ++i)
+    	{
+    		if(k[numbers[i]] == true){
+    			*duplication = numbers[i];
+    			return true;
+    		}
+    		k[numbers[i]] = true;
+    	}
+    	return false;
     }
 };
