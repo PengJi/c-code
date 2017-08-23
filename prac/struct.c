@@ -2,6 +2,23 @@
 
 using namespace std;
 
+/*
+struct 结构名
+{
+      类型 变量名;
+      类型 变量名;
+      ...
+} 结构变量;
+
+typedef struct 结构名
+{
+      类型 变量名;
+      类型 变量名;
+      ...
+} 结构别名; 
+
+ */
+
 #pragma pack(4)
 
 struct st1{
