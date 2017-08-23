@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 
 using namespace std;
 
@@ -7,6 +8,7 @@ public:
 	int a;
 };
 
+// 单例模式
 // 设计一个类，该类不能被集成，且只能实例化3词
 class FinalClass{
 public:
@@ -24,14 +26,40 @@ public:
 
 	static void delInstance(FinalClass *instance){
 		delete instance;
-		pinStance = 0;
+		instance = 0;
+		count++;
 	}
 private:
 	FinalClass(){}
 	~FinalClass(){}
-}
+};
 
 int FinalClass::count = 0;
+
+// 单例模式
+// 一个类只有一个实例，不能被继承
+// http://www.cnblogs.com/xiehongfeng100/p/4781013.html#autoid-0-0-0
+class Singleton{
+private:
+	Singleton(){}
+	~Singleton(){}
+	static Singleton *pInstance;
+public:
+	static Singleton *getInstance(){
+		if(pInstance == NULL){
+			pInstance = new Singleton();
+		}
+		return pInstance;
+	}
+
+	static void DestoryInstance(){
+		if(pInstance != NULL){
+			delete pInstance;
+			pInstance = NULL;
+		}
+	}
+};
+Singleton *Singleton::pInstance = NULL;
 
 int main(){
 	A a;
@@ -54,9 +82,18 @@ int main(){
 	}else{
 		printf("f3 not NULL\n");
 	}
+
 	FinalClass *f4 = FinalClass::getInstance();
 	if(f4 == NULL)
 		printf("f4 is NULL\n");
+
+	FinalClass::delInstance(f3);
+	f4 = FinalClass::getInstance();
+	if(f4 == NULL)
+		printf("f4 is NULL\n");
+	else
+		printf("f4 is not NULL\n");
+
 	FinalClass *f5 = FinalClass::getInstance();
 	if(f5 == NULL)
 		printf("f5 is NULL\n");

@@ -1,5 +1,11 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <memory.h>
+#include <stdbool.h>
+#include <iostream>
+
+using namespace std;
 
 int main ()
 {
