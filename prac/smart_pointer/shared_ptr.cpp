@@ -52,6 +52,22 @@ int main(){
 	ptest.reset();  // 销毁，释放资源
 	ptest2.reset();  // "456"销毁
 
+	int a = 10;
+    shared_ptr<int> ptra = make_shared<int>(a);
+    shared_ptr<int> ptra2(ptra); //copy
+    cout << ptra.use_count() << std::endl; //2
+	cout<<ptra2.use_count()<<endl; //2
+
+    int b = 20;
+    int *pb = &a;
+    //std::shared_ptr<int> ptrb = pb;  //error
+    shared_ptr<int> ptrb = make_shared<int>(b);
+    ptra2 = ptrb; //assign
+    pb = ptrb.get(); //获取原始指针
+
+    std::cout << ptra.use_count() << std::endl; //1
+    std::cout << ptrb.use_count() << std::endl; //2
+
 	return 0;
 
 }

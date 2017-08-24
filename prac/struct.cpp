@@ -34,7 +34,7 @@ struct st2{
 };
 
 int main(){
-	cout<<"sizeof(st1) is "<<sizeof(st1)<<endl;
-	cout<<"sizeof(st2) is "<<sizeof(st2)<<endl;
+	cout<<"sizeof(st1) is "<<sizeof(st1)<<endl; //12
+	cout<<"sizeof(st2) is "<<sizeof(st2)<<endl; //8
 	return 0;
 }
