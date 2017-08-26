@@ -118,4 +118,128 @@ public:
 		} 
 		return count;   	
     }
+
+    /*
+     * 57
+     * 和为S的连续正数序列
+     * 小明很喜欢数学,有一天他在做数学作业时,要求计算出9~16的和,
+     * 他马上就写出了正确答案是100。但是他并不满足于此,
+     * 他在想究竟有多少种连续的正数序列的和为100(至少包括两个数)。
+     * 没多久,他就得到另一组连续正数和为100的序列:18,19,20,21,22。
+     * 现在把问题交给你,你能不能也很快的找出所有和为S的连续正数序列? 
+     *
+     * 输出所有和为S的连续正数序列。序列内按照从小至大的顺序，
+     * 序列间按照开始数字从小到大的顺序
+     *
+     * 思路：
+	 * 用两个数字begin和end分别表示序列的最大值和最小值，
+	 * 首先将begin初始化为1，end初始化为2.
+	 * 如果从begin到end的和大于s，我们就从序列中去掉较小的值(即增大begin),
+	 * 相反，只需要增大end。
+	 * 终止条件为：一直增加begin到(1+sum)/2并且end小于sum为止
+     */
+	vector<vector<int> > FindContinuousSequence(int sum) {
+		vector<vector<int>> vec;
+		vector<int> res;
+		if(sum < 3)
+			return vec;
+
+		int mid = (1+sum)/2;
+		int begin = 1;
+		int end = 2;
+		int cur = begin+end;
+
+		while(begin<mid && end < sum){
+			while(cur > sum){
+				cur -= begin;
+				begin++;
+			}
+			if(cur == sum){
+				for(int i = begin;i<=end;i++)
+					res.push_back(i);
+				vec.push_back(res);
+				res.clear();
+			}
+			end++;
+			cur += end;
+		}
+
+		return vec;
+    }
+
+    /*
+     * 57
+     * 和为S的两个数字
+     * 输入一个递增排序的数组和一个数字S，在数组中查找两个数，
+     * 是的他们的和正好是S，如果有多对数字的和等于S，
+     * 输出两个数的乘积最小的。
+     *
+     * 对应每个测试案例，输出两个数，小的先输出。
+     *
+	 * 数列满足递增，设两个头尾两个指针i和j， 
+	 * 若ai + aj == sum，就是答案（相差越远乘积越小） 
+  	 * 若ai + aj > sum，aj肯定不是答案之一（前面已得出 i 前面的数已是不可能），j -= 1 
+  	 * 若ai + aj < sum，ai肯定不是答案之一（前面已得出 j 后面的数已是不可能），i += 1
+     */
+	vector<int> FindNumbersWithSum(vector<int> array,int sum) {
+        vector<int> res;
+        int n = array.size();
+        int i = 0, j = n-1;
+        while(i < j){
+        	if(array[i] + array[j] == sum){
+        		res.push_back(array[i]);
+        		res.push_back(array[j]);
+        		break;
+        	}
+        	while(i<j && array[i]+array[j] > sum) --j;
+        	while(i<j && array[i]+array[j] < sum) ++i;
+        }
+        return res;
+    }    
+
+    /*
+     *
+     * 翻转单词顺序咧
+     * 输入一个英文句子，翻转句子中单词的顺序，但单词内字符的顺序不变。
+     * 为简单起见，标点符号和普通字母一样处理。
+     * 如理输入字符串"I am a student."则输出"student. a am I"
+     */
+	string ReverseSentence(string str) {
+        string res = "",tmp = "";
+        for(int i = 0;i<int(str.size());++i){
+        	if(str[i] == ' '){
+        		res = " " + tmp + res;
+        		tmp = "";
+        	}else{
+        		tmp += str[i];
+        	}
+        }
+        if(tmp.size())
+        	res = tmp+res;
+        
+        return res;
+    }
+
+    /*
+     * 58
+     * 左旋转字符串
+     * 对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。
+     * 例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，
+     * 即“XYZdefabc”。
+     */
+	string LeftRotateString(string str, int n) {
+        int len = str.length();
+        if(len == 0)
+        	return "";
+        n = n % len;
+        str += str;
+        return str.substr(n,len);
+    }
+
+    /*
+     * 67
+     * 把字符串转换成整数
+     * 将一个字符串转换成一个整数，要求不能使用字符串转换整数的库函数。 
+     * 数值为0或者字符串不是一个合法的数值则返回0
+     */
 };
