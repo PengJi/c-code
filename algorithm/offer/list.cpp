@@ -175,7 +175,6 @@ public:
         }
         return NULL;
     }
-    
     int getLen(ListNode* LN){
         if(LN == NULL) return 0;
         int m = 0;
@@ -185,7 +184,6 @@ public:
         }
         return m;
     }
-    
     ListNode *walk(ListNode* LN,int step){
         while(step--){
             LN = LN->next;

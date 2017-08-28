@@ -212,7 +212,6 @@ public:
         int dep = 0;
         return IsBalanced(pRoot,dep);
     }
-    
     bool IsBalanced(TreeNode *root,int &dep){
         if(root == NULL){
             return true;
@@ -239,11 +238,11 @@ public:
      * 2.该节点不存在右子节点，则 下一个节点是 该节点的第一个父子关系为左的祖先节点中的父节点。
      */
     struct TreeLinkNode {
-    int val;
-    struct TreeLinkNode *left;
-    struct TreeLinkNode *right;
-    struct TreeLinkNode *next;
-    TreeLinkNode(int x) :val(x), left(NULL), right(NULL), next(NULL) {}
+        int val;
+        struct TreeLinkNode *left;
+        struct TreeLinkNode *right;
+        struct TreeLinkNode *next;
+        TreeLinkNode(int x) :val(x), left(NULL), right(NULL), next(NULL) {}
 	};
     TreeLinkNode* GetNext(TreeLinkNode* pNode)
     {
@@ -268,7 +267,6 @@ public:
      * 请实现一个函数，用来判断一颗二叉树是不是对称的。
      * 注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。
      *
-     * 
      */
     bool isSymmetrical(TreeNode* pRoot)
     {

@@ -15,6 +15,10 @@
 
 using namespace std;
 
+/*
+ * 动态规划
+ */
+
 class Solution{
     /*
      * 连续子数组的最大和
