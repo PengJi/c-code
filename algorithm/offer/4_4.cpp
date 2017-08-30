@@ -44,15 +44,47 @@ public:
             label(x), next(NULL), random(NULL) {
     }
 	*/
-    RandomListNode* Clone(RandomListNode* pHead){
-    	RandomListNode *pNode  = pHead;
-    	while(pNode != NULL){
-    		RandomListNode *pCloned = pNode->next;
-    		if(pNode->random != NULL){
-    			pCloned = pNode->random->next;
-    		}
-    		pNode = pCloned->next;
-    	}
+    RandomListNode* Clone(RandomListNode* pHead)
+    {
+        if(!pHead) return NULL;
+        RandomListNode *currNode = pHead;
+        while(currNode){
+            RandomListNode *node = new RandomListNode(currNode->label);
+            node->next = currNode->next;
+            currNode->next = node;
+            currNode = node->next;
+        }
+        currNode = pHead;
+        while(currNode){ //复制链表
+            RandomListNode *node = currNode->next;
+            if(currNode->random){               
+                node->random = currNode->random->next;
+            }
+            currNode = node->next;
+        }
+        //拆分
+        RandomListNode *pCloneHead = pHead->next;
+        RandomListNode *tmp;
+        currNode = pHead;
+        while(currNode->next){
+            tmp = currNode->next;
+            currNode->next =tmp->next;
+            currNode = tmp;
+        }
+        return pCloneHead;
+    }
+
+    /*
+     * 38
+     * 字符串的排列
+     * 输入一个字符串,按字典序打印出该字符串中字符的所有排列。
+     * 例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有字符串abc,acb,bac,bca,cab和cba。
+     * 
+     * 输入描述:
+     * 输入一个字符串,长度不超过9(可能有字符重复),字符只包括大小写字母。
+     */
+    vector<string> Permutation(string str) {
+        
     }
 
 }
