@@ -84,7 +84,23 @@ public:
      * 输入一个字符串,长度不超过9(可能有字符重复),字符只包括大小写字母。
      */
     vector<string> Permutation(string str) {
-        
+        vector<string> vec;
+        if(str.size() == 0)
+            return vec;
+        Permutation(vec,str,0);
+        sort(vec.begin(),vec.end());
+        return vec;
+    }
+    void Permutation(vector<string> &vec,string str,int begin){
+        if(begin == str.size()-1)
+            vec.push_back(str);
+        for(int i = begin; i<=str.size()-1; ++i){
+            if(i != begin && str[i] == str[begin])
+                continue;
+            swap(str[i],str[begin]);
+            Permutation(vec,str,begin+1);
+            swap(str[i],str[begin]);
+        }
     }
 
 }

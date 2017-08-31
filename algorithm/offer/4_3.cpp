@@ -12,4 +12,20 @@ class Solution{
 	  * 但4,3,5,1,2就不可能是该压栈序列的弹出序列。
 	  * （注意：这两个序列的长度是相等的）
 	  */
+	bool IsPopOrder(vector<int> pushV,vector<int> popV) {
+        vector<int> stack;
+        if(pushV.size() == 0)
+        	return false;
+        int i = 0,j=0;
+        while(i<pushV.size()){
+        	stack.push_back(pushV[i]);
+        	while(j<popV.size() && popV[j] == stack.back()){
+        		stack.pop_back();
+        		j++;
+        	}
+        	i++;
+        }
+        return stack.empty();
+    }
+	 
 }
