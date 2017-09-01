@@ -16,6 +16,7 @@ using namespace std;
 class Solution{
 public:
  	/*
+     * 7
  	 * 重建二叉树
  	 * 输入某二叉树的前序遍历和中序遍历的结果，请重建出该二叉树。
  	 * 假设输入的前序遍历和中序遍历的结果中都不含重复的数字。
@@ -43,7 +44,7 @@ public:
         // 对二叉树结点进行归并
         for(int i = 0;i<gen;i++){
             left_in.push_back(vin[i]);
-            left_pre.push_back(pre[i+1]);
+            left_pre.push_back(pre[i+1]); //注意这里不能使用++i
         }
         for(int i = gen+1;i<inlen;i++){
             right_in.push_back(vin[i]);
@@ -92,6 +93,7 @@ public:
 	}
 
 	/*
+     * 27
 	 * 二叉树的镜像
 	 * 操作给定的二叉树，将其变换为源二叉树的镜像
 	 */
@@ -126,6 +128,7 @@ public:
     }
 
     /*
+     * 33
      * 二叉搜索树的后序遍历序列
      * 输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。
      * 如果是则输出Yes,否则输出No。假设输入的数组的任意两个数字都互不相同。
@@ -138,8 +141,11 @@ public:
     bool judge(vector<int>& a, int l, int r){
         if(l >= r) return true;
         int i = r;
-        while(i > l && a[i - 1] > a[r]) --i;
-        for(int j = i - 1; j >= l; --j) if(a[j] > a[r]) return false;
+        while(i > l && a[i - 1] > a[r]) 
+            --i;
+        for(int j = i - 1; j >= l; --j) 
+            if(a[j] > a[r]) 
+                return false;
         return judge(a, l, i - 1) && (judge(a, i, r - 1));
 	}
     bool VerifySquenceOfBST(vector<int> a) {
@@ -206,7 +212,7 @@ public:
      * 平衡二叉树
      * 输入一棵二叉树，判断该二叉树是否是平衡二叉树
      * 
-     * 后续遍历二叉树，遍历过程中求子树高度，判断是否平衡
+     * 后序遍历二叉树，遍历过程中求子树高度，判断是否平衡
      */
     bool IsBalanced_Solution(TreeNode* pRoot) {
         int dep = 0;
@@ -263,6 +269,7 @@ public:
     }
 
     /*
+     * 28
      * 对称的二叉树
      * 请实现一个函数，用来判断一颗二叉树是不是对称的。
      * 注意，如果一个二叉树同此二叉树的镜像是同样的，定义其为对称的。
@@ -275,7 +282,6 @@ public:
         
         return func(pRoot->left,pRoot->right);
     }
-    
     bool func(TreeNode* left,TreeNode* right){
         if(left == NULL &&　right == NULL)
             return true;
@@ -283,6 +289,23 @@ public:
             return (left->val == right->val) && func(left->left,right->right) && func(left->left,right->right);
         
         return false;
+    }
+
+    //offer解法
+    bool isSymmetrical(TreeNode* pRoot)
+    {
+        return isSymmetrical(pRoot,pRoot);
+    }
+    bool isSymmetrical(TreeNode* pRoot1,TreeNode* pRoot2){
+        if(pRoot1 == NULL && pRoot2 == NULL)
+            return true;
+        if(pRoot1 == NULL || pRoot2 == NULL) //把遇到的NULL指针也考虑进来
+            return false;
+        if(pRoot1->val != pRoot2->val)
+            return false;
+        
+        return isSymmetrical(pRoot1->left,pRoot2->right) 
+            && isSymmetrical(pRoot1->right,pRoot2->left);
     }
 
     /*
