@@ -77,6 +77,29 @@ public:
         }
         return pre;
     }
+    //第二种
+    ListNode* ReverseList(ListNode* pHead) {
+        if(pHead == NULL)
+            return NULL;
+        if(pHead -> next == NULL)
+            return pHead;
+        
+        ListNode *pre = pHead;
+        ListNode *p = pHead->next;
+        ListNode *pnext = p->next;
+        
+        pHead->next = NULL;
+        
+        while(pnext != NULL){
+            p->next = pre;
+            pre = p;
+            p = pnext;
+            pnext = pnext->next;
+        }
+        p->next = pre;
+        
+        return p;
+    }
 
     /*
      * 合并两个排序链表
