@@ -199,6 +199,7 @@ public:
     }
 
 	/*
+	 * 55
 	 * 二叉树的深度
 	 * 输入一棵二叉树，求该树的深度。从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，
 	 * 最长路径的长度为树的深度。
@@ -207,8 +208,20 @@ public:
         if(pRoot == NULL) return 0;
         return max(1+TreeDepth(pRoot->left),1+TreeDepth(pRoot->right));
     }
+    //offer
+    int TreeDepth(TreeNode* pRoot)
+    {
+        if(pRoot == NULL)
+            return 0;
+        
+        int nleft = TreeDepth(pRoot->left);
+        int nright = TreeDepth(pRoot->right);
+        
+        return nleft>nright?(nleft+1):(nright+1);
+    }
 
     /*
+     * 56
      * 平衡二叉树
      * 输入一棵二叉树，判断该二叉树是否是平衡二叉树
      * 
@@ -430,6 +443,27 @@ public:
             if(t) return t;
         }
         return NULL;
+    }
+    //第二种方法
+    TreeNode* KthNodeRes(TreeNode *pRoot, int &k){
+    	TreeNode *t = NULL;
+    	if(pRoot->left != NULL)
+    		t = KthNodeRes(pRoot->left,k);
+    	if(t==NULL){
+    		if(k==1)
+    			t = pRoot;
+    		k--;
+    	}
+    	if(pRoot->right != NULL && t==NULL)
+    		t = KthNodeRes(pRoot->right,k);
+
+    	return t;
+    }
+	TreeNode* KthNode(TreeNode* pRoot, int k)
+    {
+    	if(pRoot == NULL || k<=0)
+    		return NULL;
+    	return KthNodeRes(pRoot,k);
     }
 
     /*
