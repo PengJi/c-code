@@ -271,5 +271,36 @@ public:
         }
         return HeadNode->next;
     }
+
+    /* 合并两个排序的列表
+     * 输入两个单调递增的链表，输出两个链表合成后的链表，
+     * 当然我们需要合成后的链表满足单调不减规则。
+     */
+    ListNode* Merge(ListNode* pHead1, ListNode* pHead2)
+    {
+        if(pHead1 == NULL) return pHead2;
+        if(pHead2 == NULL) return pHead1;
+        ListNode *H = new ListNode(0);
+        ListNode *cur = H;
+        ListNode *p = pHead1;
+        ListNode *q = pHead2;
+        while(p&&q){
+            if(p -> val <= q -> val){
+                cur -> next = p;
+                cur = cur->next;
+                p = p->next;
+            }else{
+                cur -> next = q;
+                cur = cur->next;
+                q = q->next;
+            }
+        }
+        if(p != NULL)
+            cur -> next = p;
+        if(q != NULL){
+            cur -> next = q;
+        }
+        return H->next; 
+    }
 }
 

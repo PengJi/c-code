@@ -32,7 +32,6 @@ public:
 	 * 每一列都按照从上到下递增的顺序排序。请完成一个函数，
 	 * 输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。
 	 *
-	 * 
 	 */
     bool Find(int target, vector<vector<int> > array) {
         if(array.empty())
@@ -52,7 +51,8 @@ public:
         return false;
     }
 
-	/*
+	/* 
+     * 11
 	 * 旋转数组的最小数字
 	 * 把一个数组最开始的若干个元素搬到数组的末尾，
 	 * 我们称之为数组的旋转。 
@@ -75,7 +75,8 @@ public:
 		return rotateArray[0];
 	}
 
-	/*
+	/* 
+     * 21
 	 * 调整数组顺序使奇数位于偶数前面
 	 * 输入一个整数数组，实现一个函数来调整该数组中数字的顺序，
 	 * 使得所有的奇数位于数组的前半部分，
@@ -101,7 +102,8 @@ public:
 		}
 	}
 
-	/*
+	/* 
+     * 39
 	 * 数组中出现次数超过一半的数字
 	 * 数组中有一个数字出现的次数超过数组长度的一半，
 	 * 请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。
@@ -134,30 +136,8 @@ public:
 		return 0;
     }
 
-    /*
-     * 连续子数组的最大和
-     * HZ偶尔会拿些专业问题来忽悠那些非计算机专业的同学。
-     * 今天测试组开完会后,他又发话了:在古老的一维模式识别中,
-     * 常常需要计算连续子向量的最大和,当向量全为正数的时候,
-     * 问题很好解决。但是,如果向量中包含负数,是否应该包含某个负数,
-     * 并期望旁边的正数会弥补它呢？例如:{6,-3,-2,7,-15,1,2,2},
-     * 连续子向量的最大和为8(从第0个开始,到第3个为止)。
-     * 你会不会被他忽悠住？(子向量的长度至少是1)
-     *
-     * 动态规划
-     */
-    int FindGreatestSumOfSubArray(vector<int> array) {
-    	if(array.empty())
-    		return 0;
-    	int sum = array[0],tempsum = array[0];
-    	for(int i = 1;i<array.size();i++){
-    		tempsum = (tempsum<0) ? array[i]:tempsum+array[i];
-    		sum = (tempsum>sum)? tempsum :sum;
-    	}
-    	return sum;
-    }
-
-    /*
+    /* 
+     * 45
      * 把数组排成最小的数
      * 输入一个正整数数组，把数组里所有数字拼接起来排成一个数，
      * 打印能拼接出的所有数字中最小的一个。
@@ -170,6 +150,7 @@ public:
      * 如 2 21 因为 212 < 221 所以 排序后为 21 2 
      * to_string() 可以将int转化为string
      */
+    // 转换为字符串后比较
     static bool cmp(int a,int b){
     	string A,AB;
     	string B,BA;
@@ -184,7 +165,6 @@ public:
 
     	return AB<BA;
     }
-
     static bool cmp1(int a,int b){
          string A="";
          string B="";
@@ -195,7 +175,6 @@ public:
           
          return A<B;
      }
-
     string PrintMinNumber(vector<int> numbers) {
     	string ans = "";
     	sort(numbers.begin(),numbers.end(),cmp);
@@ -205,7 +184,8 @@ public:
     	return ans;
     }
 
-    /*
+    /* 
+     * 56-1
      * 数组中只出现一次的数字
      * 一个整型数组里除了两个数字之外，其他的数字都出现了两次。
      * 请写程序找出这两个只出现一次的数字。
@@ -230,8 +210,41 @@ public:
     			*num1 ^= data[i];
     	}
     }
+    //offer
+    void FindNumsAppearOnce(int data[],int length,int *num1,int *num2){
+        if(data == NULL || length<2)
+            return;
 
-    /*
+        int resExclusiveOR = 0;
+        for(int i=0;i<lenght;++i)
+            resExclusiveOR ^= data[i];
+
+        unsigned int indexOf1 = FindFirstBit(resExclusiveOR);
+
+        *num1 = *num2 = 0;
+        for(int j = 0; j<length;++j){
+            if(IsBit(data[j],indexOf1))
+                *num1 ^= data[j];
+            else
+                *num2 ^= data[j];
+        }
+    }
+    unsigned int FindFirstBit(int num){
+        int indexBit = 0;
+        while(((num & 1)==0) && (indexBit < 8*sizeof(int)))
+        {
+            num = num >> 1;
+            ++indexBit;
+        }
+        return indexBit;
+    }
+    bool IsBit(int num,unsigned int indexBit){
+        num = num>>indexBit;
+        return (num & 1);
+    }
+
+    /* 
+     * 3-2
      * 数组中重复的数字
      * 在一个长度为n的数组里的所有数字都在0到n-1的范围内。 
      * 数组中某些数字是重复的，但不知道有几个数字是重复的。
@@ -241,7 +254,7 @@ public:
      *
      * 数组里数字的范围保证在0~n-1之间，所以可以开勇现有的数组设置标志，
      * 当一个数字被访问过后，可以设置对应位上的数+n，
-     * 之后再遇到相同的数时，会发现对应位撒花姑娘的数已经大于等于n了，
+     * 之后再遇到相同的数时，会发现对应位上的数已经大于等于n了，
      * 那么直接返回这个数即可。
 。   */
     // Parameters:

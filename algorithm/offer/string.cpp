@@ -108,6 +108,45 @@ public:
         return true;
     }
 
+    /*
+     * 58
+     * 左旋转字符串
+     * 对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。
+     * 例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，
+     * 即“XYZdefabc”。
+     */
+    string LeftRotateString(string str, int n) {
+        int len = str.length();
+        if(len == 0)
+            return "";
+        n = n % len;
+        str += str;
+        return str.substr(n,len);
+    }
+
+    /*
+     *
+     * 翻转单词顺序咧
+     * 输入一个英文句子，翻转句子中单词的顺序，但单词内字符的顺序不变。
+     * 为简单起见，标点符号和普通字母一样处理。
+     * 如理输入字符串"I am a student."则输出"student. a am I"
+     */
+    string ReverseSentence(string str) {
+        string res = "",tmp = "";
+        for(int i = 0;i<int(str.size());++i){
+            if(str[i] == ' '){
+                res = " " + tmp + res;
+                tmp = "";
+            }else{
+                tmp += str[i];
+            }
+        }
+        if(tmp.size())
+            res = tmp+res;
+        
+        return res;
+    }
+
 	/*
 	 * 19
 	 * 正则表达式的匹配

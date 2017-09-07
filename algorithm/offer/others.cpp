@@ -167,7 +167,7 @@ public:
      * 57
      * 和为S的两个数字
      * 输入一个递增排序的数组和一个数字S，在数组中查找两个数，
-     * 是的他们的和正好是S，如果有多对数字的和等于S，
+     * 他们的和正好是S，如果有多对数字的和等于S，
      * 输出两个数的乘积最小的。
      *
      * 对应每个测试案例，输出两个数，小的先输出。
@@ -214,22 +214,6 @@ public:
         	res = tmp+res;
         
         return res;
-    }
-
-    /*
-     * 58
-     * 左旋转字符串
-     * 对于一个给定的字符序列S，请你把其循环左移K位后的序列输出。
-     * 例如，字符序列S=”abcXYZdef”,要求输出循环左移3位后的结果，
-     * 即“XYZdefabc”。
-     */
-	string LeftRotateString(string str, int n) {
-        int len = str.length();
-        if(len == 0)
-        	return "";
-        n = n % len;
-        str += str;
-        return str.substr(n,len);
     }
 
     /*

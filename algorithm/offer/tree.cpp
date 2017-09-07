@@ -3,7 +3,7 @@
 using namespace std;
 
 /*
- * 树的算法
+ * 树
  */
 
  struct TreeNode {
@@ -92,22 +92,6 @@ public:
             return DoesTree1HaveTree2(root1.left, root2.left) && DoesTree1HaveTree2(root1.right, root2.right);
 	}
 
-	/*
-     * 27
-	 * 二叉树的镜像
-	 * 操作给定的二叉树，将其变换为源二叉树的镜像
-	 */
-	void Mirror(TreeNode *pRoot) {
-		if(pRoot == NULL){
-            return;
-        }
-        TreeNode *tmp = pRoot -> left;
-        pRoot->left = pRoot->right;
-        pRoot->right = tmp;
-        Mirror(pRoot->left);
-        Mirror(pRoot->right);
-    }
-
     /*
      * 从上往下打印二叉树
      * 从上往下打印出二叉树的每个结点，同城结点从左往右打印
@@ -153,7 +137,8 @@ public:
         return judge(a, 0, a.size() - 1);
     }
 
-	/*
+	/* 
+	 * 34
 	 * 二叉树中和为某一值的路径
 	 * 输入一颗二叉树和一个整数，打印出二叉树中结点值的和为
 	 * 输入整数的所有路径。路径定义为从树的根结点开始往下
@@ -176,7 +161,7 @@ public:
         return allRes;
     }
 
-	/*
+	/* 
 	 * 二叉搜索树与双向链表
 	 * 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。
 	 * 要求不能创建任何新的节点，智能调整整树中结点指针的指向。
@@ -281,6 +266,22 @@ public:
         return p;
     }
 
+	/*
+     * 27
+	 * 二叉树的镜像
+	 * 操作给定的二叉树，将其变换为源二叉树的镜像
+	 */
+	void Mirror(TreeNode *pRoot) {
+		if(pRoot == NULL){
+            return;
+        }
+        TreeNode *tmp = pRoot -> left;
+        pRoot->left = pRoot->right;
+        pRoot->right = tmp;
+        Mirror(pRoot->left);
+        Mirror(pRoot->right);
+    }
+
     /*
      * 28
      * 对称的二叉树
@@ -303,8 +304,7 @@ public:
         
         return false;
     }
-
-    //offer解法
+    //offer
     bool isSymmetrical(TreeNode* pRoot)
     {
         return isSymmetrical(pRoot,pRoot);
@@ -391,7 +391,7 @@ public:
      }
 
      /*
-      * 系列化二叉树
+      * 序列化二叉树
       * 请实现两个函数，分别用来序列化和反序列化二叉树
       */
     TreeNode* decode(char *&str) {
@@ -444,7 +444,7 @@ public:
         }
         return NULL;
     }
-    //第二种方法
+    //offer
     TreeNode* KthNodeRes(TreeNode *pRoot, int &k){
     	TreeNode *t = NULL;
     	if(pRoot->left != NULL)
@@ -493,10 +493,28 @@ public:
             q.pop();
         }
     }
-
     double GetMedian()
     { 
         return p.size()==q.size()?(p.top()+q.top())/2.0:p.top();
+    }
+
+	/* 
+     * 树的子结构
+	 * 输入两棵二叉树A，B，判断B是不是A的子结构。
+     *（ps：我们约定空树不是任意一个树的子结构）
+     */
+    bool isSubtree(TreeNode* pRoota,TreeNode* pRootb){
+        if(pRootb == NULL) return true;
+        if(pRoota == NULL) return false;
+        if(pRoota -> val == pRootb -> val){
+            return isSubtree(pRoota->left,pRootb->left) && isSubtree(pRoota -> right,pRootb -> right);
+        }else 
+            return false;
+    }
+	bool HasSubtree(TreeNode* pRoot1, TreeNode* pRoot2)
+    {
+        if(pRoot1 == NULL || pRoot2 == NULL) return false;
+        return isSubtree(pRoot1,pRoot2) || HasSubtree(pRoot1->left,pRoot2) || HasSubtree(pRoot1 -> right,pRoot2);
     }
 }
  

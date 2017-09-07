@@ -21,6 +21,7 @@ using namespace std;
 
 class Solution{
     /*
+     * 42
      * 连续子数组的最大和
      * HZ偶尔会拿些专业问题来忽悠那些非计算机专业的同学。
      * 今天测试组开完会后,他又发话了:在古老的一维模式识别中,
@@ -43,7 +44,8 @@ class Solution{
         return sum;
     }
 
-    /*
+    /* 
+     * 42
      * 求解一串数字中，和最大的子串
      */
     void subMax()
