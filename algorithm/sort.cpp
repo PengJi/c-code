@@ -1,12 +1,7 @@
 #include <iostream>
-
 #include <stdio.h>
 
 using namespace std;
-
-/*
- * http://blog.csdn.net/hguisu/article/details/7776068
- */
 
 void print(int a[], int n ,int i){
     //cout << "第" <<i <<"趟:";
@@ -16,7 +11,9 @@ void print(int a[], int n ,int i){
     cout<<endl;
 }
 
-// 直接插入排序
+/*
+ * 直接插入排序
+ */
 void InsertSort(int a[], int n)
 {
     for(int i= 1; i<n; i++){
@@ -36,8 +33,8 @@ void InsertSort(int a[], int n)
 
 }
 
-// 希尔排序
-/*
+/* 
+ * 希尔排序
  * dk为增量
  */
 void ShellInsertSort(int a[], int n, int dk)
@@ -57,7 +54,7 @@ void ShellInsertSort(int a[], int n, int dk)
     }
 
 }
-/**
+/*
  * 先按增量d（n/2,n为要排序数的个数进行希尔排序
  *
  */
@@ -70,12 +67,10 @@ void shellSort(int a[], int n){
     }
 }
 
-// 选择排序
-/**
- * 数组的最小值
- *
- * @return int 数组的键值
+/* 
+ * 选择排序
  */
+ //选择数组的最小值
 int SelectMinKey(int a[], int n, int i)
 {
     int k = i;
@@ -84,11 +79,7 @@ int SelectMinKey(int a[], int n, int i)
     }
     return k;
 }
-
-/**
- * 选择排序
- *
- */
+//排序
 void selectSort(int a[], int n){
     int key, tmp;
     for(int i = 0; i< n; ++i) {
@@ -124,7 +115,6 @@ void selectSort(int a[], int n){
 }
 
 /*
- * 交换排序
  * 冒泡排序
  */
 void bubbleSort(int a[], int n){
@@ -155,7 +145,6 @@ void Bubble_1 (int r[], int n) {
 }
 
 /*
- * 交换排序
  * 快速排序
  */
 void swap(int *a, int *b)
@@ -186,8 +175,8 @@ void quickSort(int a[], int low, int high){
 
 /*
  * 归并排序
+ * 将r[i…m]和r[m +1 …n]归并到辅助数组rf[i…n]
  */
- //将r[i…m]和r[m +1 …n]归并到辅助数组rf[i…n]
 void Merge(int *r,int *rf, int i, int m, int n)
 {
     int j,k;

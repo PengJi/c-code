@@ -93,25 +93,6 @@ public:
 	}
 
     /*
-     * 从上往下打印二叉树
-     * 从上往下打印出二叉树的每个结点，同城结点从左往右打印
-     */
-	vector<int> PrintFromTopToBottom(TreeNode *rt){
-        queue<TreeNode*> q;
-        q.push(rt);
-        vector<int> r;
-        while(!q.empty()){
-            rt = q.front();
-            q.pop();
-            if(!rt) continue;
-            r.push_back(rt->val);
-            q.push(rt->left);
-            q.push(rt->right);
-        }
-        return r;
-    }
-
-    /*
      * 33
      * 二叉搜索树的后序遍历序列
      * 输入一个整数数组，判断该数组是不是某二叉搜索树的后序遍历的结果。
@@ -239,7 +220,7 @@ public:
      *
      * 	分两种情况：
      * 1.该节点存在右子节点，则下一个节点是右子树的最左节点。
-     * 2.该节点不存在右子节点，则 下一个节点是 该节点的第一个父子关系为左的祖先节点中的父节点。
+     * 2.该节点不存在右子节点，则下一个节点是该节点的第一个父子关系为左的祖先节点中的父节点。
      */
     struct TreeLinkNode {
         int val;
@@ -322,6 +303,25 @@ public:
     }
 
     /*
+     * 从上往下打印二叉树
+     * 从上往下打印出二叉树的每个结点，同层结点从左往右打印
+     */
+    vector<int> PrintFromTopToBottom(TreeNode *rt){
+        queue<TreeNode*> q;
+        q.push(rt);
+        vector<int> r;
+        while(!q.empty()){
+            rt = q.front();
+            q.pop();
+            if(!rt) continue;
+            r.push_back(rt->val);
+            q.push(rt->left);
+            q.push(rt->right);
+        }
+        return r;
+    }
+
+    /*
      * 按之字形顺序打印二叉树
      * 请实现一个函数按照之字形打印二叉树，
      * 即第一行按照从左到右的顺序打印，第二层按照从右至左的顺序打印，
@@ -361,7 +361,6 @@ public:
 	/*
 	 * 把二叉树打印成多行
 	 * 从上到下按层打印二叉树，同一层结点从左至右输出。每一层输出一行。
-	 * 
 	 */
 	vector<vector<int> > Print(TreeNode* pRoot) {
             
@@ -372,7 +371,6 @@ public:
             q.push(pRoot);
             
             while(!q.empty()){
-                
                 int i=0,size=q.size();
                 vector<int> v;
                 for(i;i<size;i++){

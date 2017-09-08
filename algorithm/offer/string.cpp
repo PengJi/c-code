@@ -53,7 +53,7 @@ public:
     	vec.push_back(ch);
     	hashtable[ch]++;
     }
-  //return the first appearence once char in current stringstream
+    //return the first appearence once char in current stringstream
     char FirstAppearingOnce()
     {
     	for(int i = 0; i < vec.size(); i++){
