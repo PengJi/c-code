@@ -45,7 +45,6 @@ class Solution{
     }
 
     /* 
-     * 42
      * 求解一串数字中，和最大的子串
      */
     void subMax()
@@ -71,6 +70,42 @@ class Solution{
             }
             printf("%lld\n", ans);
         }
+    }
+
+    /*
+     * 48
+     * 最长不含重复字符的子字符串
+     * 请从字符串中找出一个最长的不包含重复字符的子字符串，计算该最长子字符串的长度。
+     * 假设字符串中只包含a-z的字符。
+     * 例如，在字符串"arabcacfr"中，最长的不含重复字符的子字符串是"acfr"，长度是4。
+     *
+     * 动态规划
+     */
+    int longestSubstring(const string &str){
+        int curLength = 0;
+        int maxLength = 0;
+
+        int *position = new int[26]; //用来存储字符上次出现的下标
+        for(int i = 0;i<26;++i)
+            position[i] = -1;
+
+        for(int i = 0;i<str.length;++i){
+            int prevIndex = position[str[i]-'a'];
+            if(prevIndex<0 || i-prevIndex > curLength){ //之前没有出现过或者之前出现过但不在当前curLength
+                ++curLength;
+            }else{ //之前出现过也在curLength
+                if(curLength>maxLength)
+                    maxLength = curLength;
+                curLength = i-prevIndex;
+            }
+            position[str[i]-'a'] = i;
+        }
+
+        if(curLength>maxLength)
+            maxLength = curLengthl;
+
+        delete[] position;
+        return maxLength;
     }
 };
 

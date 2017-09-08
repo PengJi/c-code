@@ -220,14 +220,14 @@ public:
      * 1. 两个指针fast和slow，fast以slow两倍速度前进，如果没有环，那么fast和slow不会相遇此时返回null；
      * 如果有环，那fast和slow肯定会再次相遇，相遇的时候，fast刚好比slow多走了一圈环的长度。
      * 用图来描述下，当fast与slow相遇时，fast走过的距离为a + b + c + b，而slow走过的距离为 a + b，因为fast是slow速度的两倍，
-     * 则有a+b+c+b = 2*(a+b)，登出a=c;此时slow节点所处X处到环起点Y处的距离a和X节点到Y处距离c其实是相等的，此时第三个指针p从x处，
+     * 则有a+b+c+b = 2*(a+b)，推出a=c;此时slow节点所处X处到环起点Y处的距离a和X节点到Y处距离c其实是相等的，此时第三个指针p从x处，
      * 以和slow指针相同的速度前进，当它两相遇时，即为环的起点Y处！
      */
     ListNode* EntryNodeOfLoop(ListNode* pHead)
     {
         ListNode *fast = pHead;
         ListNode *slow = pHead;
-        while(fast != NULL && fast->next != NULL){
+        while(slow->next){ //当slow到达最后一个节点还没有和fast结点相遇，则没有环
             fast = fast->next->next;
             slow = slow->next;
             if(fast == slow){
