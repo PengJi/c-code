@@ -70,7 +70,6 @@ void shellSort(int a[], int n){
 /* 
  * 选择排序
  */
- //选择数组的最小值
 int SelectMinKey(int a[], int n, int i)
 {
     int k = i;
@@ -83,7 +82,7 @@ int SelectMinKey(int a[], int n, int i)
 void selectSort(int a[], int n){
     int key, tmp;
     for(int i = 0; i< n; ++i) {
-        key = SelectMinKey(a, n,i);           //选择最小的元素
+        key = SelectMinKey(a, n,i);  //选择最小的元素
         if(key != i){
             tmp = a[i];  a[i] = a[key]; a[key] = tmp; //最小元素与第i位置元素互换
         }
