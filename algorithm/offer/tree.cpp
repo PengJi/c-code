@@ -60,6 +60,55 @@ public:
     }
 
     /*
+     * 二叉树后续遍历
+     */
+    //递归遍历
+    void PostTraRec(TreeNode * root){
+        if(root != NULL){
+            PostTraRec(root->left);
+            PostTraRec(root->right);
+            printf("%d\n",root->val);
+        }
+    }
+    //非递归遍历
+    /*
+     * 后续遍历在决定是否可以输出当前节点的值的时候，
+     * 需要考虑其左右子树是否都已经遍历完成.
+     *
+     * 设置一个lastVisit标志
+     * 若lastVisit等于当前考察节点的右子树，
+     * 表示该节点的左右子树都已经遍历完成，则可以输出当前节点
+     * 并把lastVisit的节点设置成当前节点，将当前节点node设置为空，
+     * 下一轮就可以访问栈顶元素。
+     * 否则，需要接着考虑右子树，node = node->right
+     */
+    void PostTra(TreeNode *root){
+        stack<TreeNode *> stack;
+        TreeNode *node = root;
+        TreeNode *lastVisit = root;
+        while(node != NULL || !stack.empty()){
+            while(node != NULL){
+                stack.push(node);
+                node = node->left;
+            }
+
+            //查看当前栈顶元素
+            node = stack.top();
+            //如果其右子树也为空，或者右子树已经访问
+            //则可以直接输出当前节点的值
+            if(node->right == NULL || node->right == lastVisit){
+                printf("%d ", node->val);
+                stack.pop();
+                lastVisit = node;
+                node = null;
+            }else{
+                //否则，继续遍历右子树
+                node = node->right;
+            }
+        }
+    }
+
+    /*
      * 树的子结构
      * 输入两棵二叉树A B，判断B是不是A的子结构。
      * 约定空树不是任意一个树的子结构
