@@ -11,6 +11,13 @@ void print(int a[], int n ,int i){
     cout<<endl;
 }
 
+void print(int a[], int n){  
+    for(int j= 0; j<n; j++){  
+        cout<<a[j] <<"  ";  
+    }  
+    cout<<endl;  
+}
+
 /*
  * 直接插入排序
  */
@@ -174,17 +181,63 @@ void quickSort(int a[], int low, int high){
 
 /*
  * 归并排序
- * 将r[i…m]和r[m +1 …n]归并到辅助数组rf[i…n]
+ * 1 个元素的表总是有序的。所以对n 个元素的待排序列，
+ * 每个元素可看成1 个有序子表。对子表两两合并生成n/2个子表，
+ * 所得子表除最后一个子表长度可能为1 外，其余子表长度均为2。
+ * 再进行两两合并，直到生成n 个元素按关键码有序的表。
  */
+// 将r[i…m]和r[m +1 …n]归并到辅助数组rf[i…n]  
 void Merge(int *r,int *rf, int i, int m, int n)
-{
-    int j,k;
-    for(j=m+1,k=i; i<=m && j <=n ; ++k){
-        if(r[j] < r[i]) rf[k] = r[j++];
-        else rf[k] = r[i++];
-    }
-    while(i <= m)  rf[k++] = r[i++];
-    while(j <= n)  rf[k++] = r[j++];
+{  
+    int j,k;  
+    for(j=m+1,k=i; i<=m && j <=n ; ++k){  
+        if(r[j] < r[i]) 
+            rf[k] = r[j++];  
+        else 
+            rf[k] = r[i++];  
+    }   
+    while(i <= m)  rf[k++] = r[i++];  
+    while(j <= n)  rf[k++] = r[j++];  
+    print(rf,n+1);
+}
+void MergeSort(int *r, int *rf, int length)  
+{   
+    int len = 1;  
+    int *q = r ;   
+    int *tmp ;   
+    while(len < length) {   
+        int s = len;  
+        len = 2 * s ;   
+        int i = 0;  
+        while(i+ len <length){  
+            Merge(q, rf,  i, i+ s-1, i+ len-1 ); //对等长的两个子表合并  
+            i = i+ len;  
+        }   
+        if(i + s < length){  
+            Merge(q, rf,  i, i+ s -1, length -1); //对不等长的两个子表合并  
+        }   
+        //交换q,rf，以保证下一趟归并时，仍从q 归并到rf  
+        tmp = q; 
+        q = rf; 
+        rf = tmp; 
+    }   
+}
+//两路归并的递归算法
+void MSort(int *r, int *rf,int s, int t)  
+{   
+    int *rf2;  
+    if(s==t) r[s] = rf[s];  
+    else  
+    {   
+        int m=(s+t)/2;          /*平分*p 表*/  
+        MSort(r, rf2, s, m);        /*递归地将p[s…m]归并为有序的p2[s…m]*/  
+        MSort(r, rf2, m+1, t);      /*递归地将p[m+1…t]归并为有序的p2[m+1…t]*/  
+        Merge(rf2, rf, s, m+1,t);   /*将p2[s…m]和p2[m+1…t]归并到p1[s…t]*/  
+    }  
+}  
+void MergeSort_recursive(int *r, int *rf, int n)  
+{   /*对顺序表*p 作归并排序*/  
+    MSort(r, rf,0, n-1);  
 }
 
 int main(){
@@ -201,6 +254,10 @@ int main(){
 
 	int b[10] = {3,1,5,7,2,4,9,6,10,8};
     quickSort(b,0,9);
+
+    int c[10];
+    MergeSort(b,c,10);
+    print(b,10);
 
 	return 0;
 }
