@@ -34,6 +34,21 @@ class Solution{
      * 动态规划
      */
     int FindGreatestSumOfSubArray(vector<int> array) {
+        int tmpSum = array[0],maxSum = array[0];
+        int size = array.size();
+
+        if(size <= 0)
+            return 0;
+
+        for(int i = 1;i<size;++i){
+            tmpSum = (tmpSum<0)?array[i]:tmpSum+array[i];
+            maxSum = tmpSum>maxSum?tmpSum:maxSum;          
+        }
+
+        return maxSum;
+    }
+    //offer
+    int FindGreatestSumOfSubArray(vector<int> array) {
         if(array.empty())
             return 0;
         int sum = array[0],tempsum = array[0];

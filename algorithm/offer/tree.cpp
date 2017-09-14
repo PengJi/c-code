@@ -563,5 +563,31 @@ public:
         if(pRoot1 == NULL || pRoot2 == NULL) return false;
         return isSubtree(pRoot1,pRoot2) || HasSubtree(pRoot1->left,pRoot2) || HasSubtree(pRoot1 -> right,pRoot2);
     }
+
+    /** 
+     * 36
+     * 二叉搜索树与双向链表
+     * 输入一棵二叉搜索树，将该二叉搜索树转换成一个排序的双向链表。
+     * 要求不能创建任何新的结点，只能调整树中结点指针的指向。
+     */
+    TreeNode *pre = NULL;
+    TreeNode *lastLeft = NULL; //表示已转换好的链表的最后一个结点
+    TreeNode* Convert(TreeNode* pRootOfTree)
+    {
+        if(pRootOfTree == NULL)
+            return NULL;
+
+        Convert(pRootOfTree->left);
+
+        pRootOfTree->left = pre;
+        if(pre != NULL)
+            pre->right = pRootOfTree;
+        pre = pRootOfTree;
+        lastLeft = lastLeft==NULL?pRootOfTree:lastLeft;
+
+        Convert(pRootOfTree->right);
+
+        return lastLeft;
+    }
 }
  

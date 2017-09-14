@@ -26,7 +26,8 @@ using namespace std;
 
 class Solution {
 public:
-	/*
+	/* 
+     * 4
 	 * 二维数组中的查找
 	 * 在一个二维数组中，每一行都按照从左到右递增的顺序排序，
 	 * 每一列都按照从上到下递增的顺序排序。请完成一个函数，
@@ -200,7 +201,8 @@ public:
     	int flag = 1;
     	for(int i=0;i < data.size();++i)
     		myxor ^= data[i];
-    	while((myxor & flag) == 0 ) flag <<= 1;
+    	while((myxor & flag) == 0 ) 
+            flag <<= 1;
     	*num1 = myxor;
     	*num2 = myxor;
     	for(int i = 0;i<data.size();++i){
@@ -243,6 +245,35 @@ public:
         return (num & 1);
     }
 
+    /*
+     * 56-2
+     * 数组中唯一只出现一次的数字
+     * 在一个数组中除一个数字只出现一次之外，其他数字都出现了三次。
+     * 请找出那个只出现一次的数字
+     */
+    int FindNumsAppearOnce(int numbers[],int length){
+        if(numbers == NULL || length <= 0)
+            return -1;
+        int bitSum[32] = {0};
+        for(int i = 0;i<lenght;++i){
+            int bitMask = 1;
+            for(int j=31;j>=0;--j){
+                int bit = numbers[i] & bitMask;
+                if(bit != 0)
+                    bitSum[j] += 1;
+                bitMask = bitMask << 1;
+            }
+        }
+
+        int result = 0;
+        for(int i=0;i<32;++i){ //得到整数
+            result = result << 1;
+            result += bitSum[i] % 3;
+        }
+
+        return result;
+    }
+
     /* 
      * 3-2
      * 数组中重复的数字
@@ -275,4 +306,14 @@ public:
     	}
     	return false;
     }
+
+    /**
+     * 51 
+     * 数组中的逆序对
+     * 在数组中的两个数字，如果前面一个数字大于后面的数字，
+     * 则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。
+     * 例如，在数组{7,5,6,4}中，一共存在5个逆序对，分别是(7,6)、(7,5)、(7,4)、
+     * (6,4)和(5,4)
+     */
+    
 };
