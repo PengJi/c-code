@@ -314,6 +314,57 @@ public:
      * 则这两个数字组成一个逆序对。输入一个数组，求出这个数组中的逆序对的总数。
      * 例如，在数组{7,5,6,4}中，一共存在5个逆序对，分别是(7,6)、(7,5)、(7,4)、
      * (6,4)和(5,4)
+     *
+     * 先把数组分隔成子数组，统计出子数组内部的逆序对的数目，然后在统计出相邻子数组之间
+     * 的逆序对的数目。在统计逆序对的过程中，还需要对数组进行排序。排序的过程实际上是归并排序
      */
+    int InversePairs(int *data,int length){
+        if(date == NULL || length<0)
+            return 0;
+
+        int *copy = new int[length];
+        for(int i=0;i<length;++i){
+            copy[i] = date[i];
+        }
+
+        int count = InversePairsCore(data,copy,0,length-1);
+        delete[] copy;
+
+        return count;
+    }
+    int InversePairsCore(int *data,int *copy,int start,int end){
+        if(start==end)
+        {
+            copy[start] = data[start];
+            return 0;
+        }
+
+        int length = (end-start)/2;
+
+        int left = InversePairsCore(copy,data,start,start+length);
+        int right = InversePairsCore(copy,data,start+length+1,end);
+
+        //i初始化为前半段最后一个数字的下标
+        int i = start+length;
+        //j初始化为后半段最后一个数字的下标
+        int j = end;
+        int indexCopy = end;
+        int count = 0;
+        while(i >= start && j >= start+length+1){
+            if(data[i]>data[j]){
+                copy[indexCopy--] = data[i--];
+                count += j-start-length;
+            }else{
+                copy[indexCopy--] = data[j--];
+            }
+        }
+
+        for(;i>=start;--i)
+            copy[indexCopy--] = data[i];
+        for(;j>=start+length+1;--j)
+            copy[indexCopy--] = data[j];
+
+        return left+right+count;
+    }
     
 };
