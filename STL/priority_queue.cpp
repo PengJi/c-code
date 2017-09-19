@@ -3,11 +3,16 @@
 
 using namespace std;
 
-/*
+/**
+ * priority_queue调用STL里面的make_heap(), pop_heap(), push_heap()算法实现
+ * 是堆的另外一种形式。
+ *
  * priority_queue<Type, Container, Functional>
  * Type 数据类型
  * Container 保存数据的容器
  * Functional 元素的比较方式
+ *
+ * Container必须使用数组实现的容器，比如 vector, deuque但不能用list
  */
 
 struct Node{
