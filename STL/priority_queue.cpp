@@ -13,6 +13,8 @@ using namespace std;
  * Functional 元素的比较方式
  *
  * Container必须使用数组实现的容器，比如 vector, deuque但不能用list
+ *
+ * http://blog.chinaunix.net/uid-533684-id-2100009.html
  */
 
 struct Node{
