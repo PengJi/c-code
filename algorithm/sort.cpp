@@ -130,6 +130,7 @@ void selectSort(int a[], int n){
  * @param length是数组的长度 
  * 
  */  
+//调整为大顶堆
 void HeapAdjust(int H[],int s, int length)  
 {  
     int tmp  = H[s];  
@@ -171,7 +172,9 @@ void HeapSort(int H[],int length)
     for (int i = length - 1; i > 0; --i)  
     {  
         //交换堆顶元素H[0]和堆中最后一个元素  
-        int temp = H[i]; H[i] = H[0]; H[0] = temp;  
+        int temp = H[i]; 
+        H[i] = H[0]; 
+        H[0] = temp;  
         //每次交换堆顶元素和堆中最后一个元素之后，都要对堆进行调整  
         HeapAdjust(H,0,i);  
   }  

@@ -181,8 +181,10 @@ public:
         if(left-node->val == 0 && !node->left && !node->right)
             allRes.push_back(tmp);
         else {
-            if(node->left) dfsFind(node->left, left-node->val);
-            if(node->right) dfsFind(node->right, left-node->val);
+            if(node->left) 
+                dfsFind(node->left, left-node->val);
+            if(node->right) 
+                dfsFind(node->right, left-node->val);
         }
         tmp.pop_back(); 
     }
@@ -588,6 +590,14 @@ public:
         Convert(pRootOfTree->right);
 
         return lastLeft;
+    }
+
+    //判断两个浮点数是否相等
+    bool Equal(double num1,double num2){
+        if((num1 - num2 > -0.0000001) && (num1 - num2 < 0.0000001))
+            return true;
+        else 
+            return false;
     }
 }
  
