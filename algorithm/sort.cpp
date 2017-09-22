@@ -236,9 +236,11 @@ int partition(int a[], int low, int high)
 {
     int privotKey = a[low];                             //基准元素
     while(low < high){                                   //从表的两端交替地向中间扫描
-        while(low < high  && a[high] >= privotKey) --high;  //从high 所指位置向前搜索，至多到low+1 位置。将比基准元素小的交换到低端
+        while(low < high  && a[high] >= privotKey) 
+            --high;  //从high 所指位置向前搜索，至多到low+1 位置。将比基准元素小的交换到低端
         swap(&a[low], &a[high]);
-        while(low < high  && a[low] <= privotKey ) ++low;
+        while(low < high  && a[low] <= privotKey ) 
+            ++low;
         swap(&a[low], &a[high]);
     }
     //print(a,10);

@@ -103,40 +103,6 @@ public:
 		}
 	}
 
-	/* 
-     * 39
-	 * 数组中出现次数超过一半的数字
-	 * 数组中有一个数字出现的次数超过数组长度的一半，
-	 * 请找出这个数字。例如输入一个长度为9的数组{1,2,3,2,2,2,5,4,2}。
-	 * 于数字2在数组中出现了5次，超过数组长度的一半，
-	 * 因此输出2。如果不存在则输出0。
-	 */
-	int MoreThanHalfNum_Solution(vector<int> numbers) {
-		int n = numbers.size();
-		if(n==0) return 0;
-
-		int num = numbers[0],count = 1;
-		for(int i=1;i<n;i++){
-			if(numbers[i] == num)
-				count++;
-			else
-				count--;
-			if(count == 0){
-				num = numbers[i];
-				count = 1;
-			}
-		}
-
-		count = 0;
-		for(int i=0;i<n;i++){
-			if(numbers[i] == num)
-				count++;
-		}
-		if(count * 2 > n)
-			return num;
-		return 0;
-    }
-
     /* 
      * 45
      * 把数组排成最小的数
@@ -199,14 +165,16 @@ public:
     	if(data.size()<2) return;
     	int myxor = 0;
     	int flag = 1;
-    	for(int i=0;i < data.size();++i)
+    	for(int i=0;i < data.size();++i) //所有数字做异或
     		myxor ^= data[i];
-    	while((myxor & flag) == 0 ) 
+
+    	while((myxor & flag) == 0 ) //找到一位首位二进制位为1的维数
             flag <<= 1;
+
     	*num1 = myxor;
     	*num2 = myxor;
     	for(int i = 0;i<data.size();++i){
-    		if((flag & data[i]) == 0)
+    		if((flag & data[i]) == 0) //分为两半
     			*num2 ^= data[i];
     		else
     			*num1 ^= data[i];
