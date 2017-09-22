@@ -60,7 +60,74 @@ public:
     }
 
     /*
-     * 二叉树后续遍历
+     * 二叉树前序遍历
+     */
+    // 递归先序遍历
+	void recursionPreorderTraversal(TreeNode* root) {
+	    if (root != null) {
+	        printf("%d", root->val);
+	        recursionPreorderTraversal(root->left);
+	        recursionPreorderTraversal(root->right);
+	    }
+	}
+	// 非递归先序遍历
+	void preorderTraversal(TreeNode *root) {
+	    // 用来暂存节点的栈
+	    Stack<TreeNode> treeNodeStack;
+	    // 新建一个游标节点为根节点
+	    TreeNode *node = root;
+	    // 当遍历到最后一个节点的时候，无论它的左右子树都为空，并且栈也为空
+	    // 所以，只要不同时满足这两点，都需要进入循环
+	    while (node != null || !treeNodeStack.empty()) {
+	        // 若当前考查节点非空，则输出该节点的值
+	        // 由考查顺序得知，需要一直往左走
+	        while (node != null) {
+	            printf("%d ",node->val);
+	            // 为了之后能找到该节点的右子树，暂存该节点
+	            treeNodeStack.push(node);
+	            node = node->left;
+	        }
+	        // 一直到左子树为空，则开始考虑右子树
+	        // 如果栈已空，就不需要再考虑
+	        // 弹出栈顶元素，将游标等于该节点的右子树
+	        if (!treeNodeStack.empty()) {
+	            node = treeNodeStack.pop();
+	            node = node->right;
+	        }
+	    }
+	}
+
+	/*
+	 * 二叉树中序遍历
+	 * 
+	 */
+	// 递归中序遍历
+	void recursionMiddleorderTraversal(TreeNode *root) {
+	    if (root != null) {
+	        recursionMiddleorderTraversal(root->left);
+	        printf("%d ",root->val);
+	        recursionMiddleorderTraversal(root->right);
+	    }
+	}
+	// 非递归中序遍历
+	void middleorderTraversal(TreeNode *root) {
+	    Stack<TreeNode> treeNodeStack;
+	    TreeNode *node = root;
+	    while (node != null || !treeNodeStack.empty()) {
+	        while (node != null) {
+	            treeNodeStack.push(node);
+	            node = node->left;
+	        }
+	        if (!treeNodeStack.empty()) {
+	            node = treeNodeStack.pop();
+	            printf("%d ",node->val);
+	            node = node->right;
+	        }
+	    }
+	}
+
+    /*
+     * 二叉树后序遍历
      */
     //递归遍历
     void PostTraRec(TreeNode * root){
@@ -513,38 +580,6 @@ public:
     	if(pRoot == NULL || k<=0)
     		return NULL;
     	return KthNodeRes(pRoot,k);
-    }
-
-    /*
-     * 41
-     * 数据流中的中位数
-     * 如何得到一个数据流中的中位数？如果从数据流中读出奇数个数值，
-     * 那么中位数就是所有数值排序之后位于中间的数值。
-     * 如果从数据流中读出偶数个数值，
-     * 那么中位数就是所有数值排序之后中间两个数的平均值。
-     *
-     * 利用堆实现
-     */
-    priority_queue<int,vector<int>,less<int>> p; //小顶堆
-    priority_queue<int,vector<int>,greater<int>> q; //大顶堆
-    void Insert(int num)
-    {
-        if(p.empty() || num <= p.top())
-            p.push(num);
-        else 
-            q.push(num);
-        if(p.size() == q.size() + 2){
-            q.push(p.top());
-            p.pop();
-        }
-        if(p.size()+1 == q.size()){
-            p.push(q.top());
-            q.pop();
-        }
-    }
-    double GetMedian()
-    { 
-        return p.size()==q.size()?(p.top()+q.top())/2.0:p.top();
     }
 
 	/* 
