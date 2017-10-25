@@ -7,6 +7,10 @@
 #include <sys/types.h>
 #include <fcntl.h>
 
+/*
+ * 所有线程都open同一个文件并且read
+ */
+
 #define NUM 48
 #define START 1010001
 #define END 1020000

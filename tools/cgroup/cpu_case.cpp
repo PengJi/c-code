@@ -2,6 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+ * 多线程并发进行筛质数
+ * 打印从100010001到100020000数字范围内的质数有哪些
+ * 并发48个工作线程从一个共享的count整型变量中取数进行计算
+ */
+
 #define NUM 48
 #define START 100010001
 #define END 100020000

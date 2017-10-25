@@ -7,6 +7,14 @@
 #include <sys/types.h>
 #include <fcntl.h>
 
+/*
+ * 让每个筛质数的线程，
+ * 在做运算之前都用非阻塞方式open()打开一个文件，
+ * 每次拿到一个数运算的时候，
+ * 循环中都用系统调用read()读一下文件。
+ * 以此来增加sys占用时间的比率。
+ */
+
 #define NUM 48
 #define START 1010001
 #define END 1020000
