@@ -79,7 +79,7 @@ class Solution{
             long long int last = a[0];
             long long int ans = a[0];
      
-            for (int i = 1 ; i < n ; i++ ) {
+            for (int  i = 1 ; i < n ; i++ ) {
                 last = (0 > last ? 0 : last) + a[i];
                 ans = (ans > last ? ans : last);
             }
