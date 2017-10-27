@@ -14,6 +14,7 @@ public:
 	 * Sort a linked list in O(n log n) time using constant space complexity.
 	 *
 	 * 快慢指针，归并排序
+	 * https://www.nowcoder.com/questionTerminal/d75c232a0405427098a8d1627930bea6
 	 */
     ListNode *sortList(ListNode *head){
         if(!head || !head->next)
