@@ -9,6 +9,33 @@
 class Solution {
 public:
 	/*
+	 * 147
+	 * insertion-sort-list
+	 * Sort a linked list using insertion sort.
+	 */
+	ListNode* insertionSortList(ListNode* head) {
+        if(head == NULL)
+        	return head;
+
+        ListNode *dumy = new ListNode(0); //new starter of the sorted list
+        ListNode *cur = head; //the node will be inserted
+        ListNode *pre = dumy; //insert node between pre and pre.next
+        ListNode *next = NULL; //the next node will be inserted
+
+        while(cur != NULL){
+        	next = cur->next;
+        	while(pre->next != NULL && pre->next->val < cur->val) //find the right place to insert
+        		pre = pre->next;
+        	cur->next = pre->next;
+        	pre->next = cur;
+        	pre=dumy;
+        	cur=next;
+        }
+
+        return dumy->next;
+    }
+
+	/*
 	 * 148
 	 * Sort List
 	 * Sort a linked list in O(n log n) time using constant space complexity.
