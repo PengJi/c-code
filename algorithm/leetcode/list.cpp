@@ -9,6 +9,52 @@
 class Solution {
 public:
 	/*
+	 * 143
+	 * Reorder List
+	 * Given a singly linked list L: L0→L1→…→Ln-1→Ln,
+reorder it to: L0→Ln→L1→Ln-1→L2→Ln-2→…
+
+You must do this in-place without altering the nodes' values.
+
+For example,
+Given {1,2,3,4}, reorder it to {1,4,2,3}.
+	 */
+    void reorderList(ListNode* head) {
+        if(head == NULL || head->next == NULL)
+            return;
+        
+        //找到中间结点
+        ListNode *p1 = head;
+        ListNode *p2 = head;
+        while(p2->next != NULL && p2->next->next != NULL){
+            p1 = p1->next;
+            p2 = p2->next->next;
+        }
+        
+        //翻转后半结点
+        //1->2->3->4->5->6 to 1->2->3->6->5->4
+        ListNode *preMiddle = p1;
+        ListNode *preCurrent = p1->next;
+        while(preCurrent->next != NULL){
+            ListNode *current = preCurrent->next;
+            preCurrent->next = current->next;
+            current->next = preMiddle->next;
+            preMiddle->next = current;
+        }
+        
+        //合并结点
+        p1 = head;
+        p2 = preMiddle->next;
+        while(p1 != preMiddle){
+            preMiddle->next=p2->next;
+            p2->next = p1->next;
+            p1->next = p2;
+            p1 = p2->next;
+            p2 = preMiddle->next;
+        }
+    }
+
+	/*
 	 * 145
 	 * Binary Tree Postorder Traversal
 	 * Given a binary tree, return the postorder traversal of its nodes' values.
