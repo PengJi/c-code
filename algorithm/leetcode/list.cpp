@@ -43,6 +43,7 @@ Given {1,2,3,4}, reorder it to {1,4,2,3}.
         }
         
         //合并结点
+        //1->2->3->6->5->4 to 1->6->2->5->3->4
         p1 = head;
         p2 = preMiddle->next;
         while(p1 != preMiddle){
