@@ -22,4 +22,45 @@ Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer 
         }
         return maxLen;
     }
+
+    /*
+     * 5. 
+     * Longest Palindromic Substring
+     * Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
+
+Example:
+
+Input: "babad"
+
+Output: "bab"
+
+Note: "aba" is also a valid answer.
+Example:
+
+Input: "cbbd"
+
+Output: "bb"
+
+solution:
+dp(i, j) represents whether s(i ... j) can form a palindromic substring, 
+dp(i, j) is true when s(i) equals to s(j) and s(i+1 ... j-1) is a palindromic substring. 
+When we found a palindrome, check if it's the longest one. Time complexity O(n^2).
+     */
+    string longestPalindrome(string s) {
+        int n = s.size();
+        string res;
+        vector<vector<bool> > dp(n,vector<bool>(n,0));
+        
+        for(int i = n-1; i>=0; i--){
+            for(int j=i;j<n;j++){
+                dp[i][j] = s[i]==s[j] && (j-i<3 || dp[i+1][j-1]);
+                
+                if(dp[i][j] && (res.empty() || j-i+1>res.size())){
+                    res = s.substr(i,j);
+                }
+            }
+        }
+        
+        return res;
+    }
 };
