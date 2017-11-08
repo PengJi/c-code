@@ -109,48 +109,6 @@ Given {1,2,3,4}, reorder it to {1,4,2,3}.
     }
 
 	/*
-	 * 145
-	 * Binary Tree Postorder Traversal
-	 * Given a binary tree, return the postorder traversal of its nodes' values.
-
-For example:
-Given binary tree {1,#,2,3},
-   1
-    \
-     2
-    /
-   3
-return [3,2,1].
-
-Note: Recursive solution is trivial, could you do it iteratively?
-	 */
-	 vector<int> postorderTraversal(TreeNode *root) {
-        vector<int> vec;
-        stack<TreeNode *> stk;
-        TreeNode *node = root;
-        TreeNode *lastVisit = root;
-        while(node != NULL || !stk.empty()){
-            while(node != NULL){
-                stk.push(node);
-                node = node->left;
-            }
-            
-            node = stk.top();
-            
-            if(node -> right == NULL || node -> right == lastVisit){
-                vec.push_back(node->val);
-                stk.pop();
-                lastVisit = node;
-                node = NULL;
-            }else{
-                node = node->right;
-            }
-        }
-        
-        return vec;
-    }
-
-	/*
 	 * 147
 	 * insertion-sort-list
 	 * Sort a linked list using insertion sort.
