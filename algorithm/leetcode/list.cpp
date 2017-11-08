@@ -36,6 +36,9 @@ Output: 7 -> 0 -> 8
 	 * 21. 
 	 * Merge Two Sorted Lists
 	 * Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
+	 *
+	 * solution:
+	 * http://bangbingsyb.blogspot.ca/2014/11/leetcode-merge-two-sorted-lists.html
 	 */
 	ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
         ListNode *l3 = new ListNode(-1);
