@@ -33,6 +33,35 @@ Output: 7 -> 0 -> 8
 	}
 
 	/*
+	 * 21. 
+	 * Merge Two Sorted Lists
+	 * Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
+	 */
+	ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        ListNode *l3 = new ListNode(-1);
+        ListNode *t3 = l3; 
+
+        while(l1 && l2){
+        	if(l1->val <= l2->val){
+        		t3->next = l1;
+        		l1 = l1->next;
+        	}else{
+        		t3->next = l2;
+        		l2 = l2->next;
+        	}
+
+        	t3 = t3->next;
+        }
+
+        t3->next = l1?l1:l2;
+        ListNode *tmp = l3;
+        l3 = l3->next;
+        delete tmp;
+
+        return l3;
+    }
+
+	/*
 	 * 143
 	 * Reorder List
 	 * Given a singly linked list L: L0→L1→…→Ln-1→Ln,
