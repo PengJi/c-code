@@ -79,6 +79,44 @@ The median is (2 + 3)/2 = 2.5
     }
 
     /*
+     * 22. 
+     * Generate Parentheses
+     * Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+
+For example, given n = 3, a solution set is:
+
+[
+  "((()))",
+  "(()())",
+  "(())()",
+  "()(())",
+  "()()()"
+]
+     */
+    vector<string> generateParenthesis(int n){
+    	vector<string> allComb;
+    	string comb;
+    	findParenthesis(n,0,0,comb,allComb);
+    	return allComb;
+    }
+    void findParenthesis(int n,int nleft,int nright,string &comb,vector<string> &allComb){
+    	if(nleft==n && nright==n){
+    		allComb.push_back(comb);
+    		return;
+    	}
+    	if(nleft < n){
+    		comb.push_back('(');
+    		findParenthesis(n,nleft+1,nright,comb,allComb);
+    		comb.pop_back();
+    	}
+    	if(nright < nleft){
+    		comb.push_back(')');
+    		findParenthesis(n,nleft,nright+1,comb,allComb);
+    		comb.pop_back();
+    	}
+    }
+
+    /*
      * 39. 
      * Combination Sum
      * Given a set of candidate numbers (C) (without duplicates) and a target number (T), find all unique combinations in C where the candidate numbers sums to T.
