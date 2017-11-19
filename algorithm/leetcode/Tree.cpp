@@ -74,6 +74,57 @@ Bonus points if you could solve it both recursively and iteratively.
         return 1+min(minDepth(root->left),minDepth(root->right));
     }
 
+    /*
+     * 114. 
+     * Flatten Binary Tree to Linked List
+     * Given a binary tree, flatten it to a linked list in-place.
+
+For example,
+Given
+
+         1
+        / \
+       2   5
+      / \   \
+     3   4   6
+The flattened tree should look like:
+   1
+    \
+     2
+      \
+       3
+        \
+         4
+          \
+           5
+            \
+             6
+     * Hints:
+If you notice carefully in the flattened tree, each node's right child points to the next node of a pre-order traversal.
+
+solution:
+http://bangbingsyb.blogspot.ca/2014/11/leetcode-flatten-binary-tree-to-linked.html
+     */
+	void flatten(TreeNode* root) {
+        if(!root)
+        	return;
+        vector<TreeNode *> allNodes;
+        preorder(root,allNodes);
+        int n = allNodes.size();
+        for(int i=0;i<n-1;i++){
+        	allNodes[i]->left = NULL;
+        	allNodes[i]->right = allNodes[i+1];
+        }
+        allNodes[n-1]->left = allNodes[n-1]->right = NULL;
+    }
+    void preorder(TreeNode *root,vector<TreeNode*> &allNodes){
+    	if(!root)
+    		return;
+    	allNodes.push_back(root);
+    	preorder(root->left,allNodes);
+    	preorder(root->right,allNodes);
+    }
+
 	/*
 	 * 145
 	 * Binary Tree Postorder Traversal
