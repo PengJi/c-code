@@ -189,6 +189,35 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-jump-game-i-ii.html
         return maxIndex >= (n-1)?true:false;
     }
 
+    /*
+     * 56. 
+     * Merge Intervals
+     * Given a collection of intervals, merge all overlapping intervals.
+
+For example,
+Given [1,3],[2,6],[8,10],[15,18],
+return [1,6],[8,10],[15,18].
+
+solution:
+http://bangbingsyb.blogspot.ca/2014/11/leetcode-merge-intervals.html
+     */
+	struct compInterval {
+        bool operator()(const Interval &a, const Interval &b) const {
+            return a.start<b.start;
+        }
+    };
+    vector<Interval> merge(vector<Interval> &intervals) {
+        sort(intervals.begin(),intervals.end(),compInterval());
+        vector<Interval> ret;
+        for(int i=0; i<intervals.size(); i++) {
+            if(ret.empty() || ret.back().end < intervals[i].start)  // no overlap
+                ret.push_back(intervals[i]);
+            else   // overlap
+                ret.back().end = max(ret.back().end, intervals[i].end);
+        }
+        return ret;
+    }
+
 	/*
 	 * 287. 
 	 * Find the Duplicate Number
