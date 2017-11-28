@@ -102,7 +102,8 @@ For example, given the following matrix:
 1 0 0 1 0
 Return 4.
 
-	 * https://leetcode.com/problems/maximal-square/discuss/
+solution:
+https://leetcode.com/problems/maximal-square/discuss/
 	 */
     int maximalSquare(vector<vector<char>>& matrix) {
         if(matrix.empty())
