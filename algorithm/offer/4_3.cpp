@@ -1,3 +1,9 @@
+#include <iostream>
+#include <cstdio>
+#include <algorithm>
+
+using namespace std;
+
 /*
  * 举例让抽象问题具体化
  */
