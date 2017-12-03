@@ -30,8 +30,6 @@ class Solution{
      * 并期望旁边的正数会弥补它呢？例如:{6,-3,-2,7,-15,1,2,2},
      * 连续子向量的最大和为8(从第0个开始,到第3个为止)。
      * 你会不会被他忽悠住？(子向量的长度至少是1)
-     *
-     * 动态规划
      */
     int FindGreatestSumOfSubArray(vector<int> array) {
         int tmpSum = array[0],maxSum = array[0];
@@ -93,8 +91,6 @@ class Solution{
      * 请从字符串中找出一个最长的不包含重复字符的子字符串，计算该最长子字符串的长度。
      * 假设字符串中只包含a-z的字符。
      * 例如，在字符串"arabcacfr"中，最长的不含重复字符的子字符串是"acfr"，长度是4。
-     *
-     * 动态规划
      */
     int longestSubstring(const string &str){
         int curLength = 0;
