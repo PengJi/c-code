@@ -204,12 +204,14 @@ void FFT(double * src,Complex * dst,int size_n){
     
     }
     
-   /* for(int i=0;i<size_n;i++)
-        if(src_com[i].imagin>=0.0){
+	//显示结果
+	for(int i=0;i<size_n;i++)
+		if(src_com[i].imagin>=0.0){
             printf("%lf+%lfj\n",src_com[i].real,src_com[i].imagin);
         }
         else
-            printf("%lf%lfj\n",src_com[i].real,src_com[i].imagin);*/
+            printf("%lf%lfj\n",src_com[i].real,src_com[i].imagin);
+
 	for(int i=0;i<size_n;i++){
 		dst[i].imagin=src_com[i].imagin;
 		dst[i].real=src_com[i].real;
@@ -222,12 +224,17 @@ void FFT(double * src,Complex * dst,int size_n){
 int main(int argc, const char * argv[]) {
     double input[SIZE];
     Complex dst[SIZE];
+
+	//初始化输入
     setInput(input,SIZE);
+
+    //DFT(input, dst, SIZE);
+	
     printf("\n\n");
-    DFT(input, dst, SIZE);
-    printf("\n\n");
-    FFT(input, dst, SIZE);
+    FFT(input, dst, SIZE); //快速傅里叶变换
+
     //IDFT(dst, NULL, SIZE);
-    getchar();
+    
+	return 0;
 }
 
