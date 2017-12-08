@@ -26,3 +26,5 @@ math/cmake_install.cmake
 
 test.c
 
+in
+out
