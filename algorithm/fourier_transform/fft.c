@@ -156,7 +156,6 @@ int FFT_remap(double * src,int size_n){
     FFT_remap(src+size_n/2, size_n/2);
     return 1;
 
-
 }
 
 /*
