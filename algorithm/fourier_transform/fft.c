@@ -93,10 +93,12 @@ void DFT(double * src,Complex * dst,int size){
         }
         dst[m].imagin=imagin;
         dst[m].real=real;
-       /* if(imagin>=0.0)
+       /* 
+		if(imagin>=0.0)
             printf("%lf+%lfj\n",real,imagin);
         else
-            printf("%lf%lfj\n",real,imagin);*/
+            printf("%lf%lfj\n",real,imagin);
+		*/
     }
     end=clock();
     printf("DFT use time :%lf for Datasize of:%d\n",(double)(end-start)/CLOCKS_PER_SEC,size);
@@ -133,7 +135,6 @@ void IDFT(Complex *src,Complex *dst,int size){
     end=clock();
     printf("IDFT use time :%lfs for Datasize of:%d\n",(double)(end-start)/CLOCKS_PER_SEC,size);
     
-
 }
 
 /*
@@ -206,9 +207,8 @@ void FFT(double * src,Complex * dst,int size_n){
     
 	//显示结果
 	for(int i=0;i<size_n;i++)
-		if(src_com[i].imagin>=0.0){
+		if(src_com[i].imagin>=0.0)
             printf("%lf+%lfj\n",src_com[i].real,src_com[i].imagin);
-        }
         else
             printf("%lf%lfj\n",src_com[i].real,src_com[i].imagin);
 
