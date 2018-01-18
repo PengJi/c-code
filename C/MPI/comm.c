@@ -37,3 +37,8 @@ int main(int argc, char *argv[])
     MPI_Finalize();
     return 0;
 }
+
+/*
+mpicc comm.c 
+mpiexec -n 4 ./a.out
+*/
