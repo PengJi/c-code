@@ -2,11 +2,11 @@
 
 /*
  * 通过函数指针变量调用函数
-http://c.biancheng.net/cpp/html/496.html
-*/
+ * http://c.biancheng.net/cpp/html/496.html
+ */
 
 void MyFun(int x); /* 这个声明也可写成：void MyFun( int )*/
-void (*FunP)(int ); /*也可声明成void(*FunP)(int x)，但习惯上一般不这样。 */
+void (*FunP)(int); /*也可声明成void(*FunP)(int x)，但习惯上一般不这样。 */
 
 int main(int argc, char* argv[])
 {
