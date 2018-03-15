@@ -25,6 +25,40 @@ The brackets must close in the correct order, "()" and "()[]{}" are all valid bu
         return stk.empty();
     }
 
+    /**
+     * 32. Longest Valid Parentheses
+     * Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
+
+For "(()", the longest valid parentheses substring is "()", which has length = 2.
+
+Another example is ")()())", where the longest valid parentheses substring is "()()", which has length = 4.
+     */
+    int longestValidParentheses(string s) {
+        int max_len = 0, last = -1; //the position of the last ')'
+        stack<int> lefts; //keep track of the positions of non-matching '('
+
+        for(int i = 0; i<s.size(); ++i){
+            if(s[i] == '('){
+                lefts.push(i);
+            }else{
+                if(lefts.empty()){
+                    //no matching left
+                    last = i; 
+                }else{
+                    //find a matching pair
+                    lefts.pop();
+                    if(lefts.empty()){
+                        max_len = max(max_len, i-last);
+                    }else{
+                        max_len = max(max_len,i-lefts.top());
+                    }
+                }
+            }
+        }
+
+        return max_len;
+    }
+
 	/*
 	 * 150
 	 * Evaluate Reverse Polish Notation
