@@ -141,7 +141,7 @@ Given {1,2,3,4}, reorder it to {1,4,2,3}.
 	/*
 	 * 148
 	 * Sort List
-	 * Sort a linked list in O(n log n) time using constant space complexity.
+	 * Sort a linked list in O(nlogn) time using constant space complexity.
      *
      * solution:
 	 * 快慢指针，归并排序
@@ -182,4 +182,23 @@ Given {1,2,3,4}, reorder it to {1,4,2,3}.
             p->next = right;
         return dumy.next;
     }
+
+    /**
+     * 206. Reverse Linked List
+     * Reverse a singly linked list.
+     */
+    ListNode* reverseList(ListNode* head) {
+        ListNode *prev = NULL;
+        ListNode *curr = head;
+
+        while(curr != NULL){
+            ListNode *tmp = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = tmp;
+        }
+
+        return prev;
+    }
+
 };
