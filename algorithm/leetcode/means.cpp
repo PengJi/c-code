@@ -39,7 +39,7 @@ For the purpose of this problem, assume that your function returns 0 when the re
         		return r;
         }
 	}
-	
+
 	/**
 	 * 50. Pow(x, n)
 	 * Implement pow(x, n).
@@ -70,4 +70,18 @@ Output: 9.26100
     		return v*v*x;
     }
 
+    /**
+     * 119. Pascal's Triangle II
+     * Given an index k, return the kth row of the Pascal's triangle.
+
+For example, given k = 3,
+Return [1,3,3,1].
+
+Note:
+Could you optimize your algorithm to use only O(k) extra space?
+     */
+    vector<int> getRow(int rowIndex) {
+        
+    }
+    
 };
