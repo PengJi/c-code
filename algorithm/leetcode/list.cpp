@@ -97,6 +97,43 @@ Given m, n satisfy the following condition:
         return prehead.next;
     }
 
+    /**
+     * 141. Linked List Cycle
+     * Given a linked list, determine if it has a cycle in it.
+
+Follow up:
+Can you solve it without using extra space?
+     */
+    bool hasCycle(ListNode *head) {
+        ListNode *slow = head, *fast = head;
+
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
+            if(slow == fast)
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 142. Linked List Cycle II
+     * Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
+
+Note: Do not modify the linked list.
+
+Follow up:
+Can you solve it without using extra space?
+     */
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *slow = head, *fast = head;
+
+        while(fast && fast->next){
+            
+        }
+    }
+
 	/*
 	 * 143
 	 * Reorder List
