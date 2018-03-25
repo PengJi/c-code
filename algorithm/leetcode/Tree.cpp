@@ -152,6 +152,7 @@ Binary tree [1,2,3], return false.
     if(root == nullptr)
       return true;
     if(lower && root->val <= lower->val || upper && root->val >= upper->val)
+      return false;
     return isValidBST(root->left,lower,root)
       && isValidBST(root->right,root,upper);
   }
@@ -176,7 +177,7 @@ But the following [1,2,2,null,3,null,3] is not:
 Note:
 Bonus points if you could solve it both recursively and iteratively.
 	 */
-	bool isSymmetric(TreeNode *root) {
+  bool isSymmetric(TreeNode *root) {
         TreeNode *left, *right;
         if (!root)
             return true;
@@ -201,6 +202,30 @@ Bonus points if you could solve it both recursively and iteratively.
             q2.push(right->left);
         }
         return true;
+    }
+
+    /**
+     * 108. Convert Sorted Array to Binary Search Tree
+     * Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
+
+For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
+
+
+Example:
+
+Given the sorted array: [-10,-3,0,5,9],
+
+One possible answer is: [0,-3,9,-10,null,5], which represents the following height balanced BST:
+
+      0
+     / \
+   -3   9
+   /   /
+ -10  5
+     */
+    //分治法
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        
     }
 
 	/*
