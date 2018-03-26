@@ -202,7 +202,30 @@ Bonus points if you could solve it both recursively and iteratively.
             q2.push(right->left);
         }
         return true;
-    }
+  }
+
+    /**
+     * 104. Maximum Depth of Binary Tree
+     * Given a binary tree, find its maximum depth.
+
+The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+For example:
+Given binary tree [3,9,20,null,null,15,7],
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return its depth = 3.
+     */
+  int maxDepth(TreeNode* root) {
+    if(root == nullptr)
+      return 0;
+
+    return max(maxDepth(root->left) maxDepth(root->right)) + 1;
+  }
 
     /**
      * 108. Convert Sorted Array to Binary Search Tree
@@ -225,7 +248,23 @@ One possible answer is: [0,-3,9,-10,null,5], which represents the following heig
      */
     //分治法
     TreeNode* sortedArrayToBST(vector<int>& nums) {
-        
+        return sortedArrayToBST(nums.begin(), nums.end());
+    }
+
+    template<typename RandomAccessIterator>
+    TreeNode *sortedArrayToBST(RandomAccessIterator first,
+      RandomAccessIterator last){
+      const auto length = distance(first,last);
+
+      if(length <= 0)
+        return nullptr;
+
+      auto mid = first+length/2;
+      TreeNode *root = new TreeNode(*mid);
+      root->left = sortedArrayToBST(first,mid);
+      root->right = sortedArrayToBST(mid+1,last);
+
+      return root;
     }
 
 	/*
