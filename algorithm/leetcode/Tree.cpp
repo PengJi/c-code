@@ -224,7 +224,7 @@ return its depth = 3.
     if(root == nullptr)
       return 0;
 
-    return max(maxDepth(root->left) maxDepth(root->right)) + 1;
+    return max(maxDepth(root->left),maxDepth(root->right)) + 1;
   }
 
     /**
@@ -285,6 +285,35 @@ One possible answer is: [0,-3,9,-10,null,5], which represents the following heig
         return 1+min(minDepth(root->left),minDepth(root->right));
     }
 
+    /**
+     * 112. Path Sum
+     * Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up 
+     * all the values along the path equals the given sum.
+
+For example:
+Given the below binary tree and sum = 22,
+
+              5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \      \
+        7    2      1
+return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
+     * 
+     */
+  bool hasPathSum(TreeNode* root, int sum) {
+    if(root == nullptr)
+      return false;
+
+    if(root->left == nullptr && root->right == nullptr) //leaf
+      return sum == root->val;
+
+    return hasPathSum(root->left,sum-root->val)
+      || hasPathSum(root->right,sum-root->val);
+  }
+    
     /*
      * 114. 
      * Flatten Binary Tree to Linked List
@@ -316,7 +345,7 @@ If you notice carefully in the flattened tree, each node's right child points to
 solution:
 http://bangbingsyb.blogspot.ca/2014/11/leetcode-flatten-binary-tree-to-linked.html
      */
-	void flatten(TreeNode* root) {
+	  void flatten(TreeNode* root) {
         if(!root)
         	return;
         vector<TreeNode *> allNodes;
@@ -352,7 +381,7 @@ return [3,2,1].
 
 Note: Recursive solution is trivial, could you do it iteratively?
 	 */
-	 vector<int> postorderTraversal(TreeNode *root) {
+	  vector<int> postorderTraversal(TreeNode *root) {
         vector<int> vec;
         stack<TreeNode *> stk;
         TreeNode *node = root;
