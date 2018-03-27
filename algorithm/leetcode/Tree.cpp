@@ -313,6 +313,48 @@ return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
     return hasPathSum(root->left,sum-root->val)
       || hasPathSum(root->right,sum-root->val);
   }
+
+  /**
+   * 113. Path Sum II
+   * Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
+
+For example:
+Given the below binary tree and sum = 22,
+              5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \    / \
+        7    2  5   1
+return
+[
+   [5,4,11,2],
+   [5,8,4,5]
+]
+   */
+  vector<vector<int>> pathSum(TreeNode* root, int sum) {
+    vector<vector<int>> result;
+    vector<int> cur;
+    pathSum(root, sum, cur, result);
+    return result;
+  }
+  void pathSum(TreeNode *root, int gap, vector<int> &cur, vector<vector<int>> &result){
+    if(root == nullptr)
+      return;
+
+    cur.push_back(root->val);
+
+    if(root->left == nullptr && root->right==nullptr){
+      if(gap == root->val)
+        result.push_back(cur);
+    }
+
+    pathSum(root->left, gap-root->val, cur, result);
+    pathSum(root->right, gap-root->val, cur, result);
+
+    cur.pop_back();
+  }
     
     /*
      * 114. 
@@ -364,6 +406,26 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-flatten-binary-tree-to-linked.ht
     	preorder(root->left,allNodes);
     	preorder(root->right,allNodes);
     }
+
+    /**
+     * 124. Binary Tree Maximum Path Sum
+     * Given a binary tree, find the maximum path sum.
+
+For this problem, a path is defined as any sequence of nodes from some starting node to any node in the tree 
+along the parent-child connections. The path must contain at least one node and does not need to go through the root.
+
+For example:
+Given the below binary tree,
+
+       1
+      / \
+     2   3
+Return 6.
+     */
+    
+  int maxPathSum(TreeNode* root) {
+
+  }
 
 	/*
 	 * 145
