@@ -422,11 +422,32 @@ Given the below binary tree,
      2   3
 Return 6.
      */
-    
+    /*
+    路径可以从任意结点开始，到任意结点结束
+    可以利用“最大连续子序列”问题的思路，可以采用binary tree最常用的dfs来进行遍历。
+    先算出左右子树的结果L和R，如果L大于0，那么对后续结果是有利的，加上L，
+    如果R大于0，对后续结果也是有利的，继续加上R。
+     */
+  int max_sum;
   int maxPathSum(TreeNode* root) {
-
+    max_sum = INT_MIN;
+    dfs(root);
+    return max_sum;
   }
+  int dfs(const TreeNode *root){
+    if(root==nullptr)
+      return 0;
+    int l = dfs(root->left);
+    int r = dfs(root->right);
 
+    int sum = root->val;
+    if(l>0)
+      sum += l;
+    if(r>0)
+      sum += r;
+    max_sum = max(max_sum,sum);
+    return max(r,l) >0 ? max(r,l)+root->val:root->val;
+  }
 	/*
 	 * 145
 	 * Binary Tree Postorder Traversal
