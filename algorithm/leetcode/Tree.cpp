@@ -263,6 +263,72 @@ return its depth = 3.
     return max(maxDepth(root->left),maxDepth(root->right)) + 1;
   }
 
+  /**
+   * 107. Binary Tree Level Order Traversal II
+   * Given a binary tree, return the bottom-up level order traversal of its nodes' values. (ie, from left to right, level by level from leaf to root).
+
+For example:
+Given binary tree [3,9,20,null,null,15,7],
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return its bottom-up level order traversal as:
+[
+  [15,7],
+  [9,20],
+  [3]
+]
+   */
+  //递归
+  vector<vector<int>> levelOrderBottom(TreeNode* root) {
+    vector<vector<int>> result;
+    traverse(root,1,result);
+    std::reverse(result.begin(), result.end());
+    return result;
+  }
+  void traverse(TreeNode *root, size_t level, vector<vector<int>> &result){
+    if(!root)
+      return;
+
+    if(level > result.size())
+      result.push_back(vector<int>());
+
+    result[level-1].push_back(root->val);
+    traverse(root->left, level+1, result);
+    traverse(root->right, level+1, result);
+  }
+  //迭代
+  vector<vector<int>> levelOrderBottom(TreeNode* root) {
+    vector<vector<int>> result;
+    if(root == nullptr)
+      return result;
+
+    queue<TreeNode *> current, next;
+    vector<int> level; //elements in level
+
+    current.push(root);
+    while(!current.empty()){
+      while(!current.empty()){
+        TreeNode *node = current.front();
+        current.pop();
+        level.push_back(node->val);
+        if(node->left != nullptr)
+          next.push(node->left);
+        if(node->right != nullptr)
+          next.push(node->right);
+      }
+      result.push_back(level);
+      level.clear();
+      swap(next,current);
+    }
+
+    reverse(result.begin(), result.end());
+
+    return result;
+  }
+
     /**
      * 108. Convert Sorted Array to Binary Search Tree
      * Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
