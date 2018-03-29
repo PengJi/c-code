@@ -47,6 +47,116 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-binary-tree-inorder-traversal.ht
         return allNodeValues;
     }
 
+  /**
+   * 95. Unique Binary Search Trees II
+   * Given an integer n, generate all structurally unique BST's (binary search trees) that store values 1...n.
+
+For example,
+Given n = 3, your program should return all 5 unique BST's shown below.
+
+   1         3     3      2      1
+    \       /     /      / \      \
+     3     2     1      1   3      2
+    /     /       \                 \
+   2     1         2                 3
+   */
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+public:
+  vector<TreeNode*> generateTrees(int n) {
+    if(n == 0)
+      return generate(1,0);
+    return generate(1,n);
+  }
+private:
+  vector<TreeNode *> generate(int start, int end){
+    vector<TreeNode*> subTree;
+    if(start > end){
+      subTree.push_back(nullptr);
+      return subTree;
+    }
+    for(int k=start; k <= end; ++k){
+      vector<TreeNode*> leftSubs = generate(start, k-1);
+      vector<TreeNode*> rightSubs = generate(k+1,end);
+      for(auto i : leftSubs){
+        for(auto j : rightSubs){
+          TreeNode *node = new TreeNode(k);
+          node->left = i;
+          node->right = j;
+          subTree.push_back(node);
+        }
+      }
+    }
+
+    return subTree;
+  }
+
+  /**
+   * 96. Unique Binary Search Trees
+   * Given n, how many structurally unique BST's (binary search trees) that store values 1...n?
+
+For example,
+Given n = 3, there are a total of 5 unique BST's.
+
+   1         3     3      2      1
+    \       /     /      / \      \
+     3     2     1      1   3      2
+    /     /       \                 \
+   2     1         2                 3
+   */
+  int numTrees(int n) {
+      vector<int> f(n+1,0);
+
+      f[0] = 1;
+      f[1] = 1;
+      for(int i=2; i<=n; ++i){
+        for(int k=1; k<=i; ++k)
+          f[i] += f[k-1] * f[i-k];
+      }
+
+      return f[n];
+  }
+
+  /**
+   * 98. Validate Binary Search Tree
+   * 
+Given a binary tree, determine if it is a valid binary search tree (BST).
+
+Assume a BST is defined as follows:
+
+The left subtree of a node contains only nodes with keys less than the node's key.
+The right subtree of a node contains only nodes with keys greater than the node's key.
+Both the left and right subtrees must also be binary search trees.
+Example 1:
+    2
+   / \
+  1   3
+Binary tree [2,1,3], return true.
+Example 2:
+    1
+   / \
+  2   3
+Binary tree [1,2,3], return false.
+   */
+  bool isValidBST(TreeNode* root) {
+    return isValidBST(root,NULL,NULL);
+  }
+  bool isValidBST(TreeNode *root,TreeNode* lower, TreeNode* upper){
+    if(root == nullptr)
+      return true;
+    if(lower && root->val <= lower->val || upper && root->val >= upper->val)
+      return false;
+    return isValidBST(root->left,lower,root)
+      && isValidBST(root->right,root,upper);
+  }
+
 	/*
 	 * 101. Symmetric Tree
 	 * Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
@@ -67,7 +177,7 @@ But the following [1,2,2,null,3,null,3] is not:
 Note:
 Bonus points if you could solve it both recursively and iteratively.
 	 */
-	bool isSymmetric(TreeNode *root) {
+  bool isSymmetric(TreeNode *root) {
         TreeNode *left, *right;
         if (!root)
             return true;
@@ -92,6 +202,105 @@ Bonus points if you could solve it both recursively and iteratively.
             q2.push(right->left);
         }
         return true;
+  }
+
+  /**
+   * 102. Binary Tree Level Order Traversal
+   * Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
+
+For example:
+Given binary tree [3,9,20,null,null,15,7],
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return its level order traversal as:
+[
+  [3],
+  [9,20],
+  [15,7]
+]
+   */
+  vector<vector<int>> levelOrder(TreeNode* root) {
+    vector<vector<int>> result;
+    traverse(root,1,result);
+    return result;
+  }
+  void traverse(TreeNode *root, size_t level, vector<vector<int>> &result){
+    if(!root)
+      return;
+
+    if(level > result.size())
+      result.push_back(vector<int>());
+
+    result[level-1].push_back(root->val);
+
+    traverse(root->left, level+1, result);
+    traverse(root->right, level+1, result);
+  }
+
+    /**
+     * 104. Maximum Depth of Binary Tree
+     * Given a binary tree, find its maximum depth.
+
+The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+For example:
+Given binary tree [3,9,20,null,null,15,7],
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return its depth = 3.
+     */
+  int maxDepth(TreeNode* root) {
+    if(root == nullptr)
+      return 0;
+
+    return max(maxDepth(root->left),maxDepth(root->right)) + 1;
+  }
+
+    /**
+     * 108. Convert Sorted Array to Binary Search Tree
+     * Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
+
+For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
+
+
+Example:
+
+Given the sorted array: [-10,-3,0,5,9],
+
+One possible answer is: [0,-3,9,-10,null,5], which represents the following height balanced BST:
+
+      0
+     / \
+   -3   9
+   /   /
+ -10  5
+     */
+    //分治法
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        return sortedArrayToBST(nums.begin(), nums.end());
+    }
+
+    template<typename RandomAccessIterator>
+    TreeNode *sortedArrayToBST(RandomAccessIterator first,
+      RandomAccessIterator last){
+      const auto length = distance(first,last);
+
+      if(length <= 0)
+        return nullptr;
+
+      auto mid = first+length/2;
+      TreeNode *root = new TreeNode(*mid);
+      root->left = sortedArrayToBST(first,mid);
+      root->right = sortedArrayToBST(mid+1,last);
+
+      return root;
     }
 
 	/*
@@ -112,6 +321,77 @@ Bonus points if you could solve it both recursively and iteratively.
         return 1+min(minDepth(root->left),minDepth(root->right));
     }
 
+    /**
+     * 112. Path Sum
+     * Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up 
+     * all the values along the path equals the given sum.
+
+For example:
+Given the below binary tree and sum = 22,
+
+              5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \      \
+        7    2      1
+return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
+     * 
+     */
+  bool hasPathSum(TreeNode* root, int sum) {
+    if(root == nullptr)
+      return false;
+
+    if(root->left == nullptr && root->right == nullptr) //leaf
+      return sum == root->val;
+
+    return hasPathSum(root->left,sum-root->val)
+      || hasPathSum(root->right,sum-root->val);
+  }
+
+  /**
+   * 113. Path Sum II
+   * Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
+
+For example:
+Given the below binary tree and sum = 22,
+              5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \    / \
+        7    2  5   1
+return
+[
+   [5,4,11,2],
+   [5,8,4,5]
+]
+   */
+  vector<vector<int>> pathSum(TreeNode* root, int sum) {
+    vector<vector<int>> result;
+    vector<int> cur;
+    pathSum(root, sum, cur, result);
+    return result;
+  }
+  void pathSum(TreeNode *root, int gap, vector<int> &cur, vector<vector<int>> &result){
+    if(root == nullptr)
+      return;
+
+    cur.push_back(root->val);
+
+    if(root->left == nullptr && root->right==nullptr){
+      if(gap == root->val)
+        result.push_back(cur);
+    }
+
+    pathSum(root->left, gap-root->val, cur, result);
+    pathSum(root->right, gap-root->val, cur, result);
+
+    cur.pop_back();
+  }
+    
     /*
      * 114. 
      * Flatten Binary Tree to Linked List
@@ -143,7 +423,7 @@ If you notice carefully in the flattened tree, each node's right child points to
 solution:
 http://bangbingsyb.blogspot.ca/2014/11/leetcode-flatten-binary-tree-to-linked.html
      */
-	void flatten(TreeNode* root) {
+	  void flatten(TreeNode* root) {
         if(!root)
         	return;
         vector<TreeNode *> allNodes;
@@ -163,6 +443,79 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-flatten-binary-tree-to-linked.ht
     	preorder(root->right,allNodes);
     }
 
+    /**
+     * 124. Binary Tree Maximum Path Sum
+     * Given a binary tree, find the maximum path sum.
+
+For this problem, a path is defined as any sequence of nodes from some starting node to any node in the tree 
+along the parent-child connections. The path must contain at least one node and does not need to go through the root.
+
+For example:
+Given the below binary tree,
+
+       1
+      / \
+     2   3
+Return 6.
+     */
+    /*
+    路径可以从任意结点开始，到任意结点结束
+    可以利用“最大连续子序列”问题的思路，可以采用binary tree最常用的dfs来进行遍历。
+    先算出左右子树的结果L和R，如果L大于0，那么对后续结果是有利的，加上L，
+    如果R大于0，对后续结果也是有利的，继续加上R。
+     */
+  int max_sum;
+  int maxPathSum(TreeNode* root) {
+    max_sum = INT_MIN;
+    dfs(root);
+    return max_sum;
+  }
+  int dfs(const TreeNode *root){
+    if(root==nullptr)
+      return 0;
+    int l = dfs(root->left);
+    int r = dfs(root->right);
+
+    int sum = root->val;
+    if(l>0)
+      sum += l;
+    if(r>0)
+      sum += r;
+    max_sum = max(max_sum,sum);
+    return max(r,l) >0 ? max(r,l)+root->val:root->val;
+  }
+
+  /**
+   * 129. Sum Root to Leaf Numbers
+   * Given a binary tree containing digits from 0-9 only, each root-to-leaf path could represent a number.
+
+An example is the root-to-leaf path 1->2->3 which represents the number 123.
+
+Find the total sum of all root-to-leaf numbers.
+
+For example,
+
+    1
+   / \
+  2   3
+The root-to-leaf path 1->2 represents the number 12.
+The root-to-leaf path 1->3 represents the number 13.
+
+Return the sum = 12 + 13 = 25.
+   */
+  int sumNumbers(TreeNode* root) {
+    return dfs(root,0);
+  }
+  int dfs(TreeNode *root, int sum){
+    if(root == nullptr)
+      return 0;
+
+    if(root->left == nullptr && root->right == nullptr)
+      return sum*10 + root->val;
+
+    return dfs(root->left, sum*10+root->val) + dfs(root->right, sum*10+root->val);
+  }
+
 	/*
 	 * 145
 	 * Binary Tree Postorder Traversal
@@ -179,7 +532,7 @@ return [3,2,1].
 
 Note: Recursive solution is trivial, could you do it iteratively?
 	 */
-	 vector<int> postorderTraversal(TreeNode *root) {
+	  vector<int> postorderTraversal(TreeNode *root) {
         vector<int> vec;
         stack<TreeNode *> stk;
         TreeNode *node = root;

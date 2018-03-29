@@ -1,1 +1,2 @@
-Pthreads实现
+pthread多线程  
+g++ test.cpp -lpthread

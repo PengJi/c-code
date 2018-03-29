@@ -64,6 +64,89 @@ Output: 7 -> 0 -> 8
         return l3;
     }
 
+    /**
+     * 92. Reverse Linked List II
+     * Reverse a linked list from position m to n. Do it in-place and in one-pass.
+     *
+     * For example:
+Given 1->2->3->4->5->NULL, m = 2 and n = 4,
+
+return 1->4->3->2->5->NULL.
+
+Note:
+Given m, n satisfy the following condition:
+1 ≤ m ≤ n ≤ length of list.
+     */
+    ListNode* reverseBetween(ListNode* head, int m, int n) {
+        if(m == n)
+            return head;
+        n -= m;
+        ListNode prehead(0);
+        prehead.next = head;
+        ListNode *pre = &prehead;
+        while(--m)
+            pre = pre->next;
+        ListNode *pstart = pre->next;
+        while(n--){
+            ListNode *p = pstart->next;
+            pstart->next = p->next;
+            p->next = pre->next;
+            pre->next = p;
+        }
+
+        return prehead.next;
+    }
+
+    /**
+     * 141. Linked List Cycle
+     * Given a linked list, determine if it has a cycle in it.
+
+Follow up:
+Can you solve it without using extra space?
+     */
+    bool hasCycle(ListNode *head) {
+        ListNode *slow = head, *fast = head;
+
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
+            if(slow == fast)
+                return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 142. Linked List Cycle II
+     * Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
+
+Note: Do not modify the linked list.
+
+Follow up:
+Can you solve it without using extra space?
+     */
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *slow = head, *fast = head;
+
+        while(fast && fast->next){
+            slow = slow->next;
+            fast = fast->next->next;
+
+            if(slow == fast){
+                ListNode *slow2 = head;
+
+                while(slow2 != slow){
+                    slow2 = slow2->next;
+                    slow = slow->next;
+                }
+                return slow2;
+            }
+        }
+
+        return nullptr;
+    }
+
 	/*
 	 * 143
 	 * Reorder List
@@ -141,7 +224,7 @@ Given {1,2,3,4}, reorder it to {1,4,2,3}.
 	/*
 	 * 148
 	 * Sort List
-	 * Sort a linked list in O(n log n) time using constant space complexity.
+	 * Sort a linked list in O(nlogn) time using constant space complexity.
      *
      * solution:
 	 * 快慢指针，归并排序
@@ -182,4 +265,23 @@ Given {1,2,3,4}, reorder it to {1,4,2,3}.
             p->next = right;
         return dumy.next;
     }
+
+    /**
+     * 206. Reverse Linked List
+     * Reverse a singly linked list.
+     */
+    ListNode* reverseList(ListNode* head) {
+        ListNode *prev = NULL;
+        ListNode *curr = head;
+
+        while(curr != NULL){
+            ListNode *tmp = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = tmp;
+        }
+
+        return prev;
+    }
+
 };
