@@ -158,6 +158,61 @@ Binary tree [1,2,3], return false.
   }
 
   /**
+   * 99. Recover Binary Search Tree
+   * Two elements of a binary search tree (BST) are swapped by mistake.
+
+Recover the tree without changing its structure.
+
+Note:
+A solution using O(n) space is pretty straight forward. Could you devise a constant space solution?
+   */
+  /*
+  O(n) 空间的解法是，开一个指针数据，中序遍历，将节点指针一次存放到数组里，然后寻找亮出逆向的位置，
+  先从前往后找第一个逆序的位置，然后从后往前找第二个逆序的位置，交换这两个指针的值。
+  中序遍历一般需要用到栈，空间也是O(n)。
+   */
+  //morris中序遍历
+  void recoverTree(TreeNode* root) {
+    pair<TreeNode *,TreeNode*> broken;
+    TreeNode* prev = nullptr;
+    TreeNode* cur = root;
+
+    while(cur != nullptr){
+      if(cur->left == nullptr){
+        detect(broken,prev,cur);
+        prev = cur;
+        cur = cur->right;
+      }else{
+        auto node = cur->left;
+
+        while(node->right != nullptr && node->right != cur)
+          node = node->right;
+
+        if(node->right == nullptr){
+          node->right = cur;
+          //prev = cur; 不能有这句，因为cur还没有被访问。
+          cur = cur->left;
+        }else{
+          detect(broken,prev,cur);
+          node->right = nullptr;
+          prev=cur;
+          cur = cur->right;
+        }
+      }
+    }
+    swap(broken.first->val, broken.second->val);
+  }
+  void detect(pair<TreeNode*,TreeNode*> &broken, TreeNode* prev, TreeNode *current){
+    if(prev != nullptr && prev->val > current->val){
+      if(broken.first == nullptr){
+        broken.first = prev;
+      } //不能用else，例如{1,0}，会导致最后swap时，second为nullptr
+      broken.second = current;
+    }
+  }
+
+
+  /**
    * 100. Same Tree
    * 
 Given two binary trees, write a function to check if they are the same or not.
