@@ -240,6 +240,80 @@ return its level order traversal as:
     traverse(root->right, level+1, result);
   }
 
+  /**
+   * 103. Binary Tree Zigzag Level Order Traversal
+   * Given a binary tree, return the zigzag level order traversal of its nodes' values. 
+   * (ie, from left to right, then right to left for the next level and alternate between).
+
+For example:
+Given binary tree [3,9,20,null,null,15,7],
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return its zigzag level order traversal as:
+[
+  [3],
+  [20,9],
+  [15,7]
+]
+   */
+  //广度优先遍历，用一个bool记录是从左到右还是从右到左，每一层结束就翻转一下
+  //递归
+  vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+    vector<vector<int>> result;
+    traverse(root, 1, result, true);
+    return result;
+  }
+  void traverse(TreeNode *root, size_t level, vector<vector<int>> &result, bool left_to_right){
+    if(!root)
+      return;
+
+    if(level > result.size())
+      result.push_back(vector<int>());
+
+    if(left_to_right)
+      result[level-1].push_back(root->val);
+    else
+      result[level-1].insert(result[level-1].begin(),root->val);
+
+    traverse(root->left, level+1, result, !left_to_right);
+    traverse(root->right, level+1, result, !left_to_right);
+  }
+  //迭代版
+  vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+    vector<vector<int>> result;
+    queue<TreeNode *> current, next;
+    bool left_to_right = true;
+
+    if(root == nullptr){
+      return result;
+    }else{
+      current.push(root);
+    }
+
+    while(!current.empty()){
+      vector<int> level;
+      while(!current.empty()){
+        TreeNode *node = current.front();
+        current.pop();
+        level.push_back(node->val);
+        if(node->left != nullptr)
+          next.push(node->left);
+        if(node->right != nullptr)
+          next.push(node->right);
+      }
+      if(!left_to_right)
+        reverse(level.begin(), level.end());
+      result.push_back(level);
+      left_to_right = !left_to_right;
+      swap(next,current);
+    }
+
+    return result;
+  }
+
     /**
      * 104. Maximum Depth of Binary Tree
      * Given a binary tree, find its maximum depth.
@@ -261,6 +335,72 @@ return its depth = 3.
       return 0;
 
     return max(maxDepth(root->left),maxDepth(root->right)) + 1;
+  }
+
+  /**
+   * 107. Binary Tree Level Order Traversal II
+   * Given a binary tree, return the bottom-up level order traversal of its nodes' values. (ie, from left to right, level by level from leaf to root).
+
+For example:
+Given binary tree [3,9,20,null,null,15,7],
+    3
+   / \
+  9  20
+    /  \
+   15   7
+return its bottom-up level order traversal as:
+[
+  [15,7],
+  [9,20],
+  [3]
+]
+   */
+  //递归
+  vector<vector<int>> levelOrderBottom(TreeNode* root) {
+    vector<vector<int>> result;
+    traverse(root,1,result);
+    std::reverse(result.begin(), result.end());
+    return result;
+  }
+  void traverse(TreeNode *root, size_t level, vector<vector<int>> &result){
+    if(!root)
+      return;
+
+    if(level > result.size())
+      result.push_back(vector<int>());
+
+    result[level-1].push_back(root->val);
+    traverse(root->left, level+1, result);
+    traverse(root->right, level+1, result);
+  }
+  //迭代
+  vector<vector<int>> levelOrderBottom(TreeNode* root) {
+    vector<vector<int>> result;
+    if(root == nullptr)
+      return result;
+
+    queue<TreeNode *> current, next;
+    vector<int> level; //elements in level
+
+    current.push(root);
+    while(!current.empty()){
+      while(!current.empty()){
+        TreeNode *node = current.front();
+        current.pop();
+        level.push_back(node->val);
+        if(node->left != nullptr)
+          next.push(node->left);
+        if(node->right != nullptr)
+          next.push(node->right);
+      }
+      result.push_back(level);
+      level.clear();
+      swap(next,current);
+    }
+
+    reverse(result.begin(), result.end());
+
+    return result;
   }
 
     /**

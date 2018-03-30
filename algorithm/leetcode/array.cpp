@@ -201,7 +201,7 @@ return [1,6],[8,10],[15,18].
 solution:
 http://bangbingsyb.blogspot.ca/2014/11/leetcode-merge-intervals.html
      */
-	struct compInterval {
+    struct compInterval {
         bool operator()(const Interval &a, const Interval &b) const {
             return a.start<b.start;
         }
@@ -221,7 +221,9 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-merge-intervals.html
 	/*
 	 * 287. 
 	 * Find the Duplicate Number
-	 * Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
+	 * Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), 
+     * prove that at least one duplicate number must exist. Assume that there is only one duplicate number, 
+     * find the duplicate one.
 
 Note:
 You must not modify the array (assume the array is read only).
