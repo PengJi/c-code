@@ -759,6 +759,56 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-flatten-binary-tree-to-linked.ht
     	preorder(root->left,allNodes);
     	preorder(root->right,allNodes);
     }
+    /**
+     * 117. Populating Next Right Pointers in Each Node II
+     * Follow up for problem "Populating Next Right Pointers in Each Node".
+
+What if the given tree could be any binary tree? Would your previous solution still work?
+
+Note:
+
+You may only use constant extra space.
+For example,
+Given the following binary tree,
+         1
+       /  \
+      2    3
+     / \    \
+    4   5    7
+After calling your function, the tree should look like:
+         1 -> NULL
+       /  \
+      2 -> 3 -> NULL
+     / \    \
+    4-> 5 -> 7 -> NULL
+     */
+/**
+ * Definition for binary tree with next pointer.
+ * struct TreeLinkNode {
+ *  int val;
+ *  TreeLinkNode *left, *right, *next;
+ *  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+ * };
+ */
+  void connect(TreeLinkNode *root) {
+    if(root == nullptr)
+      return;
+
+    TreeLinkNode dumy(-1);
+    for(TreeLinkNode *curr = root,*prev = &dumy; curr; curr = curr->next){
+      if(curr -> left != nullptr){
+        prev -> next = curr->left;
+        prev = prev->next;
+      }
+
+      if(curr->right != nullptr){
+        prev->next = curr->right;
+        prev = prev->next;
+      }
+    }
+
+    connect(dumy.next);
+  }
 
     /**
      * 124. Binary Tree Maximum Path Sum
