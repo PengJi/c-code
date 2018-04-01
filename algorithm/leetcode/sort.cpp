@@ -1,5 +1,69 @@
 class Solution {
 public:
+    /**
+     * 23. Merge k Sorted Lists
+     * Merge k sorted linked lists and return it as one sorted list. Analyze and describe its complexity.
+     */
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if(lists.size() == 0)
+            return nullptr;
+
+        ListNode *p = lists[0];
+        for(int i = 1; i<lists.size(); i++){
+            p = mergeTwoLists(p,lists[i]);
+        }
+
+        return p;
+    }
+    ListNode *mergeTwoLists(ListNode *l1, ListNode *l2){
+        ListNode head(-1);
+        for(ListNode *p = &head; l1!=nullptr || l2 != nullptr; p = p->next){
+            int val1 = l1==nullptr?INT_MAX:l1->val;
+            int val2 = l2==nullptr?INT_MAX:l2->val;
+            if(val1 <= val2){
+                p->next = l1;
+                l1 = l1->next;
+            }else{
+                p->next = l2;
+                l2=l2->next;
+            }
+        }
+
+        return head.next;
+    }
+
+    /**
+     * 41. First Missing Positive
+     * Given an unsorted integer array, find the first missing positive integer.
+
+For example,
+Given [1,2,0] return 3,
+and [3,4,-1,1] return 2.
+
+Your algorithm should run in O(n) time and uses constant space.
+     */
+    /*
+    桶排序，每当A[i]!=i+1的时候，将A[i]与A[A[i]-1]交换，直到无法交换为止，终止条件是A[i]==A[A[i]-1]。
+     */
+    int firstMissingPositive(vector<int>& nums) {
+        buckct_sort(nums);
+
+        for(int i=0; i<nums.size(); ++i)
+            if(nums[i] != (i+1))
+                return i+1;
+        return nums.size()+1;
+    }
+    void buckct_sort(vector<int> &A){
+        const int n = A.size();
+        for(int i=0;i<n;i++){
+            while(A[i] != i+1){
+                if(A[i] <= 0 || A[i]>n || A[i]==A[A[i]-1])
+                    break;
+                swap(A[i],A[A[i]-1]);
+            }
+        }
+    }
+
 	/**
 	 * 75. Sort Colors
 	 * Given an array with n objects colored red, white or blue, sort them so that objects of the same color are adjacent, 
