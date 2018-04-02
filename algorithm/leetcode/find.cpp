@@ -115,6 +115,6 @@ Given target = 3, return true.
 				last = mid;
 		}
 
-		rturn false;
+		return false;
 	}
 };
