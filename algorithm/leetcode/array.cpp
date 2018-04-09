@@ -522,7 +522,7 @@ rotate the input matrix in-place such that it becomes:
         const int n = matrix.size();
 
         for(int i=0; i<n/2; ++i)//沿着水平中线反转
-            for(int j=0; i<n; ++j)
+            for(int j=0; j<n; ++j)
                 swap(matrix[i][j], matrix[n-1-i][j]);
 
         for(int i=0; i<n; ++i) //沿着主对角线反转
@@ -585,6 +585,49 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-merge-intervals.html
                 ret.back().end = max(ret.back().end, intervals[i].end);
         }
         return ret;
+    }
+
+    /**
+     * 66. Plus One
+     * Given a non-negative integer represented as a non-empty array of digits, plus one to the integer.
+
+You may assume the integer do not contain any leading zero, except the number 0 itself.
+
+The digits are stored such that the most significant digit is at the head of the list.
+     */
+    //代码一
+    vector<int> plusOne(vector<int>& digits) {
+        add(digits,1);
+        return digits;
+    }
+    void add(vector<int>& digits,int digit){
+        int c = digit; //进位
+
+        for(auto it=digits.rbegin(); it != digits.rend(); ++it){
+            *it += c;
+            c = *it/10;
+            *it %= 10;
+        }
+
+        if(c>0)
+            digits.insert(digits.begin(),1);
+    }
+    //代码二
+    vector<int> plusOne(vector<int> &digits){
+        add(digits,1);
+        return digits;
+    }
+    void add(vector<int> &digits, int digit){
+        int c = digit; //进位
+
+        for_each(digits,rbegin(), digits.rend(), [&c](int &d){
+            d += c;
+            c = d/10;
+            d %= 10;
+        });
+
+        if(c>0)
+            digits.insert(digits.begin(),1);
     }
 
     /**
