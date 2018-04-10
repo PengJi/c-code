@@ -620,7 +620,7 @@ The digits are stored such that the most significant digit is at the head of the
     void add(vector<int> &digits, int digit){
         int c = digit; //进位
 
-        for_each(digits,rbegin(), digits.rend(), [&c](int &d){
+        for_each(digits.rbegin(), digits.rend(), [&c](int &d){
             d += c;
             c = d/10;
             d %= 10;
@@ -709,6 +709,78 @@ The array may contain duplicates.
         }
 
         return false;
+    }
+
+    /**
+     * 135. Candy
+     * There are N children standing in a line. Each child is assigned a rating value.
+
+You are giving candies to these children subjected to the following requirements:
+
+Each child must have at least one candy.
+Children with a higher rating get more candies than their neighbors.
+
+What is the minimum candies you must give?
+     */
+    int candy(vector<int>& ratings) {
+        const int n = ratings.size();
+        vector<int> increment(n);
+
+        //左右各扫描一遍
+        for(int i=1, inc=1; i<n; i++){
+            if(ratings[i] > ratings[i-1])
+                increment[i] = max(inc++, increment[i]);
+            else
+                inc = 1;
+        }
+        for(int i=n-2, inc=1; i>=0; i--){
+            if(ratings[i]>ratings[i+1])
+                increment[i] = max(inc++, increment[i]);
+            else 
+                inc=1;
+        }
+
+        return accumulate(&increment[0], &increment[0]+n,n);
+    }
+    //递归扮
+    int candy(const vector<int>& ratings){
+        vector<int> f(ratings.size());
+        int sum=0;
+        for(int i=0; i<ratings.size(); ++i)
+            sum += solve(ratings, f, i);
+        return sum;
+    }
+    int solve(const vector<int>& ratings, vector<int>& f, int i){
+        if(f[i] == 0){
+            f[i]=1;
+            if(i>0 && ratings[i] > ratings[i-1])
+                f[i] = max(f[i], solve(ratings, f, i-1)+1);
+            if(i<ratings.size()-1 && ratings[i]>ratings[i+1])
+                f[i] = max(f[i], solve(ratings, f, i+1)+1);
+        }
+
+        return f[i];
+    }
+
+    /**
+     * 136. Single Number
+     * Given an array of integers, every element appears twice except for one. Find that single one.
+
+Note:
+Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
+     */
+    //异或，不仅能处理两次的情况，只要出现欧数次，都可以清零
+    //代码1
+    int singleNumber(vector<int>& nums) {
+        int x = 0;
+        for(auto i:nums){
+            x ^= i;
+        }
+        return x;
+    }
+    //代码2
+    int singleNumber(vector<int> & nums){
+        return accumulate(nums.begin(), nums.end(), 0, bit_xor<int>());
     }
 
 	/*
