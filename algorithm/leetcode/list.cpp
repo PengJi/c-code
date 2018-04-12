@@ -65,6 +65,41 @@ Output: 7 -> 0 -> 8
     }
 
     /**
+     * 61. Rotate List
+     * Given a list, rotate the list to the right by k places, where k is non-negative.
+
+
+Example:
+
+Given 1->2->3->4->5->NULL and k = 2,
+
+return 4->5->1->2->3->NULL.
+     */
+    //先遍历一遍，得出链表长度len,令 k%=len，
+    //将尾节点next节点指向首结点，形成一个环，接着往后跑len-k步，从这里断开，就是要求的结果了。
+    ListNode* rotateRight(ListNode* head, int k) {
+        if(head == nullptr || k==0)
+            return head;
+
+        int len = 1;
+        ListNode *p = head;
+        while(p->next){ //求长度
+            len++;
+            p = p->next;
+        }
+        k = len - k%len;
+
+        p->next = head; //首尾相连
+        for(int step=0; step<k; step++){
+            p = p->next;
+        }
+
+        head = p->next;
+        p->next = nullptr;
+        return head;
+    }
+
+    /**
      * 82. Remove Duplicates from Sorted List II
      * Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.
 
