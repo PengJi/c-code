@@ -65,6 +65,179 @@ Output: 7 -> 0 -> 8
     }
 
     /**
+     * 61. Rotate List
+     * Given a list, rotate the list to the right by k places, where k is non-negative.
+
+
+Example:
+
+Given 1->2->3->4->5->NULL and k = 2,
+
+return 4->5->1->2->3->NULL.
+     */
+    //先遍历一遍，得出链表长度len,令 k%=len，
+    //将尾节点next节点指向首结点，形成一个环，接着往后跑len-k步，从这里断开，就是要求的结果了。
+    ListNode* rotateRight(ListNode* head, int k) {
+        if(head == nullptr || k==0)
+            return head;
+
+        int len = 1;
+        ListNode *p = head;
+        while(p->next){ //求长度
+            len++;
+            p = p->next;
+        }
+        k = len - k%len;
+
+        p->next = head; //首尾相连
+        for(int step=0; step<k; step++){
+            p = p->next;
+        }
+
+        head = p->next;
+        p->next = nullptr;
+        return head;
+    }
+
+    /**
+     * 82. Remove Duplicates from Sorted List II
+     * Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.
+
+For example,
+Given 1->2->3->3->4->4->5, return 1->2->5.
+Given 1->1->1->2->3, return 2->3.
+     */
+    //递归版
+    ListNode* deleteDuplicates(ListNode* head) {
+        if(!head || !head->next)
+            return head;
+
+        ListNode *p = head->next;
+        if(head->val == p->val){
+            while(p && head->val == p->val){
+                ListNode *tmp = p;
+                p = p->next;
+                delete tmp;
+            }
+            delete head;
+            return deleteDuplicates(p);
+        }else{
+            head->next = deleteDuplicates(head->next);
+            return head;
+        }
+    }
+    //迭代版
+    ListNode *deleteDuplicates(ListNode *head){
+        if(head == nullptr)
+            return head;
+
+        ListNode dummy(INT_MIN); //头结点
+        dummy.next = head;
+        ListNode *prev = &dummy, *cur = head;
+        while(cur != nullptr){
+            bool duplicated = false;
+            while(cur->next != nullptr && cur->val == cur->next->val){
+                duplicated = true;
+                ListNode *temp = cur;
+                cur = cur->next;
+                delete temp;
+            }
+            if(duplicated){
+                ListNode *temp = cur;
+                cur = cur->next;
+                delete temp;
+                continue;
+            }
+
+            prev->next = cur;
+            prev = prev->next;
+            cur = cur->next;
+        }
+
+        prev->next = cur;
+        return dummy.next;
+    }
+
+    /**
+     * 83. Remove Duplicates from Sorted List
+     * Given a sorted linked list, delete all duplicates such that each element appear only once.
+
+For example,
+Given 1->1->2, return 1->2.
+Given 1->1->2->3->3, return 1->2->3.
+     */
+    //递归版
+    ListNode* deleteDuplicates(ListNode* head) {
+        if(!head)
+            return head;
+        ListNode dummy(head->val+1); //值与head不同即可
+        dummy.next = head;
+
+        recur(&dummy,head);
+        return dummy.next;
+    }
+    static void recur(ListNode *prev, ListNode *cur){
+        if(cur == nullptr)
+            return ;
+
+        if(prev->val == cur->val){
+            prev->next = cur->next;
+            delete cur;
+            recur(prev, prev->next);
+        }else{
+            recur(prev->next, cur->next);
+        }
+    }
+    //迭代版
+    ListNode* deleteDuplicates(ListNode* head){
+        if(head == nullptr)
+            return nullptr;
+
+        for(ListNode *prev = head, *cur=head->next; cur; cur = prev->next){
+            if(prev->val == cur->val){
+                prev->next = cur->next;
+                delete cur;
+            }else{
+                prev=cur;
+            }
+        }
+
+        return head;
+    }
+
+    /**
+     * 86. Partition List
+     * Given a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
+
+You should preserve the original relative order of the nodes in each of the two partitions.
+
+For example,
+Given 1->4->3->2->5->2 and x = 3,
+return 1->2->2->4->3->5.
+     */
+    ListNode* partition(ListNode* head, int x) {
+        ListNode left_dummy(-1); //头结点
+        ListNode right_dummy(-1); //头结点
+
+        auto left_cur = &left_dummy;
+        auto right_cur = &right_dummy;
+
+        for(ListNode *cur = head; cur; cur = cur->next){
+            if(cur->val < x){
+                left_cur->next = cur;
+                left_cur = cur;
+            }else{
+                right_cur->next = cur;
+                right_cur = cur;
+            }
+        }
+
+        left_cur->next = right_dummy.next;
+        right_cur->next = nullptr;
+        return left_dummy.next;
+    }
+
+    /**
      * 92. Reverse Linked List II
      * Reverse a linked list from position m to n. Do it in-place and in one-pass.
      *

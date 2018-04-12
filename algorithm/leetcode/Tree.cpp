@@ -157,6 +157,135 @@ Binary tree [1,2,3], return false.
       && isValidBST(root->right,root,upper);
   }
 
+  /**
+   * 99. Recover Binary Search Tree
+   * Two elements of a binary search tree (BST) are swapped by mistake.
+
+Recover the tree without changing its structure.
+
+Note:
+A solution using O(n) space is pretty straight forward. Could you devise a constant space solution?
+   */
+  /*
+  O(n) 空间的解法是，开一个指针数据，中序遍历，将节点指针一次存放到数组里，然后寻找亮出逆向的位置，
+  先从前往后找第一个逆序的位置，然后从后往前找第二个逆序的位置，交换这两个指针的值。
+  中序遍历一般需要用到栈，空间也是O(n)。
+   */
+  //morris中序遍历
+  void recoverTree(TreeNode* root) {
+    pair<TreeNode *,TreeNode*> broken;
+    TreeNode* prev = nullptr;
+    TreeNode* cur = root;
+
+    while(cur != nullptr){
+      if(cur->left == nullptr){
+        detect(broken,prev,cur);
+        prev = cur;
+        cur = cur->right;
+      }else{
+        auto node = cur->left;
+
+        while(node->right != nullptr && node->right != cur)
+          node = node->right;
+
+        if(node->right == nullptr){
+          node->right = cur;
+          //prev = cur; 不能有这句，因为cur还没有被访问。
+          cur = cur->left;
+        }else{
+          detect(broken,prev,cur);
+          node->right = nullptr;
+          prev=cur;
+          cur = cur->right;
+        }
+      }
+    }
+    swap(broken.first->val, broken.second->val);
+  }
+  void detect(pair<TreeNode*,TreeNode*> &broken, TreeNode* prev, TreeNode *current){
+    if(prev != nullptr && prev->val > current->val){
+      if(broken.first == nullptr){
+        broken.first = prev;
+      } //不能用else，例如{1,0}，会导致最后swap时，second为nullptr
+      broken.second = current;
+    }
+  }
+
+
+  /**
+   * 100. Same Tree
+   * 
+Given two binary trees, write a function to check if they are the same or not.
+
+Two binary trees are considered the same if they are structurally identical and the nodes have the same value.
+
+
+Example 1:
+
+Input:     1         1
+          / \       / \
+         2   3     2   3
+
+        [1,2,3],   [1,2,3]
+
+Output: true
+Example 2:
+
+Input:     1         1
+          /           \
+         2             2
+
+        [1,2],     [1,null,2]
+
+Output: false
+Example 3:
+
+Input:     1         1
+          / \       / \
+         2   1     1   2
+
+        [1,2,1],   [1,1,2]
+
+Output: false
+   */
+  //递归版
+  bool isSameTree(TreeNode* p, TreeNode* q) {
+    if(!p && !q)
+      return true;
+    if(!p || !q)
+      return false;
+
+    return p->val == q->val && isSameTree(p->left,q->left) && isSameTree(p->right, q->right);
+  }
+  //迭代版
+  bool isSameTree(TreeNode *p, TreeNode *q) {
+    stack<TreeNode *> s;
+    s.push(p);
+    s.push(q);
+
+    while(!s.empty()){
+      p = s.top();
+      s.pop();
+      q = s.top();
+      s.pop();
+
+      if(!p && !q)
+        continue;
+      if(!p || !q)
+        return false;
+      if(p->val != q->val)
+        return false;
+
+      s.push(p->left);
+      s.push(q->left);
+
+      s.push(p->right);
+      s.push(q->right);
+    }
+
+    return true;
+  }
+
 	/*
 	 * 101. Symmetric Tree
 	 * Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
@@ -443,6 +572,54 @@ One possible answer is: [0,-3,9,-10,null,5], which represents the following heig
       return root;
     }
 
+    /**
+     * 110. Balanced Binary Tree
+     * Given a binary tree, determine if it is height-balanced.
+
+For this problem, a height-balanced binary tree is defined as:
+
+a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
+
+Example 1:
+
+Given the following tree [3,9,20,null,null,15,7]:
+
+    3
+   / \
+  9  20
+    /  \
+   15   7
+Return true.
+
+Example 2:
+
+Given the following tree [1,2,2,3,3,null,null,4,4]:
+
+       1
+      / \
+     2   2
+    / \
+   3   3
+  / \
+ 4   4
+Return false.
+     */
+  bool isBalanced(TreeNode* root) {
+    return balancedHeight(root) >= 0;
+  }
+  int balancedHeight(TreeNode *root){
+    if(root == nullptr)
+      return 0;
+
+    int left = balancedHeight(root->left);
+    int right = balancedHeight(root->right);
+
+    if(left < 0 || right < 0 || abs(left-right) > 1) //剪枝
+      return -1;
+
+    return max(left,right) + 1; //三方合并
+  }
+
 	/*
 	 * 111
 	 * Minimum Depth of Binary Tree
@@ -582,6 +759,56 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-flatten-binary-tree-to-linked.ht
     	preorder(root->left,allNodes);
     	preorder(root->right,allNodes);
     }
+    /**
+     * 117. Populating Next Right Pointers in Each Node II
+     * Follow up for problem "Populating Next Right Pointers in Each Node".
+
+What if the given tree could be any binary tree? Would your previous solution still work?
+
+Note:
+
+You may only use constant extra space.
+For example,
+Given the following binary tree,
+         1
+       /  \
+      2    3
+     / \    \
+    4   5    7
+After calling your function, the tree should look like:
+         1 -> NULL
+       /  \
+      2 -> 3 -> NULL
+     / \    \
+    4-> 5 -> 7 -> NULL
+     */
+/**
+ * Definition for binary tree with next pointer.
+ * struct TreeLinkNode {
+ *  int val;
+ *  TreeLinkNode *left, *right, *next;
+ *  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+ * };
+ */
+  void connect(TreeLinkNode *root) {
+    if(root == nullptr)
+      return;
+
+    TreeLinkNode dumy(-1);
+    for(TreeLinkNode *curr = root,*prev = &dumy; curr; curr = curr->next){
+      if(curr -> left != nullptr){
+        prev -> next = curr->left;
+        prev = prev->next;
+      }
+
+      if(curr->right != nullptr){
+        prev->next = curr->right;
+        prev = prev->next;
+      }
+    }
+
+    connect(dumy.next);
+  }
 
     /**
      * 124. Binary Tree Maximum Path Sum
