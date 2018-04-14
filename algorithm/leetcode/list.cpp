@@ -32,6 +32,50 @@ Output: 7 -> 0 -> 8
 	    return preHead.next;
 	}
 
+    /**
+     * 19. Remove Nth Node From End of List
+     * Given a linked list, remove the n-th node from the end of list and return its head.
+
+Example:
+
+Given linked list: 1->2->3->4->5, and n = 2.
+
+After removing the second node from the end, the linked list becomes 1->2->3->5.
+Note:
+
+Given n will always be valid.
+
+Follow up:
+
+Could you do this in one pass?
+     */
+    /**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+    //设两个指针p,q，让q先走n步，然后p和q一起走，知道q走到尾节点，删除p->next即可。
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode dummy(-1);
+        dummy.next = head;
+        ListNode *p = &dummy, *q=&dummy;
+
+        for(int i=0; i<n; i++)
+            q=q->next;
+
+        while(q->next){
+            p = p->next;
+            q = q->next;
+        }
+        ListNode *tmp = p->next;
+        p->next = p->next->next;
+        delete tmp;
+        return dummy.next;
+    }
+
 	/*
 	 * 21. 
 	 * Merge Two Sorted Lists
