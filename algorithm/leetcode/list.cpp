@@ -109,6 +109,44 @@ Could you do this in one pass?
     }
 
     /**
+     * 24. Swap Nodes in Pairs
+     * Given a linked list, swap every two adjacent nodes and return its head.
+
+Example:
+
+Given 1->2->3->4, you should return the list as 2->1->4->3.
+Note:
+
+Your algorithm should use only constant extra space.
+You may not modify the values in the list's nodes, only nodes itself may be changed.
+     */
+    ListNode* swapPairs(ListNode* head) {
+        if(head == nullptr || head->next == nullptr)
+            return head;
+        ListNode dummy(-1);
+        dummy.next = head;
+
+        for(ListNode *prev = &dummy, *cur = prev->next, *next=cur->next; next; 
+            prev = cur,cur=cur->next, next=cur?cur->next:nullptr){
+            prev->next = next;
+            cur->next = next->next;
+            next->next = cur;
+        }
+
+        return dummy.next;
+    }
+    ListNode *swapPairs(ListNode *head){
+        ListNode *p = head;
+
+        while(p && p->next){
+            swap(p->val, p->next->val);
+            p = p->next->next;
+        }
+
+        return head;
+    }
+
+    /**
      * 61. Rotate List
      * Given a list, rotate the list to the right by k places, where k is non-negative.
 
