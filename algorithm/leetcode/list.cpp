@@ -147,6 +147,83 @@ You may not modify the values in the list's nodes, only nodes itself may be chan
     }
 
     /**
+     * 25. Reverse Nodes in k-Group
+     * Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.
+
+k is a positive integer and is less than or equal to the length of the linked list. 
+If the number of nodes is not a multiple of k then left-out nodes in the end should remain as it is.
+
+Example:
+
+Given this linked list: 1->2->3->4->5
+
+For k = 2, you should return: 2->1->4->3->5
+
+For k = 3, you should return: 3->2->1->4->5
+
+Note:
+
+Only constant extra memory is allowed.
+You may not alter the values in the list's nodes, only nodes itself may be changed.
+     */
+    //递归
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        if(head == nullptr || head->next == nullptr || k<2)
+            return head;
+
+        ListNode *next_group = head;
+        for(int i=0; i<k; ++i){
+            if(next_group)
+                next_group = next_group->next;
+            else 
+                return head;
+        }
+
+        //next_group is the head of next group
+        //new_next_group is the new head of next group after reversion
+        ListNode *new_next_group = reverseKGroup(next_group, k);
+        ListNode *prev = NULL, *cur = head;
+        while(cur != next_group){
+            ListNode *next = cur->next;
+            cur->next = prev? prev:new_next_group;
+            prev = cur;
+            cur = next;
+        }
+        return prev; //prev will be the new head of this group
+    }
+    //迭代版
+    ListNode *reverseKGroup(ListNode *head, int k){
+        if(head == nullptr || head->next == nullptr || k<2)
+            return head;
+        ListNode dummy(-1);
+        dummy.next = head;
+
+        for(ListNode *prev = &dummy, *end = head; end; end = prev->next){
+            for(int i=1; i<k&&end; i++)
+                end = end->next;
+            if(end == nullptr)
+                break;
+            prev = reverse(prev, prev->next, end);
+        }
+
+        return dummy.next;
+    }
+    //prev是first前一个元素，[begin,end]闭区间，保证三者都不为null
+    //返回反转后的倒数第一个元素
+    ListNode *reverse(ListNode *prev, ListNode *begin, ListNode *end){
+        ListNode *end_next = end->next;
+        for(ListNode *p = begin, *cur=p->next, *next = cur->next;
+            cur != end_next;
+            p = cur,cur = next, next=next?next->next:nullptr){
+            cur->next = p;
+        }
+        begin->next = end_next;
+        prev->next = end;
+        return begin;
+    }
+
+
+    /**
      * 61. Rotate List
      * Given a list, rotate the list to the right by k places, where k is non-negative.
 
@@ -350,6 +427,17 @@ Given m, n satisfy the following condition:
         }
 
         return prehead.next;
+    }
+
+    /**
+     * 138. Copy List with Random Pointer
+     * A linked list is given such that each node contains an additional random pointer 
+     * which could point to any node in the list or null.
+
+Return a deep copy of the list.
+     */
+    RandomListNode *copyRandomList(RandomListNode *head) {
+        
     }
 
     /**
