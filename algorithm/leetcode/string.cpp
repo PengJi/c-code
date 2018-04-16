@@ -1,8 +1,7 @@
 class Solution {
 public:
     /*
-     * 3. 
-     * Longest Substring Without Repeating Characters
+     * 3. Longest Substring Without Repeating Characters
      * Given a string, find the length of the longest substring without repeating characters.
 
 Examples:
@@ -24,6 +23,92 @@ Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer 
     }
 
     /**
+     * 28. Implement strStr()
+     * Implement strStr().
+
+Return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+
+Example 1:
+Input: haystack = "hello", needle = "ll"
+Output: 2
+
+Example 2:
+Input: haystack = "aaaaa", needle = "bba"
+Output: -1
+Clarification:
+
+What should we return when needle is an empty string? This is a great question to ask during an interview.
+
+For the purpose of this problem, we will return 0 when needle is an empty string. This is consistent to C's strstr() and Java's indexOf().
+     */
+    //暴力破解
+    //还有KMP算法，Boyer-Mooer算法和Rabin-karp算法
+    int strStr(string haystack, string needle) {
+        if(needle.empty())
+            return 0;
+
+        const int N = haystack.size() - needle.size()+1;
+        for(int i=0; i<N; i++){
+            int j=i;
+            int k=0;
+            while(j<haystack.size() && k<needle.size() && haystack[j] == needle[k]){
+                j++;
+                k++;
+            }
+            if(k==needle.size())
+                return i;
+        }
+
+        return -1;
+    }
+    //KMP
+    int strStr(string haystack, string needle){
+        return kmp(haystack.c_str(), needle.c_str());
+    }
+    //计算部分匹配表，即next数组，pattern模式串
+    static void compute_prefix(const char *pattern, int next[]){
+        int i;
+        int j = -1;
+        const int m = strlen(pattern);
+
+        next[0] = j;
+        for(i=1; i<m; i++){
+            while (j > -1 && pattern[j + 1] != pattern[i]) j = next[j];
+
+            if (pattern[i] == pattern[j + 1]) j++;
+            next[i] = j;
+        }
+    }
+    static int kmp(const char *text, const char *pattern){
+        int i;
+        int j=-1;
+
+        const int n = strlen(text);
+        const int m = strlen(pattern);
+        if(n==0 && m==0)
+            return 0;
+        if(m==0)
+            return 0;
+        int *next = (int*) malloc(sizeof(int) * m);
+
+        compute_prefix(pattern,next);
+
+        for(i=0; i<n; i++){
+            while (j > -1 && pattern[j + 1] != text[i]) j = next[j];
+
+            if (text[i] == pattern[j + 1]) j++;
+            if(j == m-1){
+                free(next);
+                return i-j;
+            }  
+            
+        }
+
+        free(next);
+        return -1;
+    }
+
+    /**
      * 125. Valid Palindrome
      * Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
 
@@ -40,10 +125,15 @@ For the purpose of this problem, we define empty string as valid palindrome.
         transform(s.begin(), s.end(), s.begin(), ::tolower);
         auto left = s.begin(), right = prev(s.end());
         while(left<right){
-            if (!::isalnum(*left)) ++left;
-            else if (!::isalnum(*right)) --right;
-            else if (*left != *right) return false;
-            else { left++, right--; }
+            if (!::isalnum(*left)) 
+                ++left;
+            else if (!::isalnum(*right)) 
+                --right;
+            else if (*left != *right) 
+                return false;
+            else{
+                left++, right--;
+            }
         }
         return true;
     }
