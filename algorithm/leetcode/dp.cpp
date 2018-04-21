@@ -76,6 +76,7 @@ Output: 6
 		int ret = 0;
 		for(int i=0; i<m; ++i){
 			int left = 0, right = n;
+			//calculate L(i,j) from left to right
 			for(int j=0; j<n; ++j){
 				if(matrix[i][j] == '1'){
 					++H[j];
@@ -86,6 +87,7 @@ Output: 6
 				}
 			}
 
+			//calculate R(i,j) from right to left
 			for(int j=n-1; j>=0; --j){
 				if(matrix[i][j] == '1'){
 					R[j] = min(R[j],right);
