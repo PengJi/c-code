@@ -3,9 +3,6 @@
 #include <string.h>
 #include <memory.h>
 #include <stdbool.h>
-#include <iostream>
-
-using namespace std;
 
 int main ()
 {
