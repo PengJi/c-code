@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <string.h>
 
+/**
+ * 字符串拼接
+ */
+
 int main(){
 	char str[10];
 	strcpy(str,"these ");
