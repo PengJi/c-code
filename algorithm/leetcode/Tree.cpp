@@ -70,17 +70,17 @@ Given n = 3, your program should return all 5 unique BST's shown below.
  * };
  */
 public:
-  vector<TreeNode*> generateTrees(int n) {
-    if(n == 0)
-      return generate(1,0);
-    return generate(1,n);
-  }
+	vector<TreeNode*> generateTrees(int n) {
+		if(n == 0)
+			return generate(1,0);
+	return generate(1,n);
+	}
 private:
-  vector<TreeNode *> generate(int start, int end){
-    vector<TreeNode*> subTree;
-    if(start > end){
-      subTree.push_back(nullptr);
-      return subTree;
+	vector<TreeNode *> generate(int start, int end){
+		vector<TreeNode*> subTree;
+		if(start > end){
+			subTree.push_back(nullptr);
+		return subTree;
     }
     for(int k=start; k <= end; ++k){
       vector<TreeNode*> leftSubs = generate(start, k-1);
@@ -145,16 +145,15 @@ Example 2:
   2   3
 Binary tree [1,2,3], return false.
    */
-  bool isValidBST(TreeNode* root) {
-    return isValidBST(root,NULL,NULL);
-  }
-  bool isValidBST(TreeNode *root,TreeNode* lower, TreeNode* upper){
-    if(root == nullptr)
-      return true;
-    if(lower && root->val <= lower->val || upper && root->val >= upper->val)
-      return false;
-    return isValidBST(root->left,lower,root)
-      && isValidBST(root->right,root,upper);
+	bool isValidBST(TreeNode* root) {
+		return isValidBST(root,NULL,NULL);
+	}
+	bool isValidBST(TreeNode *root,TreeNode* lower, TreeNode* upper){
+		if(root == nullptr)
+			return true;
+		if(lower && root->val <= lower->val || upper && root->val >= upper->val)
+			return false;
+		return isValidBST(root->left,lower,root) && isValidBST(root->right,root,upper);
   }
 
   /**
@@ -899,7 +898,7 @@ return [3,2,1].
 
 Note: Recursive solution is trivial, could you do it iteratively?
 	 */
-	  vector<int> postorderTraversal(TreeNode *root) {
+	vector<int> postorderTraversal(TreeNode *root) {
         vector<int> vec;
         stack<TreeNode *> stk;
         TreeNode *node = root;
