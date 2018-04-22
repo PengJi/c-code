@@ -1,3 +1,7 @@
+/**
+ * 细节实现题
+ * 不用特定的算法，考察代码的熟练度
+ */
 class Solution {
 public:
 	/**
@@ -38,6 +42,48 @@ For the purpose of this problem, assume that your function returns 0 when the re
         	else
         		return r;
         }
+	}
+
+  /**
+   * 9. Palindrome Number
+   * Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.
+
+Example 1:
+Input: 121
+Output: true
+
+Example 2:
+Input: -121
+Output: false
+Explanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.
+
+Example 3:
+Input: 10
+Output: false
+Explanation: Reads 01 from right to left. Therefore it is not a palindrome.
+
+Follow up:
+Coud you solve it without converting the integer to a string?
+   */
+	//不断地区第一位和最后一位进行比较，相等则取第二位和倒数第二位，知道完成比较或者找到了不一致的位
+	bool isPalindrome(int x) {
+		if(x<0)
+			return false;
+
+		int d=1;
+		while(x/d >= 10)
+			d *=10;
+
+		while(x>0){
+			int q = x/d;
+			int r = x%10;
+			if(q != r)
+				return false;
+			x = x%d/10;
+			d /= 100;
+		}
+
+		return true;
 	}
 
 	/**
@@ -145,6 +191,5 @@ the contiguous subarray [2,3] has the largest product = 6.
 	        m = max(m, pMax);
 	    }
 	    return m;
-    }
-
-};
+    }	
+}
