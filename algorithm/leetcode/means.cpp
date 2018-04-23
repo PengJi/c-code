@@ -208,6 +208,63 @@ Explanation: Because the new interval [4,8] overlaps with [3,5],[6,7],[8,10].
 	}
 
 	/**
+	 * 118. Pascal's Triangle
+	 * Given a non-negative integer numRows, generate the first numRows of Pascal's triangle.
+
+
+In Pascal's triangle, each number is the sum of the two numbers directly above it.
+
+Example:
+
+Input: 5
+Output:
+[
+     [1],
+    [1,1],
+   [1,2,1],
+  [1,3,3,1],
+ [1,4,6,4,1]
+]
+	 */
+	//可以用队列，计算下一行时，给上一行左右各加一个0，然后下一行的每个元素，就等于左上角和右上角之和。
+	//另一种思路，下一行的第一个元素和最后一个元素赋值为1，中间的每个元素，等于上一行的左上角和右上角元素之和。
+	vector<vector<int>> generate(int numRows) {
+		vector<vector<int>> result;
+
+		if(numRows == 0)
+			return result;
+
+		result.push_back(vector<int>(1,1)); //first row
+
+		for(int i=2; i<=numRows; ++i){
+			vector<int> currrent(i,1); //本行
+			const vector<int> &prev = result[i-2]; //上一行
+
+			for(int j=1; j<i-1; ++j){
+				currrent[j] = prev[j-1] + prev[j]; //左上角和右上角之和
+			}
+			result.push_back(currrent);
+		}
+
+		return result;
+	}
+	//从右到左
+	vector<vector<int>> genearate(int numRows){
+		vector<vector<int>> reuslt;
+		vector<int> array;
+
+		for(int i=1; i<=numRows; i++){
+			for(int j=i-2; j>0; j--){
+				array[j] = array[j-1] + array[j];
+			}
+			array.push_back(1);
+			result.push_back(array);
+		}
+
+		return result;
+	}
+
+	/**
 	 * 119. Pascal's Triangle II
 	 * 
 Given a non-negative index k where k ≤ 33, return the kth index row of the Pascal's triangle.
