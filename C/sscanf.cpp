@@ -2,7 +2,6 @@
 
 using namespace std;
 
-//½âÎöÍøÖ·
 int main(){
 	const char *s = "http://www.baidu.com:1234";
     char protocol[32] = { 0 };
