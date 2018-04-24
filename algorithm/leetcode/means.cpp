@@ -163,6 +163,63 @@ n is a 32-bit signed integer, within the range [−231, 231 − 1]
 	}
 
 	/**
+	 * 54. Spiral Matrix
+	 * Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order.
+
+Example 1:
+
+Input:
+[
+ [ 1, 2, 3 ],
+ [ 4, 5, 6 ],
+ [ 7, 8, 9 ]
+]
+Output: [1,2,3,6,9,8,7,4,5]
+
+Example 2:
+Input:
+[
+  [1, 2, 3, 4],
+  [5, 6, 7, 8],
+  [9,10,11,12]
+]
+Output: [1,2,3,4,8,12,11,10,9,5,6,7]
+	 */
+	vector<int> spiralOrder(vector<vector<int>>& matrix) {
+		vector<int> result;
+		if(matrix.empty())
+			return result;
+
+		int beginX=0, endX=matrix[0].size()-1;
+		int beginY=0, endY=matrix.size()-1;
+
+		while(true){
+			//from left to right
+			for(int j=beginX; j<=endX; ++j)
+				result.push_back(matrix[beginY][j]);
+			if(++beginY > endY)
+				break;
+			//from top to bottom
+			for(int i=beginY; i<=endY; ++i)
+				result.push_back(matrix[i][endX]);
+			if(beginX > --endX)
+				break;
+			//from right to left
+			for(int j=endX; j>=beginX; --j)
+				result.push_back(matrix[endY][j]);
+			if(beginY > --endY)
+				break;
+			//from bottom to top
+			for(int i=endY; i>=beginY; --i)
+				result.push_back(matrix[i][beginX]);
+			if(++beginX > endX)
+				break;
+		}
+
+		return result;
+	}
+
+	/**
 	 * 57. Insert Interval
 	 * Given a set of non-overlapping intervals, insert a new interval into the intervals (merge if necessary).
 
@@ -249,8 +306,8 @@ Output:
 		return result;
 	}
 	//从右到左
-	vector<vector<int>> genearate(int numRows){
-		vector<vector<int>> reuslt;
+	vector<vector<int>> generate(int numRows){
+		vector<vector<int>> result;
 		vector<int> array;
 
 		for(int i=1; i<=numRows; i++){
