@@ -442,7 +442,7 @@ return its zigzag level order traversal as:
     return result;
   }
 
-    /**
+  /**
      * 104. Maximum Depth of Binary Tree
      * Given a binary tree, find its maximum depth.
 
@@ -531,7 +531,7 @@ return its bottom-up level order traversal as:
     return result;
   }
 
-    /**
+  /**
      * 108. Convert Sorted Array to Binary Search Tree
      * Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
 
@@ -758,7 +758,8 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-flatten-binary-tree-to-linked.ht
     	preorder(root->left,allNodes);
     	preorder(root->right,allNodes);
     }
-    /**
+
+  /**
      * 117. Populating Next Right Pointers in Each Node II
      * Follow up for problem "Populating Next Right Pointers in Each Node".
 
@@ -809,7 +810,7 @@ After calling your function, the tree should look like:
     connect(dumy.next);
   }
 
-    /**
+  /**
      * 124. Binary Tree Maximum Path Sum
      * Given a binary tree, find the maximum path sum.
 
