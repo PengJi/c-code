@@ -1,3 +1,6 @@
+/**
+ * 贪心算法
+ */
 class Solution {
 public:
     /**
