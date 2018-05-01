@@ -18,7 +18,7 @@ dp(i, j) represents whether s(i ... j) can form a palindromic substring,
 dp(i, j) is true when s(i) equals to s(j) and s(i+1 ... j-1) is a palindromic substring. 
 When we found a palindrome, check if it's the longest one. Time complexity O(n^2).
 
-solution:
+Solution:
 http://bangbingsyb.blogspot.ca/2014/11/leetcode-longest-palindromic-substring.html
      */
     string longestPalindrome(string s) {

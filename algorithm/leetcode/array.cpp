@@ -1,3 +1,6 @@
+/**
+ * 数组
+ */
 class Solution {
 public:
 	/**
@@ -315,9 +318,7 @@ Given a sorted array, remove the duplicates in-place such that each element appe
 Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.
 
 Example:
-
 Given nums = [1,1,2],
-
 Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively.
 It doesn't matter what you leave beyond the new length.
      */
@@ -464,15 +465,14 @@ Given input matrix =
   [4,5,6],
   [7,8,9]
 ],
-
 rotate the input matrix in-place such that it becomes:
 [
   [7,4,1],
   [8,5,2],
   [9,6,3]
 ]
-Example 2:
 
+Example 2:
 Given input matrix =
 [
   [ 5, 1, 9,11],
@@ -480,7 +480,6 @@ Given input matrix =
   [13, 3, 6, 7],
   [15,14,12,16]
 ], 
-
 rotate the input matrix in-place such that it becomes:
 [
   [15,13, 2, 5],
@@ -524,7 +523,6 @@ Determine if you are able to reach the last index.
 
 For example:
 A = [2,3,1,1,4], return true.
-
 A = [3,2,1,0,4], return false.
 
 solution:
@@ -572,9 +570,7 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-merge-intervals.html
     /**
      * 66. Plus One
 Given a non-negative integer represented as a non-empty array of digits, plus one to the integer.
-
 You may assume the integer do not contain any leading zero, except the number 0 itself.
-
 The digits are stored such that the most significant digit is at the head of the list.
      */
     //代码一
@@ -619,7 +615,6 @@ What if duplicates are allowed at most twice?
 
 For example,
 Given sorted array nums = [1,1,1,2,2,3],
-
 Your function should return length = 5, with the first five elements of nums being 1, 1, 2, 2 and 3. 
 It doesn't matter what you leave beyond the new length.
      */
@@ -724,7 +719,7 @@ What is the minimum candies you must give?
 
         return accumulate(&increment[0], &increment[0]+n,n);
     }
-    //递归扮
+    //递归版
     int candy(const vector<int>& ratings){
         vector<int> f(ratings.size());
         int sum=0;
@@ -751,7 +746,7 @@ Given an array of integers, every element appears twice except for one. Find tha
 Note:
 Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
      */
-    //异或，不仅能处理两次的情况，只要出现欧数次，都可以清零
+    //异或，不仅能处理两次的情况，只要出现偶数次，都可以清零
     //代码1
     int singleNumber(vector<int>& nums) {
         int x = 0;
@@ -766,8 +761,7 @@ Your algorithm should have a linear runtime complexity. Could you implement it w
     }
 
 	/*
-	 * 287. 
-	 * Find the Duplicate Number
+	 * 287. Find the Duplicate Number
 Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), 
 prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
 
