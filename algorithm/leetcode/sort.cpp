@@ -1,3 +1,6 @@
+/**
+ * 排序
+ */
 class Solution {
 public:
     /**
@@ -34,7 +37,7 @@ public:
 
     /**
      * 41. First Missing Positive
-     * Given an unsorted integer array, find the first missing positive integer.
+Given an unsorted integer array, find the first missing positive integer.
 
 For example,
 Given [1,2,0] return 3,
@@ -66,8 +69,8 @@ Your algorithm should run in O(n) time and uses constant space.
 
 	/**
 	 * 75. Sort Colors
-	 * Given an array with n objects colored red, white or blue, sort them so that objects of the same color are adjacent, 
-	 * with the colors in the order red, white and blue.
+Given an array with n objects colored red, white or blue, sort them so that objects of the same color are adjacent, 
+with the colors in the order red, white and blue.
 
 Here, we will use the integers 0, 1, and 2 to represent the color red, white, and blue respectively.
 
@@ -122,7 +125,7 @@ You are not suppose to use the library's sort function for this problem.
 
 	/**
 	 * 88. Merge Sorted Array
-	 * Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
+Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
 
 Note:
 You may assume that nums1 has enough space (size that is greater or equal to m + n) to hold additional elements from nums2. 

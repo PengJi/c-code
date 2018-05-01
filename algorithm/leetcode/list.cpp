@@ -1,4 +1,8 @@
 /**
+ * 线性表
+ * 链表
+ */
+/**
  * Definition for singly-linked list.
  * struct ListNode {
  *     int val;
@@ -9,9 +13,10 @@
 class Solution {
 public:
 	/*
-	 * 2. 
-	 * Add Two Numbers
-	 * You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
+	 * 2. Add Two Numbers
+You are given two non-empty linked lists representing two non-negative integers. 
+The digits are stored in reverse order and each of their nodes contain a single digit. 
+Add the two numbers and return it as a linked list.
 
 You may assume the two numbers do not contain any leading zero, except the number 0 itself.
 
@@ -34,22 +39,18 @@ Output: 7 -> 0 -> 8
 
     /**
      * 19. Remove Nth Node From End of List
-     * Given a linked list, remove the n-th node from the end of list and return its head.
+Given a linked list, remove the n-th node from the end of list and return its head.
 
 Example:
-
 Given linked list: 1->2->3->4->5, and n = 2.
-
 After removing the second node from the end, the linked list becomes 1->2->3->5.
 Note:
-
 Given n will always be valid.
 
 Follow up:
-
 Could you do this in one pass?
      */
-    /**
+/**
  * Definition for singly-linked list.
  * struct ListNode {
  *     int val;
@@ -77,12 +78,12 @@ Could you do this in one pass?
     }
 
 	/*
-	 * 21. 
-	 * Merge Two Sorted Lists
-	 * Merge two sorted linked lists and return it as a new list. The new list should be made by splicing together the nodes of the first two lists.
-	 *
-	 * solution:
-	 * http://bangbingsyb.blogspot.ca/2014/11/leetcode-merge-two-sorted-lists.html
+	 * 21. Merge Two Sorted Lists
+Merge two sorted linked lists and return it as a new list. 
+The new list should be made by splicing together the nodes of the first two lists.
+
+Solution:
+http://bangbingsyb.blogspot.ca/2014/11/leetcode-merge-two-sorted-lists.html
 	 */
 	ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
         ListNode *l3 = new ListNode(-1);
@@ -110,13 +111,12 @@ Could you do this in one pass?
 
     /**
      * 24. Swap Nodes in Pairs
-     * Given a linked list, swap every two adjacent nodes and return its head.
+Given a linked list, swap every two adjacent nodes and return its head.
 
 Example:
-
 Given 1->2->3->4, you should return the list as 2->1->4->3.
-Note:
 
+Note:
 Your algorithm should use only constant extra space.
 You may not modify the values in the list's nodes, only nodes itself may be changed.
      */
@@ -148,21 +148,17 @@ You may not modify the values in the list's nodes, only nodes itself may be chan
 
     /**
      * 25. Reverse Nodes in k-Group
-     * Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.
+Given a linked list, reverse the nodes of a linked list k at a time and return its modified list.
 
 k is a positive integer and is less than or equal to the length of the linked list. 
 If the number of nodes is not a multiple of k then left-out nodes in the end should remain as it is.
 
 Example:
-
 Given this linked list: 1->2->3->4->5
-
 For k = 2, you should return: 2->1->4->3->5
-
 For k = 3, you should return: 3->2->1->4->5
 
 Note:
-
 Only constant extra memory is allowed.
 You may not alter the values in the list's nodes, only nodes itself may be changed.
      */
@@ -224,13 +220,10 @@ You may not alter the values in the list's nodes, only nodes itself may be chang
 
     /**
      * 61. Rotate List
-     * Given a list, rotate the list to the right by k places, where k is non-negative.
-
+Given a list, rotate the list to the right by k places, where k is non-negative.
 
 Example:
-
 Given 1->2->3->4->5->NULL and k = 2,
-
 return 4->5->1->2->3->NULL.
      */
     //先遍历一遍，得出链表长度len,令 k%=len，
@@ -259,7 +252,7 @@ return 4->5->1->2->3->NULL.
 
     /**
      * 82. Remove Duplicates from Sorted List II
-     * Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.
+Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.
 
 For example,
 Given 1->2->3->3->4->4->5, return 1->2->5.
@@ -318,7 +311,7 @@ Given 1->1->1->2->3, return 2->3.
 
     /**
      * 83. Remove Duplicates from Sorted List
-     * Given a sorted linked list, delete all duplicates such that each element appear only once.
+Given a sorted linked list, delete all duplicates such that each element appear only once.
 
 For example,
 Given 1->1->2, return 1->2.
@@ -365,7 +358,7 @@ Given 1->1->2->3->3, return 1->2->3.
 
     /**
      * 86. Partition List
-     * Given a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
+Given a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
 
 You should preserve the original relative order of the nodes in each of the two partitions.
 
@@ -397,11 +390,10 @@ return 1->2->2->4->3->5.
 
     /**
      * 92. Reverse Linked List II
-     * Reverse a linked list from position m to n. Do it in-place and in one-pass.
-     *
-     * For example:
-Given 1->2->3->4->5->NULL, m = 2 and n = 4,
+Reverse a linked list from position m to n. Do it in-place and in one-pass.
 
+For example:
+Given 1->2->3->4->5->NULL, m = 2 and n = 4,
 return 1->4->3->2->5->NULL.
 
 Note:
@@ -430,8 +422,7 @@ Given m, n satisfy the following condition:
 
     /**
      * 138. Copy List with Random Pointer
-     * A linked list is given such that each node contains an additional random pointer 
-     * which could point to any node in the list or null.
+A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null.
 
 Return a deep copy of the list.
      */
@@ -464,7 +455,7 @@ Return a deep copy of the list.
 
     /**
      * 141. Linked List Cycle
-     * Given a linked list, determine if it has a cycle in it.
+Given a linked list, determine if it has a cycle in it.
 
 Follow up:
 Can you solve it without using extra space?
@@ -484,7 +475,7 @@ Can you solve it without using extra space?
 
     /**
      * 142. Linked List Cycle II
-     * Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
+Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
 
 Note: Do not modify the linked list.
 
@@ -513,9 +504,8 @@ Can you solve it without using extra space?
     }
 
 	/*
-	 * 143
-	 * Reorder List
-	 * Given a singly linked list L: L0→L1→…→Ln-1→Ln,
+	 * 143. Reorder List
+Given a singly linked list L: L0→L1→…→Ln-1→Ln,
 reorder it to: L0→Ln→L1→Ln-1→L2→Ln-2→…
 
 You must do this in-place without altering the nodes' values.
@@ -560,8 +550,7 @@ Given {1,2,3,4}, reorder it to {1,4,2,3}.
     }
 
 	/*
-	 * 147
-	 * insertion-sort-list
+	 * 147. insertion-sort-list
 	 * Sort a linked list using insertion sort.
 	 */
 	ListNode* insertionSortList(ListNode* head) {
@@ -587,13 +576,12 @@ Given {1,2,3,4}, reorder it to {1,4,2,3}.
     }
 
 	/*
-	 * 148
-	 * Sort List
-	 * Sort a linked list in O(nlogn) time using constant space complexity.
-     *
-     * solution:
-	 * 快慢指针，归并排序
-	 * https://www.nowcoder.com/questionTerminal/d75c232a0405427098a8d1627930bea6
+	 * 148. Sort List
+Sort a linked list in O(nlogn) time using constant space complexity.
+
+Solution:
+快慢指针，归并排序
+https://www.nowcoder.com/questionTerminal/d75c232a0405427098a8d1627930bea6
 	 */
     ListNode *sortList(ListNode *head){
         if(!head || !head->next)

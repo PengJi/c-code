@@ -1,4 +1,5 @@
 /**
+ * 线性表
  * 数组
  */
 class Solution {

@@ -1,4 +1,11 @@
 /**
+ * 树
+ * 二叉树的遍历
+ * 二叉树的构建
+ * 二叉查找树
+ * 二叉树的递归
+ */
+/**
  * Definition for a binary tree node.
  * struct TreeNode {
  *     int val;
@@ -49,7 +56,7 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-binary-tree-inorder-traversal.ht
 
   /**
    * 95. Unique Binary Search Trees II
-   * Given an integer n, generate all structurally unique BST's (binary search trees) that store values 1...n.
+Given an integer n, generate all structurally unique BST's (binary search trees) that store values 1...n.
 
 For example,
 Given n = 3, your program should return all 5 unique BST's shown below.
@@ -100,7 +107,7 @@ private:
 
   /**
    * 96. Unique Binary Search Trees
-   * Given n, how many structurally unique BST's (binary search trees) that store values 1...n?
+Given n, how many structurally unique BST's (binary search trees) that store values 1...n?
 
 For example,
 Given n = 3, there are a total of 5 unique BST's.
@@ -126,7 +133,6 @@ Given n = 3, there are a total of 5 unique BST's.
 
   /**
    * 98. Validate Binary Search Tree
-   * 
 Given a binary tree, determine if it is a valid binary search tree (BST).
 
 Assume a BST is defined as follows:
@@ -158,7 +164,7 @@ Binary tree [1,2,3], return false.
 
   /**
    * 99. Recover Binary Search Tree
-   * Two elements of a binary search tree (BST) are swapped by mistake.
+Two elements of a binary search tree (BST) are swapped by mistake.
 
 Recover the tree without changing its structure.
 
@@ -210,17 +216,14 @@ A solution using O(n) space is pretty straight forward. Could you devise a const
     }
   }
 
-
   /**
    * 100. Same Tree
-   * 
 Given two binary trees, write a function to check if they are the same or not.
 
 Two binary trees are considered the same if they are structurally identical and the nodes have the same value.
 
 
 Example 1:
-
 Input:     1         1
           / \       / \
          2   3     2   3
@@ -228,8 +231,8 @@ Input:     1         1
         [1,2,3],   [1,2,3]
 
 Output: true
-Example 2:
 
+Example 2:
 Input:     1         1
           /           \
          2             2
@@ -237,8 +240,8 @@ Input:     1         1
         [1,2],     [1,null,2]
 
 Output: false
-Example 3:
 
+Example 3:
 Input:     1         1
           / \       / \
          2   1     1   2
@@ -287,7 +290,7 @@ Output: false
 
 	/*
 	 * 101. Symmetric Tree
-	 * Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
+Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
 
 For example, this binary tree [1,2,2,3,4,4,3] is symmetric:
 
@@ -334,7 +337,7 @@ Bonus points if you could solve it both recursively and iteratively.
 
   /**
    * 102. Binary Tree Level Order Traversal
-   * Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
+Given a binary tree, return the level order traversal of its nodes' values. (ie, from left to right, level by level).
 
 For example:
 Given binary tree [3,9,20,null,null,15,7],
@@ -370,8 +373,8 @@ return its level order traversal as:
 
   /**
    * 103. Binary Tree Zigzag Level Order Traversal
-   * Given a binary tree, return the zigzag level order traversal of its nodes' values. 
-   * (ie, from left to right, then right to left for the next level and alternate between).
+Given a binary tree, return the zigzag level order traversal of its nodes' values. 
+(ie, from left to right, then right to left for the next level and alternate between).
 
 For example:
 Given binary tree [3,9,20,null,null,15,7],
@@ -444,13 +447,12 @@ return its zigzag level order traversal as:
 
   /**
      * 104. Maximum Depth of Binary Tree
-     * Given a binary tree, find its maximum depth.
+Given a binary tree, find its maximum depth.
 
 The maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
 
 For example:
 Given binary tree [3,9,20,null,null,15,7],
-
     3
    / \
   9  20
@@ -467,7 +469,8 @@ return its depth = 3.
 
   /**
    * 107. Binary Tree Level Order Traversal II
-   * Given a binary tree, return the bottom-up level order traversal of its nodes' values. (ie, from left to right, level by level from leaf to root).
+Given a binary tree, return the bottom-up level order traversal of its nodes' values. 
+(ie, from left to right, level by level from leaf to root).
 
 For example:
 Given binary tree [3,9,20,null,null,15,7],
@@ -533,15 +536,13 @@ return its bottom-up level order traversal as:
 
   /**
      * 108. Convert Sorted Array to Binary Search Tree
-     * Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
+Given an array where elements are sorted in ascending order, convert it to a height balanced BST.
 
-For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
-
+For this problem, a height-balanced binary tree is defined as a binary tree in which the depth of the two subtrees of 
+every node never differ by more than 1.
 
 Example:
-
 Given the sorted array: [-10,-3,0,5,9],
-
 One possible answer is: [0,-3,9,-10,null,5], which represents the following height balanced BST:
 
       0
@@ -573,14 +574,13 @@ One possible answer is: [0,-3,9,-10,null,5], which represents the following heig
 
     /**
      * 110. Balanced Binary Tree
-     * Given a binary tree, determine if it is height-balanced.
+Given a binary tree, determine if it is height-balanced.
 
 For this problem, a height-balanced binary tree is defined as:
 
 a binary tree in which the depth of the two subtrees of every node never differ by more than 1.
 
 Example 1:
-
 Given the following tree [3,9,20,null,null,15,7]:
 
     3
@@ -591,7 +591,6 @@ Given the following tree [3,9,20,null,null,15,7]:
 Return true.
 
 Example 2:
-
 Given the following tree [1,2,2,3,3,null,null,4,4]:
 
        1
@@ -620,8 +619,7 @@ Return false.
   }
 
 	/*
-	 * 111
-	 * Minimum Depth of Binary Tree
+	 * 111. Minimum Depth of Binary Tree
 	 * Given a binary tree, find its minimum depth.
 	 * The minimum depth is the number of nodes along the shortest 
 	 * path from the root node down to the nearest leaf node.
@@ -639,8 +637,8 @@ Return false.
 
     /**
      * 112. Path Sum
-     * Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up 
-     * all the values along the path equals the given sum.
+Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up 
+all the values along the path equals the given sum.
 
 For example:
 Given the below binary tree and sum = 22,
@@ -668,7 +666,7 @@ return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
 
   /**
    * 113. Path Sum II
-   * Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
+Given a binary tree and a sum, find all root-to-leaf paths where each path's sum equals the given sum.
 
 For example:
 Given the below binary tree and sum = 22,
@@ -709,13 +707,11 @@ return
   }
     
     /*
-     * 114. 
-     * Flatten Binary Tree to Linked List
-     * Given a binary tree, flatten it to a linked list in-place.
+     * 114. Flatten Binary Tree to Linked List
+Given a binary tree, flatten it to a linked list in-place.
 
 For example,
 Given
-
          1
         / \
        2   5
@@ -761,7 +757,7 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-flatten-binary-tree-to-linked.ht
 
   /**
      * 117. Populating Next Right Pointers in Each Node II
-     * Follow up for problem "Populating Next Right Pointers in Each Node".
+Follow up for problem "Populating Next Right Pointers in Each Node".
 
 What if the given tree could be any binary tree? Would your previous solution still work?
 
@@ -812,7 +808,7 @@ After calling your function, the tree should look like:
 
   /**
      * 124. Binary Tree Maximum Path Sum
-     * Given a binary tree, find the maximum path sum.
+Given a binary tree, find the maximum path sum.
 
 For this problem, a path is defined as any sequence of nodes from some starting node to any node in the tree 
 along the parent-child connections. The path must contain at least one node and does not need to go through the root.
@@ -854,7 +850,7 @@ Return 6.
 
   /**
    * 129. Sum Root to Leaf Numbers
-   * Given a binary tree containing digits from 0-9 only, each root-to-leaf path could represent a number.
+Given a binary tree containing digits from 0-9 only, each root-to-leaf path could represent a number.
 
 An example is the root-to-leaf path 1->2->3 which represents the number 123.
 
@@ -884,9 +880,8 @@ Return the sum = 12 + 13 = 25.
   }
 
 	/*
-	 * 145
-	 * Binary Tree Postorder Traversal
-	 * Given a binary tree, return the postorder traversal of its nodes' values.
+	 * 145. Binary Tree Postorder Traversal
+Given a binary tree, return the postorder traversal of its nodes' values.
 
 For example:
 Given binary tree {1,#,2,3},

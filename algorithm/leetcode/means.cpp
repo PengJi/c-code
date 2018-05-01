@@ -6,7 +6,7 @@ class Solution{
 public:
 	/**
 	 * 7. Reverse Integer
-	 * Given a 32-bit signed integer, reverse digits of an integer.
+Given a 32-bit signed integer, reverse digits of an integer.
 
 Example 1:
 
@@ -46,7 +46,7 @@ range: [−231,  231 − 1]. For the purpose of this problem, assume that your f
 
 	/**
 	 * 9. Palindrome Number
-	 * Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.
+Determine whether an integer is a palindrome. An integer is a palindrome when it reads the same backward as forward.
 
 Example 1:
 
@@ -66,7 +66,7 @@ Follow up:
 
 Coud you solve it without converting the integer to a string?
 	 */
-	//不断地区第一位和最后一位进行比较，相等则取第二位和倒数第二位，知道完成比较或者找到了不一致的位
+	//不断地取第一位和最后一位进行比较，相等则取第二位和倒数第二位，知道完成比较或者找到了不一致的位
 	bool isPalindrome(int x){
 		if(x<0)
 			return false;
@@ -89,7 +89,7 @@ Coud you solve it without converting the integer to a string?
 
 	/**
 	 * 29. Divide Two Integers
-	 * Given two integers dividend and divisor, divide two integers without using multiplication, division and mod operator.
+Given two integers dividend and divisor, divide two integers without using multiplication, division and mod operator.
 
 Return the quotient after dividing dividend by divisor.
 
@@ -128,7 +128,8 @@ Assume we are dealing with an environment which could only store integers within
 
 	/**
 	 * 30. Substring with Concatenation of All Words
-	 * You are given a string, s, and a list of words, words, that are all of the same length. Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once and without any intervening characters.
+You are given a string, s, and a list of words, words, that are all of the same length. 
+Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once and without any intervening characters.
 
 Example 1:
 Input:
@@ -191,7 +192,6 @@ Output: []
 
 	/**
 	 * 50. Pow(x, n)
-	 * 
 Implement pow(x, n), which calculates x raised to the power n (xn).
 
 Example 1:
@@ -232,10 +232,9 @@ n is a 32-bit signed integer, within the range [−231, 231 − 1]
 
 	/**
 	 * 54. Spiral Matrix
-	 * Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order.
+Given a matrix of m x n elements (m rows, n columns), return all elements of the matrix in spiral order.
 
 Example 1:
-
 Input:
 [
  [ 1, 2, 3 ],
@@ -289,7 +288,7 @@ Output: [1,2,3,4,8,12,11,10,9,5,6,7]
 
 	/**
 	 * 57. Insert Interval
-	 * Given a set of non-overlapping intervals, insert a new interval into the intervals (merge if necessary).
+Given a set of non-overlapping intervals, insert a new interval into the intervals (merge if necessary).
 
 You may assume that the intervals were initially sorted according to their start times.
 
@@ -334,10 +333,9 @@ Explanation: Because the new interval [4,8] overlaps with [3,5],[6,7],[8,10].
 
 	/**
 	 * 59. Spiral Matrix II
-	 * Given a positive integer n, generate a square matrix filled with elements from 1 to n2 in spiral order.
+Given a positive integer n, generate a square matrix filled with elements from 1 to n2 in spiral order.
 
 Example:
-
 Input: 3
 Output:
 [
@@ -401,13 +399,11 @@ Output:
 
 	/**
 	 * 118. Pascal's Triangle
-	 * Given a non-negative integer numRows, generate the first numRows of Pascal's triangle.
-
+Given a non-negative integer numRows, generate the first numRows of Pascal's triangle.
 
 In Pascal's triangle, each number is the sum of the two numbers directly above it.
 
 Example:
-
 Input: 5
 Output:
 [
@@ -458,16 +454,13 @@ Output:
 
 	/**
 	 * 119. Pascal's Triangle II
-	 * 
 Given a non-negative index k where k ≤ 33, return the kth index row of the Pascal's triangle.
 
 Note that the row index starts from 0.
 
-
 In Pascal's triangle, each number is the sum of the two numbers directly above it.
 
 Example:
-
 Input: 3
 Output: [1,3,3,1]
 Follow up:
@@ -489,7 +482,7 @@ Could you optimize your algorithm to use only O(k) extra space?
 
 	/**
 	 * 152. Maximum Product Subarray
-	 * Find the contiguous subarray within an array (containing at least one number) which has the largest product.
+Find the contiguous subarray within an array (containing at least one number) which has the largest product.
 
 For example, given the array [2,3,-2,4],
 the contiguous subarray [2,3] has the largest product = 6.

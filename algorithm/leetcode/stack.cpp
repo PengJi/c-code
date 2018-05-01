@@ -1,8 +1,11 @@
+/**
+ * 栈和队列
+ */
 class Solution {
 public:
-    /*
-    20. Valid Parentheses
-    Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
+    /**
+     * 20. Valid Parentheses
+Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
 
 The brackets must close in the correct order, "()" and "()[]{}" are all valid but "(]" and "([)]" are not.
      */
@@ -27,7 +30,7 @@ The brackets must close in the correct order, "()" and "()[]{}" are all valid bu
 
     /**
      * 32. Longest Valid Parentheses
-     * Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
+Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.
 
 For "(()", the longest valid parentheses substring is "()", which has length = 2.
 
@@ -60,11 +63,10 @@ Another example is ")()())", where the longest valid parentheses substring is "(
     }
 
 	/*
-	 * 150
-	 * Evaluate Reverse Polish Notation
-	 * Evaluate the value of an arithmetic expression in Reverse Polish Notation.
-	 * 
-	 * Valid operators are +, -, *, /. Each operand may be an integer or another expression.
+	 * 150. Evaluate Reverse Polish Notation
+Evaluate the value of an arithmetic expression in Reverse Polish Notation.
+
+Valid operators are +, -, *, /. Each operand may be an integer or another expression.
 	 */
     int evalRPN(vector<string>& tokens) {
         int a,b;

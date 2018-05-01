@@ -1,11 +1,13 @@
+/**
+ * 字符串
+ */
 class Solution {
 public:
     /*
      * 3. Longest Substring Without Repeating Characters
-     * Given a string, find the length of the longest substring without repeating characters.
+Given a string, find the length of the longest substring without repeating characters.
 
 Examples:
-
 Given "abcabcbb", the answer is "abc", which the length is 3.
 Given "bbbbb", the answer is "b", with the length of 1.
 Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer must be a substring, "pwke" is a subsequence and not a substring.
@@ -24,16 +26,15 @@ Given "pwwkew", the answer is "wke", with the length of 3. Note that the answer 
 
     /**
      * 14. Longest Common Prefix
-     * Write a function to find the longest common prefix string amongst an array of strings.
+Write a function to find the longest common prefix string amongst an array of strings.
 
 If there is no common prefix, return an empty string "".
 
 Example 1:
-
 Input: ["flower","flow","flight"]
 Output: "fl"
-Example 2:
 
+Example 2:
 Input: ["dog","racecar","car"]
 Output: ""
 Explanation: There is no common prefix among the input strings.
@@ -72,7 +73,7 @@ All given inputs are in lowercase letters a-z.
 
     /**
      * 28. Implement strStr()
-     * Implement strStr().
+Implement strStr().
 
 Return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
 
@@ -158,8 +159,7 @@ For the purpose of this problem, we will return 0 when needle is an empty string
 
     /**
      * 38. Count and Say
-     * The count-and-say sequence is the sequence of integers with the first five terms as following:
-
+The count-and-say sequence is the sequence of integers with the first five terms as following:
 1.     1
 2.     11
 3.     21
@@ -173,7 +173,6 @@ Given an integer n, generate the nth term of the count-and-say sequence.
 Note: Each term of the sequence of integers will be represented as a string.
 
 Example 1:
-
 Input: 1
 Output: "1"
 
@@ -202,7 +201,7 @@ Output: "1211"
 
     /**
      * 125. Valid Palindrome
-     * Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
+Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
 
 For example,
 "A man, a plan, a canal: Panama" is a palindrome.
