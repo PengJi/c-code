@@ -3,6 +3,103 @@
  */
 class Solution {
 	/**
+	 * 46. Permutations
+Given a collection of distinct integers, return all possible permutations.
+
+Example:
+Input: [1,2,3]
+Output:
+[
+  [1,2,3],
+  [1,3,2],
+  [2,1,3],
+  [2,3,1],
+  [3,1,2],
+  [3,2,1]
+]
+	 */
+	//1. 使用next_permutation()
+	vector<vector<int>> permute(vector<int>& nums) {
+		vector<vector<int>> result;
+		sort(nums.begin(), nums.end());
+
+		do{
+			result.push_back(nums);
+		}while(next_permutation(nums.begin(), nums.end()));
+
+		return result;
+	}
+
+	//重新实现next_permutation()
+	vector<vector<int>> permute(vector<int> &nums){
+		vector<vector<int>> result;
+		sort(nums.begin(), nums.end());
+
+		do{
+			result.push_back(nums);
+		}while(next_permutation(nums.begin(), nums.end()));
+
+		return result;
+	}
+	template<typename BidiIt>
+	bool next_permutation(BidiIt first, BidiIt last) {
+		// Get a reversed range to simplify reversed traversal.
+		const auto rfirst = reverse_iterator<BidiIt>(last);
+		const auto rlast = reverse_iterator<BidiIt>(first);
+		// Begin from the second last element to the first element.
+		auto pivot = next(rfirst);
+		// Find `pivot`, which is the first element that is no less than its
+		// successor. `Prev` is used since `pivort` is a `reversed_iterator`.
+		while (pivot != rlast && *pivot >= *prev(pivot))
+		++pivot;
+		// No such elemenet found, current sequence is already the largest
+		// permutation, then rearrange to the first permutation and return false.
+		if (pivot == rlast) {
+			reverse(rfirst, rlast);
+			return false;
+		}
+		// Scan from right to left, find the first element that is greater than
+		// `pivot`.
+		auto change = find_if(rfirst, pivot, bind1st(less<int>(), *pivot));
+		swap(*change, *pivot);
+		reverse(rfirst, pivot);
+		return true;
+	}
+
+	//2. 递归
+	//扩展节点，每次从左到右，选一个没有出现过的元素
+	//本题不需要判重，因为状态转换图是一颗有层次的树。收敛条件是当前走到了最后一个元素
+	vector<vector<int>> permute(vector<int> &nums){
+		sort(nums.begin(), nums.end());
+
+		vector<vector<int>> result;
+		vector<int> path; //中间结果
+
+		dfs(nums, path, result);
+
+		return result;
+	}
+	void dfs(const vector<int> &nums, vector<int> &path,
+		vector<vector<int>> &result){
+		if(path.size() == nums.size()){ //收敛条件
+			result.push_back(path);
+			return;
+		}
+
+		//扩展状态
+		for(auto i:nums){
+			//查找i是否在path中出现过
+			auto pos = find(path.begin(), path.end(), i);
+
+			if(pos == path.end()){
+				path.push_back(i);
+				dfs(nums, path, result);
+				path.pop_back();
+			}
+		}
+	}
+
+	/**
 	 * 78. Subsets
 	 * Given a set of distinct integers, nums, return all possible subsets (the power set).
 
