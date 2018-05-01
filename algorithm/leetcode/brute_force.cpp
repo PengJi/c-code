@@ -100,6 +100,74 @@ Output:
 	}
 
 	/**
+	 * 47. Permutations II
+Given a collection of numbers that might contain duplicates, return all possible unique permutations.
+
+Example:
+Input: [1,1,2]
+Output:
+[
+  [1,1,2],
+  [1,2,1],
+  [2,1,1]
+]
+	 */
+	//递归
+	//递归函数permute()的参数p，是中间结果，它的长度又能标记当前走到了哪一步，用于判断收敛条件
+	//扩展节点，每次从小到大，选一个没有被用光的元素，直到所有元素被用光
+	//本题不需要判重，因为状态转换是一颗有层次的树
+	vector<vector<int>> permuteUnique(vector<int>& nums) {
+		sort(nums.begin(), nums.end());
+
+		unordered_map<int, int> count_map; //记录每个元素的出现次数
+		for_each(nums.begin(), nums.end(), [&count_map](int e){
+			if(count_map.find(e) != count_map.end())
+				count_map[e]++;
+			else
+				count_map[e] = 1;
+		});
+
+		//将map里的pair拷贝到一个vector里
+		vector<pair<int, int>> elems;
+		for_each(count_map.begin(), count_map.end(), [&elems](const pair<int, int> &e){
+			elems.push_back(e);
+		});
+
+		vector<vector<int>> result; //最终结果
+		vector<int> p; //中间结果
+
+		n = nums.size();
+		permute(elems.begin(), elems.end(), p, result);
+
+		return result;
+	}
+	size_t n;
+	typedef vector<pair<int, int>>::const_iterator iter;
+	void permute(iter first, iter last, vector<int> &p, 
+		vector<vector<int>> &result){
+		if(n == p.size()){ //收敛条件
+			result.push_back(p);
+		}
+
+		//扩展状态
+		for(auto i=first; i!=last; i++){
+			int count = 0; //统计*i在p中出现过多少次
+
+			for(auto j=p.begin(); j!=p.end(); j++){
+				if(i->first == *j){
+					count++;
+				}
+			}
+
+			if(count < i->second){
+				p.push_back(i->first);
+				permute(first, last, p, result);
+				p.pop_back();
+			}
+		}
+	}
+
+	/**
 	 * 78. Subsets
 	 * Given a set of distinct integers, nums, return all possible subsets (the power set).
 
