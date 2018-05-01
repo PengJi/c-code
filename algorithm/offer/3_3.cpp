@@ -4,11 +4,14 @@
 
 using namespace std;
 
+/**
+ * 代码的完整性
+ */
+
 class Solution{
 public:
 	/**
-	 * 16
-	 * 数值的整数次方
+	 * 16. 数值的整数次方
 	 * 实现函数 double Power(double base, int exponent)，求 base 的 exponent 次方，
 	 * 不能使用库函数，同时不需要考虑大数问题
 	 */
