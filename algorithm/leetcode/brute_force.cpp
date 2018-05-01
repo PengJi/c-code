@@ -3,6 +3,27 @@
  */
 class Solution {
 	/**
+	 * 17. Letter Combinations of a Phone Number
+Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent.
+
+A mapping of digit to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.
+
+[图]
+
+Example:
+Input: "23"
+Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
+
+Note:
+Although the above answer is in lexicographical order, your answer could be in any order you want.
+	 */
+	//递归
+	const vector<string> keyboard
+	vector<string> letterCombinations(string digits) {
+
+	}
+
+	/**
 	 * 46. Permutations
 Given a collection of distinct integers, return all possible permutations.
 
@@ -165,6 +186,61 @@ Output:
 				p.pop_back();
 			}
 		}
+	}
+
+	/**
+	 * 77. Combinations
+Given two integers n and k, return all possible combinations of k numbers out of 1 ... n.
+
+Example:
+
+Input: n = 4, k = 2
+Output:
+[
+  [2,4],
+  [3,4],
+  [2,3],
+  [1,2],
+  [1,3],
+  [1,4],
+]
+	 */
+	//递归
+	vector<vector<int>> combine(int n, int k) {
+		vector<vector<int>> result;
+		vector<int> path;
+
+		dfs(n, k, 1, 0, path, result);
+		return result;
+	}
+	static void dfs(int n, int k, int start, int cur, 
+		vector<int> &path, vector<vector<int>> &result){
+		if(cur == k){
+			result.push_back(path);
+		}
+
+		for(int i=start; i<=n; ++i){
+			path.push_back(i);
+			dfs(n, k, i+1, cur+1, path, result);
+			path.pop_back();
+		}
+	}
+	//迭代
+	vector<vector<int>> combine(int n, int k){
+		vector<int> values(n);
+		iota(values.begin(), values.end(), 1);
+
+		vector<bool> select(n, false);
+		fill_n(select.begin(), k, true);
+		vector<vector<int>> result;
+		do{
+			vector<int> one(k);
+			for(int i=0, index=0; i<n; ++i)
+				if(select[i])
+					one[index++] = values[i];
+				result.push_back(one);
+		}while(prev_permutation(select.begin(), select.end()));
+		return result;
 	}
 
 	/**
