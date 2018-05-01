@@ -77,8 +77,8 @@ The median is (2 + 3)/2 = 2.5
 
     /**
      * 15. 3Sum
-     * Given an array S of n integers, are there elements a, b, c in S such that a + b + c = 0? 
-     * Find all unique triplets in the array which gives the sum of zero.
+Given an array S of n integers, are there elements a, b, c in S such that a + b + c = 0? 
+Find all unique triplets in the array which gives the sum of zero.
 
 Note: The solution set must not contain duplicate triplets.
 
@@ -130,9 +130,9 @@ A solution set is:
 
     /**
      * 18. 4Sum
-     * Given an array S of n integers, are there elements a, b, c, 
-     * and d in S such that a + b + c + d = target? 
-     * Find all unique quadruplets in the array which gives the sum of target.
+Given an array S of n integers, are there elements a, b, c, 
+and d in S such that a + b + c + d = target? 
+Find all unique quadruplets in the array which gives the sum of target.
 
 Note: The solution set must not contain duplicate quadruplets.
 
@@ -272,9 +272,8 @@ A solution set is:
     }
 
     /*
-     * 22. 
-     * Generate Parentheses
-     * Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
+     * 22. Generate Parentheses
+Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.
 
 For example, given n = 3, a solution set is:
 
@@ -311,7 +310,7 @@ For example, given n = 3, a solution set is:
 
     /**
      * 26. Remove Duplicates from Sorted Array
-     * Given a sorted array, remove the duplicates in-place such that each element appear only once and return the new length.
+Given a sorted array, remove the duplicates in-place such that each element appear only once and return the new length.
 
 Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.
 
@@ -352,16 +351,12 @@ It doesn't matter what you leave beyond the new length.
 
     /**
      * 27. Remove Element
-     * Given an array and a value, remove all instances of that value in-place and return the new length.
-
+Given an array and a value, remove all instances of that value in-place and return the new length.
 Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.
-
 The order of elements can be changed. It doesn't matter what you leave beyond the new length.
 
 Example:
-
 Given nums = [3,2,2,3], val = 3,
-
 Your function should return length = 2, with the first two elements of nums being 2.
      */
     int removeElement(vector<int>& nums, int val) {
@@ -380,12 +375,9 @@ Your function should return length = 2, with the first two elements of nums bein
 
     /**
      * 33. Search in Rotated Sorted Array
-     * Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
-
+Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
 (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
-
 You are given a target value to search. If found in the array return its index, otherwise return -1.
-
 You may assume no duplicate exists in the array.
      */
     //二分查找，难度在于左右边界的确定
@@ -414,10 +406,9 @@ You may assume no duplicate exists in the array.
     } 
 
     /*
-     * 39. 
-     * Combination Sum
-     * Given a set of candidate numbers (C) (without duplicates) and a target number (T), 
-     * find all unique combinations in C where the candidate numbers sums to T.
+     * 39. Combination Sum
+Given a set of candidate numbers (C) (without duplicates) and a target number (T), 
+find all unique combinations in C where the candidate numbers sums to T.
 
 The same repeated number may be chosen from C unlimited number of times.
 
@@ -461,16 +452,12 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-combination-sum-i-ii.html
 
     /**
      * 48. Rotate Image
-     * 
 You are given an n x n 2D matrix representing an image.
-
 Rotate the image by 90 degrees (clockwise).
-
 Note:
 You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.
 
 Example 1:
-
 Given input matrix = 
 [
   [1,2,3],
@@ -528,9 +515,8 @@ rotate the input matrix in-place such that it becomes:
     }
 
     /*
-     * 55. 
-     * Jump Game
-     * Given an array of non-negative integers, you are initially positioned at the first index of the array.
+     * 55. Jump Game
+Given an array of non-negative integers, you are initially positioned at the first index of the array.
 
 Each element in the array represents your maximum jump length at that position.
 
@@ -556,9 +542,8 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-jump-game-i-ii.html
     }
 
     /*
-     * 56. 
-     * Merge Intervals
-     * Given a collection of intervals, merge all overlapping intervals.
+     * 56. Merge Intervals
+Given a collection of intervals, merge all overlapping intervals.
 
 For example,
 Given [1,3],[2,6],[8,10],[15,18],
@@ -586,7 +571,7 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-merge-intervals.html
 
     /**
      * 66. Plus One
-     * Given a non-negative integer represented as a non-empty array of digits, plus one to the integer.
+Given a non-negative integer represented as a non-empty array of digits, plus one to the integer.
 
 You may assume the integer do not contain any leading zero, except the number 0 itself.
 
@@ -629,7 +614,7 @@ The digits are stored such that the most significant digit is at the head of the
 
     /**
      * 80. Remove Duplicates from Sorted Array II
-     * Follow up for "Remove Duplicates":
+Follow up for "Remove Duplicates":
 What if duplicates are allowed at most twice?
 
 For example,
@@ -669,7 +654,7 @@ It doesn't matter what you leave beyond the new length.
 
     /**
      * 81. Search in Rotated Sorted Array II
-     * Follow up for "Search in Rotated Sorted Array":
+Follow up for "Search in Rotated Sorted Array":
 What if duplicates are allowed?
 
 Would this affect the run-time complexity? How and why?
@@ -710,7 +695,7 @@ The array may contain duplicates.
 
     /**
      * 135. Candy
-     * There are N children standing in a line. Each child is assigned a rating value.
+There are N children standing in a line. Each child is assigned a rating value.
 
 You are giving candies to these children subjected to the following requirements:
 
@@ -761,7 +746,7 @@ What is the minimum candies you must give?
 
     /**
      * 136. Single Number
-     * Given an array of integers, every element appears twice except for one. Find that single one.
+Given an array of integers, every element appears twice except for one. Find that single one.
 
 Note:
 Your algorithm should have a linear runtime complexity. Could you implement it without using extra memory?
@@ -783,9 +768,8 @@ Your algorithm should have a linear runtime complexity. Could you implement it w
 	/*
 	 * 287. 
 	 * Find the Duplicate Number
-	 * Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), 
-     * prove that at least one duplicate number must exist. Assume that there is only one duplicate number, 
-     * find the duplicate one.
+Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), 
+prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
 
 Note:
 You must not modify the array (assume the array is read only).
@@ -818,7 +802,7 @@ There is only one duplicate number in the array, but it could be repeated more t
 
 	/*
 	 * 347. Top K Frequent Elements
-	 * Given a non-empty array of integers, return the k most frequent elements.
+Given a non-empty array of integers, return the k most frequent elements.
 
 For example,
 Given [1,1,1,2,2,3] and k = 2, return [1,2].

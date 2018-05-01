@@ -1,8 +1,11 @@
+/**
+ * 查找
+ */
 class Solution {
 public:
 	/**
 	 * 34. Search for a Range
-	 * Given an array of integers sorted in ascending order, find the starting and ending position of a given target value.
+Given an array of integers sorted in ascending order, find the starting and ending position of a given target value.
 
 Your algorithm's runtime complexity must be in the order of O(log n).
 
@@ -36,8 +39,8 @@ return [3, 4].
 
 	/**
 	 * 35. Search Insert Position
-	 * Given a sorted array and a target value, return the index if the target is found. If not, 
-	 * return the index where it would be if it were inserted in order.
+Given a sorted array and a target value, return the index if the target is found. If not, 
+return the index where it would be if it were inserted in order.
 
 You may assume no duplicates in the array.
 
@@ -77,14 +80,13 @@ Output: 0
 
     /**
      * 74. Search a 2D Matrix
-     * Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
+Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
 
 Integers in each row are sorted from left to right.
 The first integer of each row is greater than the last integer of the previous row.
 For example,
 
 Consider the following matrix:
-
 [
   [1,   3,  5,  7],
   [10, 11, 16, 20],
