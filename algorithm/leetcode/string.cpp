@@ -110,39 +110,38 @@ Given an input string (s) and a pattern (p), implement regular expression matchi
 The matching should cover the entire input string (not partial).
 
 Note:
-
 s could be empty and contains only lowercase letters a-z.
 p could be empty and contains only lowercase letters a-z, and characters like . or *.
-Example 1:
 
+Example 1:
 Input:
 s = "aa"
 p = "a"
 Output: false
 Explanation: "a" does not match the entire string "aa".
-Example 2:
 
+Example 2:
 Input:
 s = "aa"
 p = "a*"
 Output: true
 Explanation: '*' means zero or more of the precedeng element, 'a'. Therefore, by repeating 'a' once, it becomes "aa".
-Example 3:
 
+Example 3:
 Input:
 s = "ab"
 p = ".*"
 Output: true
 Explanation: ".*" means "zero or more (*) of any character (.)".
-Example 4:
 
+Example 4:
 Input:
 s = "aab"
 p = "c*a*b"
 Output: true
 Explanation: c can be repeated 0 times, a can be repeated 1 time. Therefore it matches "aab".
-Example 5:
 
+Example 5:
 Input:
 s = "mississippi"
 p = "mis*is*p*."
@@ -151,6 +150,27 @@ Output: false
     //递归版
     bool isMatch(string s, string p) {
         return isMatch(s.c_str(), p.c_str());
+    }
+    bool isMatch(const char *s, const char *p){
+        if(*p == '\0')
+            return *s = '\0';
+
+        //next char is not '*', then must match current character
+        if(*(p+1) != '*'){
+            if(*p == *s || (*p == '.' && *s != '\0'))
+                return isMatch(s+1, p+1);
+            else 
+                return false;
+        }else{ //next char is '*'
+            while(*p == *s || (*p == '.' && *s != '\0')){
+                if(isMatch(s,p+2))
+                    return true;
+
+                s++;
+            }
+
+            return isMatch(s, p+2);
+        }
     }
 
     /**
@@ -326,6 +346,112 @@ Output: "1211"
         }
 
         return ss.str();
+    }
+
+    /**
+     * 44. Wildcard Matching
+Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*'.
+
+'?' Matches any single character.
+'*' Matches any sequence of characters (including the empty sequence).
+The matching should cover the entire input string (not partial).
+
+Note:
+s could be empty and contains only lowercase letters a-z.
+p could be empty and contains only lowercase letters a-z, and characters like ? or *.
+
+Example 1:
+Input:
+s = "aa"
+p = "a"
+Output: false
+Explanation: "a" does not match the entire string "aa".
+
+Example 2:
+Input:
+s = "aa"
+p = "*"
+Output: true
+Explanation: '*' matches any sequence.
+
+Example 3:
+Input:
+s = "cb"
+p = "?a"
+Output: false
+Explanation: '?' matches 'c', but the second letter is 'a', which does not match 'b'.
+
+Example 4:
+Input:
+s = "adceb"
+p = "*a*b"
+Output: true
+Explanation: The first '*' matches the empty sequence, while the second '*' matches the substring "dce".
+
+Example 5:
+Input:
+s = "acdcb"
+p = "a*c?b"
+Output: false
+     */
+    //主要是'*'的匹配问题，p没遇到过一个'*'，就保留当前'*'的坐标和s的坐标，
+    //然后s从前往后扫描，如果不成功，则s++，重新扫描
+    //递归版（超时）
+    bool isMatch(string s, string p){
+        return isMatch(s.c_str(), p.c_str());
+    }
+    bool isMatch(const char *s, const char *p){
+        if(*p == '*'){
+            while(*p == '*')
+                ++p; //skip continuous '*'
+            if(*p == '\0')
+                return true;
+            while(*s != '\0' && !isMatch(s,p))
+                ++s;
+
+            return *s != '\0';
+        }else if(*p == '\0' || *s == '\0'){
+            return *p == *s;
+        }else if(*p == *s || *p =='?'){
+            return isMatch(++s, ++p);
+        }else
+            return false;
+    }
+    //迭代版
+    bool isMatch(string s, string p) {
+        return isMatch(s.c_str(), p.c_str());
+    }
+    bool isMatch(const char *s, const char *p){
+        bool star = false;
+        const char *str, *ptr;
+        for(str=s, ptr=p; *str != '\0'; str++, ptr++){
+            switch(*ptr){
+                case '?':
+                    break;
+                case '*':
+                    star = true;
+                    s = str, p = ptr;
+                    while(*p == '*')
+                        p++; //skip continuous '*'
+                    if(*p == '\0')
+                        return true;
+                    str = s-1;
+                    ptr = p-1;
+                    break;
+                default:
+                    if(*str != *ptr){
+                        if(!star)
+                            return false;
+                        s++;
+                        str = s-1;
+                        ptr = p-1;
+                    }
+            }
+        }
+
+        while(*ptr == '*')
+            ptr++;
+        return (*ptr == '\0');
     }
 
     /**
