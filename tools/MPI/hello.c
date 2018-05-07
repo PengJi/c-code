@@ -9,10 +9,11 @@ int main(int argc, char *argv[])
 {
     MPI_Init(&argc, &argv); //初始化MPI环境
 	
-	    printf("Hello world!\n");
+	printf("Hello world!\n");
 		
-		    MPI_Finalize(); //结束MPI环境
-			    return 0;
+	MPI_Finalize(); //结束MPI环境
+
+	return 0;
 }
 /*
 mpicc -o hello hello.c
