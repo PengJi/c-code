@@ -490,6 +490,47 @@ Output: "1211"
     }
 
     /**
+     * 49. Group Anagrams
+Given an array of strings, group anagrams together.
+
+Example:
+Input: ["eat", "tea", "tan", "ate", "nat", "bat"],
+Output:
+[
+  ["ate","eat","tea"],
+  ["nat","tan"],
+  ["bat"]
+]
+
+Note:
+All inputs will be in lowercase.
+The order of your output does not matter.
+     */
+    //回文构词法实质打乱字母顺序从而得到新的单词
+    //回文构词法有一个特点：单词里的字母的种类和数目没有改变，
+    //只是改变了字母的排列顺序，因此，将几个单词按照字幕顺序排序后，若它们相等，则它们属于同一组anagrams。
+    vector<vector<string>> groupAnagrams(vector<string>& strs){
+        vector<vector<string>> result;
+        map<string, int> test;
+        int nums = strs.size();
+
+        for(int i=0; i<nums; i++){
+            string temp = strs[i];
+            sort(temp.begin(), temp.end());
+            if(test.count(temp) == 0){
+                test[temp] = result.size();
+                vector<string> v;
+                v.push_back(strs[i]);
+                result.push_back(v);
+            }else{
+                result[test[temp]].push_back(strs[i]);
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * 44. Wildcard Matching
 Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*'.
 
