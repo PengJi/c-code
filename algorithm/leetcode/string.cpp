@@ -726,6 +726,52 @@ Output: "10101"
     }
 
     /**
+     * 71. Simplify Path
+Given an absolute path for a file (Unix-style), simplify it.
+
+For example,
+path = "/home/", => "/home"
+path = "/a/./b/../../c/", => "/c"
+
+Corner Cases:
+Did you consider the case where path = "/../"?
+In this case, you should return "/".
+Another corner case is the path might contain multiple slashes '/' together, such as "/home//foo/".
+In this case, you should ignore redundant slashes and return "/home/foo".
+     */
+    string simplifyPath(string path) {
+        vector<string> dirs;
+
+        for(auto i=path.begin(); i!=path.end();){
+            ++i;
+
+            auto j = find(i, path.end(), '/');
+            auto dir = string(i, j);
+
+            if(!dir.empty() && dir != "."){
+                if(dir == ".."){
+                    if(!dir.empty()){
+                        dirs.pop_back();
+                    }
+                }else{
+                    dirs.push_back(dir);
+                }
+            }
+            i=j;
+        }
+
+        stringstream out;
+        if(dirs.empty()){
+            out << "/";
+        }else{
+            for(auto dir : dirs)
+                out<<'/'<<dir;
+        }
+
+        return out.str();
+    }
+
+    /**
      * 125. Valid Palindrome
 Given a string, determine if it is a palindrome, considering only alphanumeric characters and ignoring cases.
 
