@@ -637,6 +637,43 @@ Output: false
     }
 
     /**
+     * 58. Length of Last Word
+Given a string s consists of upper/lower-case alphabets and empty space characters ' ', 
+return the length of last word in the string.
+
+If the last word does not exist, return 0.
+
+Note: A word is defined as a character sequence consists of non-space characters only.
+
+Example:
+Input: "Hello World"
+Output: 5
+     */
+    //使用STL
+    int lengthOfLastWord(string s) {
+        auto first = find_if(s.rbegin(), s.rend(), ::isalpha);
+        auto last = find_if_not(first, s.rend(), ::isalpha);
+
+        return distance(first, last);
+    }
+    //顺序扫描
+    int lengthOfLastWord(string s){
+        return lengthOfLastWord(s.c_str());
+    }
+    int lengthOfLastWord(const char *s){
+        int len = 0;
+        while(*s){
+            if(*s++ != ' '){
+                ++len;
+            }else if(*s && *s!= ' '){
+                len = 0;
+            }
+        }
+
+        return len;
+    }
+
+    /**
      * 65. Valid Number
 Validate if a given string is numeric.
 
@@ -750,7 +787,7 @@ In this case, you should ignore redundant slashes and return "/home/foo".
 
             if(!dir.empty() && dir != "."){
                 if(dir == ".."){
-                    if(!dir.empty()){
+                    if(!dirs.empty()){
                         dirs.pop_back();
                     }
                 }else{
