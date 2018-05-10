@@ -47,6 +47,29 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-longest-palindromic-substring.ht
     }
 
     /**
+     * 53. Maximum Subarray
+Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+
+Example:
+Input: [-2,1,-3,4,-1,2,1,-5,4],
+Output: 6
+Explanation: [4,-1,2,1] has the largest sum = 6.
+Follow up:
+
+If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more subtle.
+     */
+    //最大连续子序列和
+	int maxSubArray(vector<int>& nums) {
+		int result = INT_MIN, f=0;
+		for(int i=0; i<nums.size(); i++){
+			f = max(f+nums[i], nums[i]);
+			result = max(result,f);
+		}
+
+		return result;
+	}
+
+    /**
      * 85. Maximal Rectangle
 Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
 
@@ -163,6 +186,57 @@ Bonus point if you are able to do this using only O(n) extra space, where n is t
 				triangle[i][j] += min(triangle[i+1][j], triangle[i+1][j+1]);
 
 		return triangle[0][0];
+	}
+
+	/**
+	 * 123. Best Time to Buy and Sell Stock III
+Say you have an array for which the ith element is the price of a given stock on day i.
+
+Design an algorithm to find the maximum profit. You may complete at most two transactions.
+
+Note: You may not engage in multiple transactions at the same time (i.e., you must sell the stock before you buy again).
+
+Example 1:
+Input: [3,3,5,0,0,3,1,4]
+Output: 6
+Explanation: Buy on day 4 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
+             Then buy on day 7 (price = 1) and sell on day 8 (price = 4), profit = 4-1 = 3.
+
+Example 2:
+Input: [1,2,3,4,5]
+Output: 4
+Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.
+             Note that you cannot buy on day 1, buy on day 2 and sell them later, as you are
+             engaging multiple transactions at the same time. You must sell before buying again.
+
+Example 3:
+Input: [7,6,4,3,1]
+Output: 0
+Explanation: In this case, no transaction is done, i.e. max profit = 0.
+	 */
+	int maxProfit(vector<int>& prices) {
+		if(prices.size() < 2)
+			return 0;
+
+		const int n = prices.size();
+		vector<int> f(n,0);
+		vector<int> g(n,0);
+
+		for(int i=1, valley=prices[0]; i<n; ++i){
+			valley = min(valley, prices[i]);
+			f[i] = max(f[i-1], prices[i]-valley);
+		}
+
+		for(int i=n-2, peak=prices[n-1]; i>=0; --i){
+			peak = max(peak, prices[i]);
+			g[i] = max(g[i], peak-prices[i]);
+		}
+
+		int max_profit = 0;
+		for(int i=0; i<n; ++i)
+			max_profit = max(max_profit, f[i]+g[i]);
+
+		return max_profit;
 	}
 	
 	/*
