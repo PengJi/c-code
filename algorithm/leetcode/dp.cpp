@@ -164,6 +164,73 @@ Explanation: It could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).
 		return cur;
 	}
 
+	/**
+	 * 97. Interleaving String
+Given s1, s2, s3, find whether s3 is formed by the interleaving of s1 and s2.
+
+Example 1:
+Input: s1 = "aabcc", s2 = "dbbca", s3 = "aadbbcbcac"
+Output: true
+
+Example 2:
+Input: s1 = "aabcc", s2 = "dbbca", s3 = "aadbbbaccc"
+Output: false
+	 */
+	//设状态f[i][j]，表示s1[0,i]和s2[0,j], 匹配s3[0, i+j]。
+	//如果s1的最后一个字符等于s3的最后一个字符，则f[i][j] = f[i-1][j]；
+	//如果s2的最后一个字符等于s3的最后一个字符，则f[i][j] = f[i][j-1]。
+	//状态转移方程如下：
+	//f[i][j] = (s1[i-1] == s3[i+j-1] && f[i-1][j]) || (s2[j-1] == s3[i+j-1] && f[i][j-1])
+	//动态规划
+	bool isInterleave(string s1, string s2, string s3) {
+		if(s3.length() != s1.length() + s2.length()){
+			return false;
+		}
+
+		vector<vector<bool>> f(s1.length() + 1, vector<bool>(s2.length()+1, true));
+
+		for(size_t i=1; i<=s1.length(); ++i){
+			f[i][0] = f[i-1][0] && s1[i-1] == s3[i-1];
+		}
+
+		for(size_t i=1; i<=s2.length(); ++i){
+			f[0][i] = f[0][i-1] && s2[i-1] == s3[i-1];
+		}
+
+		for(size_t i=1; i<=s1.length(); ++i){
+			for(size_t j=1; j<=s2.length(); ++j){
+				f[i][j] = (s1[i-1] == s3[i+j-1] && f[i-1][j])
+					|| (s2[j-1] == s3[i+j-1] && f[i][j-1]);
+			}
+		}
+
+		return f[s1.length()][s2.length()];
+	}
+	//动态规划+滚动数组
+	bool isInterleave(string s1, string s2, string s3){
+		if(s1.length() + s2.length() != s3.length())
+			return false;
+
+		if(s1.length() < s2.length())
+			return isInterleave(s2, s1, s3);
+
+		vector<bool> f(s2.length()+1, true);
+
+		for(size_t i=1; i<=s2.length(); ++i)
+			f[i] = s2[i-1] == s3[i-1] && f[i-1];
+
+		for(size_t i=1; i<=s1.length(); ++i){
+			f[0] = s1[i-1] == s3[i-1] && f[0];
+
+			for(size_t j=1; j<=s2.length(); ++j){
+				f[j] = (s1[i-1] == s3[i+j-1] && f[j])
+					|| (s2[j-1] == s3[i+j-1] && f[j-1]);
+			}
+		}
+
+		return f[s2.length()];
+	}
+
     /**
      * 120. Triangle
 Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the row below.
