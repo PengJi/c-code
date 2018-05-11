@@ -11,6 +11,12 @@ int main(){
 	char b[] = "1234.567qwer";
 	char c[] = "-232.23e4";
 
+	//使用atof
+	printf("a=%lf\n", atof(a));
+	printf("b=%lf\n", atof(b));
+	printf("c=%lf\n", atof(c));
+
+	//使用strod
 	printf("a=%lf\n", strtod(a,NULL));
 	printf("b=%lf\n", strtod(b, &endptr));
 	printf("endptr=%s\n", endptr);
