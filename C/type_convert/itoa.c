@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/**
+ * 整型转换为字符串
+ */
+
 int main(){
 	int num = 100, fl = 1.1;
 	char str[25];

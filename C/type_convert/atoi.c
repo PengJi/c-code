@@ -1,5 +1,9 @@
 #include <stdio.h>
 
+/**
+ * 字符串转换为整型
+ */
+
 int main(){
 	char *str1="123";
 	char str2[]="4567";
