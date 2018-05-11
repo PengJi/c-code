@@ -352,6 +352,8 @@ int main(int argc,char * argv[])
 	int startPos=moreLength+rank*everageLength; // 0+0*4=0; 0+1*4=4;
 	int stopPos=startPos+everageLength-1; // 0+4-1=3; 4+4-1=7;
 	//[0,1,2,3,4,5,6,7], 片段: [0,3], [4,7]
+	printf("rank: %d, startPos: %d\n", rank, startPos);
+	printf("rank: %d, stopPos: %d\n", rank, stopPos);
 
 	if(rank==0)
 	{
