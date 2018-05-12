@@ -21,6 +21,7 @@ int main(){
 	//itoa(num,str,10);
 	//printf("The number is: %s", str);
 	
+	//浮点型转为字符型
 	sprintf(str,"%g",fl);
 	printf("convert float to char: %s\n", str);
 
