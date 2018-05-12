@@ -352,6 +352,12 @@ int main(int argc,char * argv[])
 	int startPos=moreLength+rank*everageLength; // 0+0*4=0; 0+1*4=4;
 	int stopPos=startPos+everageLength-1; // 0+4-1=3; 4+4-1=7;
 	//[0,1,2,3,4,5,6,7], 片段: [0,3], [4,7]
+	//假设有四个进程：
+	//8/4=2
+	//8%4=0
+	//0+0*2=0; 0+1*2=2; 0+2*2=4; 0+3*2=6
+	//0+2-1=1; 1+2-1=3; 4+2-1=5; 6+2-1=7
+	//片段: [0,1], [2,3], [4,5], [6,7]
 	printf("rank: %d, startPos: %d\n", rank, startPos);
 	printf("rank: %d, stopPos: %d\n", rank, stopPos);
 
