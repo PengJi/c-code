@@ -6,8 +6,9 @@
 
 int main(int argc, char **argv) {
    redisReply *reply;
+
    // Connecting
-   redisContext *c = redisConnect("127.0.0.1", 6001);
+   redisContext *c = redisConnect("127.0.0.1", 6379);
 
    if (c == NULL || c->err) {
       if (c) {
@@ -17,6 +18,7 @@ int main(int argc, char **argv) {
       }   
       return -1; 
    }   
+
    // SET command
    reply = redisCommand(c, "SET key Hello");
    if (reply == NULL) {
