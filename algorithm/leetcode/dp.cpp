@@ -160,6 +160,95 @@ Explanation: Because the path 1→3→1→1→1 minimizes the sum.
     }
 
     /**
+     * 72. Edit Distance
+     * 
+Given two words word1 and word2, find the minimum number of operations required to convert word1 to word2.
+
+You have the following 3 operations permitted on a word:
+Insert a character
+Delete a character
+Replace a character
+
+Example 1:
+Input: word1 = "horse", word2 = "ros"
+Output: 3
+Explanation: 
+horse -> rorse (replace 'h' with 'r')
+rorse -> rose (remove 'r')
+rose -> ros (remove 'e')
+
+Example 2:
+Input: word1 = "intention", word2 = "execution"
+Output: 5
+Explanation: 
+intention -> inention (remove 't')
+inention -> enention (replace 'i' with 'e')
+enention -> exention (replace 'n' with 'x')
+exention -> exection (replace 'n' with 'c')
+exection -> execution (insert 'u')
+     */
+    //设状态为f[i][j]，表示A[0,i]到B[0,j]之间的最小编辑距离。
+    //设A[0,i]的形式是str1c，B[0,j]的形式是str2d
+    //1. 如果c==d，则f[i][j] == f[i-1][j-1]
+    //2. 如果c!=d，
+    //(a)如果将c替换成d，则f[i][j] = f[i-1][j-1]+1;
+    //(b)如果将c后面添加一个d，则f[i][j] = f[i][j-1]+1;
+    //(c)如果将c删除，则f[i][j] = f[i-1][j]+1
+    //动态规划
+	int minDistance(string word1, string word2) {
+		const size_t n = word1.size();
+		const size_t m = word2.size();
+		int f[n+1][m+1];
+
+		for(size_t i=0; i<=n; i++){
+			f[i][0] = i;
+		}
+		for(size_t j=0; j<=m; j++){
+			f[0][j] = j;
+		}
+		for(size_t i=1; i<=n; i++){
+			for(size_t j=1; j<=m; j++){
+				if(word1[i-1] == word2[j-1])
+					f[i][j] = f[i-1][j-1];
+				else{
+					int mn = min(f[i-1][j], f[i][j-1]);
+					f[i][j] = 1+min(f[i-1][j-1], mn);
+				}
+			}
+		}
+
+		return f[n][m];
+	}
+	//动态规划+滚动数组
+	int minDistance(string word1, string word2){
+		if(word1.length() < word2.length())
+			return minDistance(word2, word1);
+
+		int f[word2.length() + 1];
+		int upper_left = 0;
+
+		for(size_t i=0; i<=word2.size(); ++i)
+			f[i] = i;
+
+		for(size_t i=1; i<=word1.size(); ++i){
+			upper_left = f[0];
+			f[0] = i;
+
+			for(size_t j=1; j<=word2.size(); ++j){
+				int upper = f[j];
+				if(word1[i-1] == word2[j-1])
+					f[j] = upper_left;
+				else
+					f[j] = 1+min(upper_left, min(f[j], f[j-1]));
+
+				upper_left = upper;
+			}
+		}
+
+		return f[word2.length()];
+	}
+
+    /**
      * 85. Maximal Rectangle
 Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
 
