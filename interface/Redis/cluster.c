@@ -1,5 +1,29 @@
 #include <hiredis/hiredis.h>
 
+/**
+ * Cluster Meet
+ * Cluster Forget
+ * Cluster AddSlots
+ * Cluster DelSlots
+ * Cluster DelSlots
+ * Cluster Info
+ * Cluster Nodes
+ * Cluster Replicate
+ * Cluster Slaves
+ * Cluster Keyslot
+ * Cluster CountKeysInSlot
+ * Cluster GetKeysInSlot
+ * Cluster SetSlot
+ * Cluster Slots
+ * Cluster Failover
+ * Cluster Count-Failure-Reports
+ * Cluster Reset
+ * Cluster SaveConfig
+ * Cluster Set-Config-Epoch
+ * Cluster ReadOnly
+ * Cluster ReadWrite
+ */
+
 redisReply *reply;
 redisContext *cc;
 

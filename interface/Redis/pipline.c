@@ -1,5 +1,18 @@
 #include <hiredis/hiredis.h>
 
+/**
+ * SET
+ * pipeline SET
+ * LPUSH
+ * pipeline LPUSH
+ * SADD
+ * pipeline SADD
+ * ZADD
+ * pipeline ZADD
+ * HSET
+ * pipeline HSET
+ */
+
 redisReply *reply;
 redisContext *c;
 

@@ -1,5 +1,32 @@
 #include <hiredis/hiredis.h>
 
+/**
+ * SET
+ * DEL
+ * GET
+ * INCR
+ * DECR
+ * INCRBY
+ * DECRBY
+ * INCRBYFLOAT
+ * SETNX
+ * SETEX
+ * PSETEX
+ * MSET
+ * MGET
+ * MSETNX
+ * APPEND
+ * STRLEN
+ * SETRANGE
+ * GETRANGE
+ * GETSET
+ * SETBIT
+ * GETBIT
+ * BITOP
+ * BITCOUNT
+ * BITPOS
+ */
+
 redisReply *reply;
 redisContext *c;
 

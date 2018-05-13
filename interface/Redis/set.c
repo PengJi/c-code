@@ -1,5 +1,23 @@
 #include <hiredis/hiredis.h>
 
+/**
+ * SADD
+ * SREM
+ * SMEMBERS
+ * SCARD
+ * SUNION
+ * SINTER
+ * SDIFF
+ * SUNIONSTORE
+ * SINTERSTORE
+ * SDIFFSTORE
+ * SISMEMBER
+ * SMOVE
+ * SPOP
+ * SRANDMEMBER
+ * SSCAN
+ */
+
 redisReply *reply;
 redisContext *c;
 

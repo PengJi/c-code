@@ -1,5 +1,25 @@
 #include <hiredis/hiredis.h>
 
+/**
+ * LPUSH
+ * RPOP
+ * LPOP
+ * RPUSH
+ * LRANGE
+ * LLEN
+ * LINDEX
+ * LSET
+ * LINSERT
+ * LREM
+ * LTRIM
+ * RPOPLPUSH
+ * LPUSHX
+ * RPUSHX
+ * BLPOP
+ * BRPOP
+ * BRPOPLPUSH
+ */
+
 redisReply *reply;
 redisContext *c;
 

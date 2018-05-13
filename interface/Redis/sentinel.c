@@ -1,5 +1,22 @@
 #include <hiredis/hiredis.h>
 
+/**
+ * INFO Sentinel
+ * Sentinel Monitor
+ * Sentinel Masters
+ * Sentinel Master
+ * Sentinel Slaves
+ * Sentinel Sentinels
+ * Sentinel Reset
+ * Sentinel Failover
+ * Sentinel Ckquorum
+ * Sentinel Simulate-Failure
+ * Sentinel FlushConfig
+ * Sentinel Info-Cache
+ * Sentinel Pending-Scripts
+ * Sentinel Remove
+ */
+
 redisReply *reply;
 redisContext *sc16000;
 redisContext *sc16001;

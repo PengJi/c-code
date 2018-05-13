@@ -1,5 +1,10 @@
 #include <hiredis/hiredis.h>
 
+/**
+ * publish
+ * subscribe
+ */
+
 redisReply *reply;
 redisContext *c;
 char channel[] = "ch01";

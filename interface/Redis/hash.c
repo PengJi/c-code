@@ -1,5 +1,23 @@
 #include <hiredis/hiredis.h>
 
+/**
+ * HSET
+ * HDEL
+ * HGET
+ * HLEN
+ * HMSET
+ * HMGET
+ * HKEYS
+ * HVALS
+ * HGETALL
+ * HSTRLEN
+ * HINCRBY
+ * HINCRBYFLOAT
+ * HEXISTS
+ * HSETNX
+ * HSCAN
+ */
+
 redisReply *reply;
 redisContext *c;
 char key[] = "user-1";

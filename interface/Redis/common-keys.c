@@ -1,5 +1,30 @@
 #include <hiredis/hiredis.h>
 
+/**
+ * EXISTS
+ * UNLINK
+ * KEYS
+ * SCAN
+ * SORT
+ * RENAME
+ * RENAMENX
+ * EXPIRE
+ * EXPIREAT
+ * TTL
+ * PEXPIRE
+ * PEXPIREAT
+ * PTTL
+ * PERSIST
+ * TYPE
+ * OBJECT
+ * RANDOMKEY
+ * MOVE
+ * DUMP
+ * RESTORE
+ * MIGRATE
+ * TOUCH
+ */
+
 redisReply *reply;
 redisContext *c;
 char randomKey[100];

@@ -1,5 +1,33 @@
 #include <hiredis/hiredis.h>
 
+/**
+ * INFO
+ * DBSIZE
+ * FLUSHDB
+ * FLUSHALL
+ * CLIENT SETNAME
+ * CLIENT GETNAME
+ * CLIENT LIST
+ * CLIENT REPLY
+ * CLIENT PAUSE
+ * CLIENT KILL
+ * BGREWRITEAOF
+ * BGSAVE
+ * SAVE
+ * LASTSAVE
+ * SLAVEOF
+ * ROLE
+ * CONFIG RESETSTAT
+ * CONFIG GET
+ * CONFIG SET
+ * CONFIG REWRITE
+ * DUBUG
+ * LATENCY
+ * SLOWLOG
+ * MEMORY
+ * MONITOR
+ */
+
 redisReply *reply;
 redisContext *c;
 
