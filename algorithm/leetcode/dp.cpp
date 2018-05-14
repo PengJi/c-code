@@ -410,6 +410,60 @@ Output: false
 		return f[s2.length()];
 	}
 
+	/**
+	 * 115. Distinct Subsequences
+Given a string S and a string T, count the number of distinct subsequences of S which equals T.
+
+A subsequence of a string is a new string which is formed from the original string 
+by deleting some (can be none) of the characters without disturbing the relative positions 
+of the remaining characters. (ie, "ACE" is a subsequence of "ABCDE" while "AEC" is not).
+
+Example 1:
+Input: S = "rabbbit", T = "rabbit"
+Output: 3
+Explanation:
+As shown below, there are 3 ways you can generate "rabbit" from S.
+(The caret symbol ^ means the chosen letters)
+rabbbit
+^^^^ ^^
+rabbbit
+^^ ^^^^
+rabbbit
+^^^ ^^^
+
+Example 2:
+Input: S = "babgbag", T = "bag"
+Output: 5
+Explanation:
+As shown below, there are 5 ways you can generate "bag" from S.
+(The caret symbol ^ means the chosen letters)
+babgbag
+^^ ^
+babgbag
+^^    ^
+babgbag
+^    ^^
+babgbag
+  ^  ^^
+babgbag
+    ^^^
+	 */
+	//设状态为f(i,j)，表示T[0,j]在S[0,i]里出现的次数。
+	//首先，无论S[i]和T[j]是否相等，若不使用S[i]，则f(i,j)=f(i-1,j);
+	//若S[i]==T[j]，则可以使用S[i]，此时f(i,j)=f(i-1,j)+f(i-1,j-1)。
+	//二维动态规划+滚动数组
+	int numDistinct(string s, string t) {
+		vector<int> f(t.size()+1);
+		f[0]=1;
+		for(int i=0; i<s.size(); ++i){
+			for(int j=t.size()-1; j>=0; --j){
+				f[j+1] += s[i] == t[j] ? f[j] : 0;
+			}
+		}
+
+		return f[t.size()];
+	}
+
     /**
      * 120. Triangle
 Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the row below.
