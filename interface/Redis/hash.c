@@ -1,6 +1,8 @@
 #include <hiredis/hiredis.h>
 
 /**
+ * https://redis.io/commands#hash
+ * 
  * HSET
  * HDEL
  * HGET

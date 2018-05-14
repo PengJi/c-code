@@ -1,6 +1,8 @@
 #include <hiredis/hiredis.h>
 
 /**
+ * https://redis.io/commands#set
+ * 
  * SADD
  * SREM
  * SMEMBERS
