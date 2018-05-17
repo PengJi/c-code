@@ -608,8 +608,43 @@ Output: false
 	//设状态为f(i)，表示s[0,i]是否可以分词，则状态转移方程为
 	//f(i) = any_of(f(i) && s[j+1, i] 属于 dict), 0 <= j < i
 	//动态规划
+	vector<bool> state;
 	bool wordBreak(string s, vector<string>& wordDict) {
-	}
+        if(!s.size())
+            return true;
+        
+        if(!wordDict.size() && s.size())
+            return false;
+        
+        state.resize(s.size() + 1);
+        fill(state.begin(), state.end(), false);
+
+        sort(wordDict.begin(), wordDict.end(), [](const string& a, const string& b) {
+            if(a.size() == b.size())
+                return a < b;
+            return a.size() < b.size();
+        });
+        
+        
+        int i = s.size();
+        state[s.size()] = true;
+        while(i) {
+            if(state[i])
+                for(auto w: wordDict) {
+                    int j = i - w.size();
+                    
+                    if(j < 0)
+                        break;
+                    
+                    if(s.substr(j, w.size()) == w)
+                        state[j] = true;
+                }
+            --i;
+        }
+        
+                
+        return state[0];
+    }
 
 	/**
 	 * 221. Maximal Square
