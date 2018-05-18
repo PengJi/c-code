@@ -642,6 +642,72 @@ Output: false
     	return state[0];
     }
 
+    /**
+     * 140. Word Break II
+Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, add spaces in s to construct a sentence where each word is a valid dictionary word. Return all such possible sentences.
+
+Note:
+The same word in the dictionary may be reused multiple times in the segmentation.
+You may assume the dictionary does not contain duplicate words.
+
+Example 1:
+Input:
+s = "catsanddog"
+wordDict = ["cat", "cats", "and", "sand", "dog"]
+Output:
+[
+  "cats and dog",
+  "cat sand dog"
+]
+
+Example 2:
+Input:
+s = "pineapplepenapple"
+wordDict = ["apple", "pen", "applepen", "pine", "pineapple"]
+Output:
+[
+  "pine apple pen apple",
+  "pineapple pen apple",
+  "pine applepen apple"
+]
+Explanation: Note that you are allowed to reuse a dictionary word.
+
+Example 3:
+Input:
+s = "catsandog"
+wordDict = ["cats", "dog", "sand", "and", "cat"]
+Output:
+[]
+     */
+	vector<string> wordBreak(string s, vector<string>& wordDict) {
+		unordered_set<string> dict(wordDict.begin(), wordDict.end());
+		unordered_map<size_t, vector<string>> cache;
+
+		cache[s.length()] = {""};
+		return wordBreak(s, dict, 0UL, cache);
+    }
+    vector<string> wordBreak(string& s, unordered_set<string>& dict, 
+    	size_t index, unordered_map<size_t, vector<string>> &cache){
+    	vector<string> out;
+
+    	for(size_t i=index; i<s.length(); ++i){
+    		string sub = s.substr(index, i-index+1);
+    		if(dict.find(sub) != dict.end()){
+    			bool found = (cache.find(i+1) != cache.end());
+    			vector<string> &result = cache[i+1];
+    			if(!found){
+    				result = wordBreak(s, dict, i+1, cache);
+    			}
+
+    			for(string& subsub : result){
+    				out.emplace_back(sub + (subsub.length() ? (string(" ") + subsub) : ""));
+    			}
+    		}
+    	}
+
+    	return out;
+    }
+
 	/**
 	 * 221. Maximal Square
 Given a 2D binary matrix filled with 0's and 1's, find the largest square containing only 1's and return its area.
