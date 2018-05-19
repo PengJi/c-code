@@ -5,7 +5,8 @@ class Solution {
 public:
 	/**
 	 * 34. Search for a Range
-Given an array of integers sorted in ascending order, find the starting and ending position of a given target value.
+Given an array of integers sorted in ascending order, find the starting 
+and ending position of a given target value.
 Your algorithm's runtime complexity must be in the order of O(log n).
 If the target is not found in the array, return [-1, -1].
 
@@ -78,7 +79,8 @@ Output: 0
 
     /**
      * 74. Search a 2D Matrix
-Write an efficient algorithm that searches for a value in an m x n matrix. This matrix has the following properties:
+Write an efficient algorithm that searches for a value in an m x n matrix. 
+This matrix has the following properties:
 
 Integers in each row are sorted from left to right.
 The first integer of each row is greater than the last integer of the previous row.
