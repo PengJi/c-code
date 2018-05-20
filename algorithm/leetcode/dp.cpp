@@ -5,7 +5,8 @@ class Solution {
 public:
     /**
      * 5. Longest Palindromic Substring
-Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
+Given a string s, find the longest palindromic substring in s. 
+You may assume that the maximum length of s is 1000.
 
 Example:
 Input: "babad"
@@ -48,7 +49,8 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-longest-palindromic-substring.ht
 
     /**
      * 53. Maximum Subarray
-Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+Given an integer array nums, find the contiguous subarray (containing at least one number) 
+which has the largest sum and return its sum.
 
 Example:
 Input: [-2,1,-3,4,-1,2,1,-5,4],
@@ -56,7 +58,8 @@ Output: 6
 Explanation: [4,-1,2,1] has the largest sum = 6.
 Follow up:
 
-If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more subtle.
+If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, 
+which is more subtle.
      */
     //最大连续子序列和
 	int maxSubArray(vector<int>& nums) {
@@ -250,7 +253,8 @@ exection -> execution (insert 'u')
 
     /**
      * 85. Maximal Rectangle
-Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
+Given a 2D binary matrix filled with 0's and 1's, 
+find the largest rectangle containing only 1's and return its area.
 
 Example:
 Input:
@@ -466,7 +470,8 @@ babgbag
 
     /**
      * 120. Triangle
-Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the row below.
+Given a triangle, find the minimum path sum from top to bottom. 
+Each step you may move to adjacent numbers on the row below.
 
 For example, given the following triangle
 [
@@ -644,7 +649,8 @@ Output: false
 
     /**
      * 140. Word Break II
-Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, add spaces in s to construct a sentence where each word is a valid dictionary word. Return all such possible sentences.
+Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, 
+add spaces in s to construct a sentence where each word is a valid dictionary word. Return all such possible sentences.
 
 Note:
 The same word in the dictionary may be reused multiple times in the segmentation.
