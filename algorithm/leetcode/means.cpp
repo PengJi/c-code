@@ -22,7 +22,8 @@ Input: 120
 Output: 21
 Note:
 Assume we are dealing with an environment which could only store integers within the 32-bit signed integer 
-range: [−231,  231 − 1]. For the purpose of this problem, assume that your function returns 0 when the reversed integer overflows.
+range: [−231,  231 − 1]. For the purpose of this problem, assume that your function returns 0 
+when the reversed integer overflows.
 	 */
 	//考虑 1. 负数的情况 2. 溢出的情况 (正溢出 && 负移除 x = -2147483648(即-2^31) )
 	int reverse(int x){
@@ -129,7 +130,8 @@ Assume we are dealing with an environment which could only store integers within
 	/**
 	 * 30. Substring with Concatenation of All Words
 You are given a string, s, and a list of words, words, that are all of the same length. 
-Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once and without any intervening characters.
+Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once 
+and without any intervening characters.
 
 Example 1:
 Input:

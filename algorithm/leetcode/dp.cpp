@@ -254,7 +254,8 @@ exection -> execution (insert 'u')
     /**
      * 85. Maximal Rectangle
 Given a 2D binary matrix filled with 0's and 1's, 
-find the largest rectangle containing only 1's and return its area.
+find the largest rectangle containing only 1's 
+and return its area.
 
 Example:
 Input:
@@ -650,7 +651,8 @@ Output: false
     /**
      * 140. Word Break II
 Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, 
-add spaces in s to construct a sentence where each word is a valid dictionary word. Return all such possible sentences.
+add spaces in s to construct a sentence where each word is a valid dictionary word. 
+Return all such possible sentences.
 
 Note:
 The same word in the dictionary may be reused multiple times in the segmentation.

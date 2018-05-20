@@ -314,9 +314,11 @@ For example, given n = 3, a solution set is:
 
     /**
      * 26. Remove Duplicates from Sorted Array
-Given a sorted array, remove the duplicates in-place such that each element appear only once and return the new length.
+Given a sorted array, remove the duplicates in-place such that each element appear only once 
+and return the new length.
 
-Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.
+Do not allocate extra space for another array, you must do this by 
+modifying the input array in-place with O(1) extra memory.
 
 Example:
 Given nums = [1,1,2],
@@ -354,7 +356,8 @@ It doesn't matter what you leave beyond the new length.
     /**
      * 27. Remove Element
 Given an array and a value, remove all instances of that value in-place and return the new length.
-Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.
+Do not allocate extra space for another array, 
+you must do this by modifying the input array in-place with O(1) extra memory.
 The order of elements can be changed. It doesn't matter what you leave beyond the new length.
 
 Example:
@@ -436,7 +439,8 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-combination-sum-i-ii.html
         return allSol;
     }
     
-    void findCombSum(vector<int> &candidates, int start, int target, vector<int> &sol, vector<vector<int>> &allSol) {
+    void findCombSum(vector<int> &candidates, int start, int target, 
+        vector<int> &sol, vector<vector<int>> &allSol) {
         if(target==0) {
             allSol.push_back(sol);
             return;
@@ -457,7 +461,8 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-combination-sum-i-ii.html
 You are given an n x n 2D matrix representing an image.
 Rotate the image by 90 degrees (clockwise).
 Note:
-You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.
+You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. 
+DO NOT allocate another 2D matrix and do the rotation.
 
 Example 1:
 Given input matrix = 
@@ -764,7 +769,8 @@ Your algorithm should have a linear runtime complexity. Could you implement it w
 	/*
 	 * 287. Find the Duplicate Number
 Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), 
-prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
+prove that at least one duplicate number must exist. Assume that there is only one duplicate number, 
+find the duplicate one.
 
 Note:
 You must not modify the array (assume the array is read only).
