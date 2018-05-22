@@ -4,11 +4,15 @@
 class Solution {
 public：
 	/**
+	 * 广度优先搜索模板
+	 */
+
+	/**
 	 * 126. Word Ladder II
 Given two words (beginWord and endWord), and a dictionary's word list, 
 find all shortest transformation sequence(s) from beginWord to endWord, such that:
-Only one letter can be changed at a time
-Each transformed word must exist in the word list. Note that beginWord is not a transformed word.
+1. Only one letter can be changed at a time
+2. Each transformed word must exist in the word list. Note that beginWord is not a transformed word.
 
 Note:
 Return an empty list if there is no such transformation sequence.
@@ -36,8 +40,47 @@ wordList = ["hot","dot","dog","lot","log"]
 Output: []
 
 Explanation: The endWord "cog" is not in wordList, therefore no possible transformation.
+
+problem:
+https://leetcode.com/problems/word-ladder-ii/description/
 	 */
 	vector<vector<string>> findLadders(string beginWord, string endWord, vector<string>& wordList) { 
+		vector<vector<string>> ans;
+		unordered_set<string> dict(wordList.begin(), wordList.end());
+
+		if(!dict.count(endWord)) return ans;
+		vector<string> visited;
+		queue<vector<string>> q;
+		q.push({beginWord});
+
+		while(!q.empty()){
+			int n = q.size();
+			for(int i=0; i<n; ++i){
+				auto cur = q.front();
+				q.pop();
+				auto s = cur.back();
+
+				for(auto&c : s){
+					const char origin = c;
+					for(c='a'; c<='z'; ++c){
+						if(!dict.count(s))
+							continue;
+						auto path = cur;
+						path.push_back(s);
+						visited.push_back(s);
+						if(s==endWord) ans.push_back(path);
+						else q.push(path);
+					}
+
+					c = origin;
+				}
+			}
+
+			for(auto& w : visited) dict.erase(w);
+			visited.clear();
+		}
+
+		return ans;
     }
 	
 	/**
@@ -45,8 +88,8 @@ Explanation: The endWord "cog" is not in wordList, therefore no possible transfo
 Given two words (beginWord and endWord), and a dictionary's word list, 
 find the length of shortest transformation sequence from beginWord to endWord, such that:
 Only one letter can be changed at a time.
-Each transformed word must exist in the word list. 
-Note that beginWord is not a transformed word.
+1. Each transformed word must exist in the word list. 
+2. Note that beginWord is not a transformed word.
 
 Note:
 Return 0 if there is no such transformation sequence.
@@ -71,6 +114,9 @@ endWord = "cog"
 wordList = ["hot","dot","dog","lot","log"]
 Output: 0
 Explanation: The endWord "cog" is not in wordList, therefore no possible transformation.
+
+problem:
+https://leetcode.com/problems/word-ladder/description/
 	 */
 	//求最短路径，用广搜
 	//双队列
@@ -110,4 +156,32 @@ Explanation: The endWord "cog" is not in wordList, therefore no possible transfo
 		}
 		return res == 1;
 	}
+
+	/**
+	 * 130. Surrounded Regions
+Given a 2D board containing 'X' and 'O' (the letter O), capture all regions surrounded by 'X'.
+
+A region is captured by flipping all 'O's into 'X's in that surrounded region.
+
+Example:
+X X X X
+X O O X
+X X O X
+X O X X
+
+After running your function, the board should be:
+X X X X
+X X X X
+X X X X
+X O X X
+
+Explanation:
+Surrounded regions shouldn’t be on the border, 
+which means that any 'O' on the border of the board are not flipped to 'X'. 
+Any 'O' that is not on the border and it is not connected to an 'O' on the border will be flipped to 'X'. 
+Two cells are connected if they are adjacent cells connected horizontally or vertically.
+	 */
+	void solve(vector<vector<char>>& board) {
+        
+    }
 }
