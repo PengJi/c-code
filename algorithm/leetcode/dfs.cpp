@@ -73,6 +73,79 @@ https://leetcode.com/problems/unique-paths/description/
     	return f[n-1];
     }
 
+    /**
+     * 63. Unique Paths II
+A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
+
+The robot can only move either down or right at any point in time. 
+The robot is trying to reach the bottom-right corner of the grid 
+(marked 'Finish' in the diagram below).
+
+Now consider if some obstacles are added to the grids. How many unique paths would there be?
+
+An obstacle and empty space is marked as 1 and 0 respectively in the grid.
+
+Note: m and n will be at most 100.
+
+Example 1:
+Input:
+[
+  [0,0,0],
+  [0,1,0],
+  [0,0,0]
+]
+Output: 2
+Explanation:
+There is one obstacle in the middle of the 3x3 grid above.
+There are two ways to reach the bottom-right corner:
+1. Right -> Right -> Down -> Down
+2. Down -> Down -> Right -> Right
+     */
+    //备忘录法，深搜+缓存
+	int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+		const int m = obstacleGrid.size();
+		const int n = obstacleGrid[0].size();
+
+		if(obstacleGrid[0][0] || obstacleGrid[m-1][n-1]) return 0;
+
+		f = vector<vector<int>> (m, vector<int>(n,0));
+		f[0][0] = obstacleGrid[0][0] ? 0 : 1;
+
+		return dfs(obstacleGrid, m-1, n-1);
+	}
+	vector<vector<int>> f;
+	int dfs(const vector<vector<int>> &obstacleGrid, int x, int y){
+		if(x<0 || y<0) return 0;
+
+		//(x,y)是障碍
+		if(obstacleGrid[x][y]) return 0;
+
+		if(x==0 && y==0) return f[0][0];
+
+		if(f[x][y] > 0){
+			return f[x][y];
+		}else{
+			return f[x][y] = dfs(obstacleGrid, x-1, y) + dfs(obstacleGrid, x, y-1);
+		}
+	}
+	//动规
+	int uniquePathsWithObstacles(vector<vector<int>> &obstacleGrid){
+		const int m = obstacleGrid.size();
+		const int n = obstacleGrid[0].size();
+		if(obstacleGrid[0][0] || obstacleGrid[m-1][n-1]) return 0;
+
+		vector<int> f(n, 0);
+		f[0] = obstacleGrid[0][0] ? 0 : 1;
+
+		for(int i=0; i<m; i++){
+			f[0] = f[0] == 0 ? 0:(obstacleGrid[i][0]?0:1);
+			for(int j=1; j<n; j++)
+				f[j] = obstacleGrid[i][j] ? 0:(f[j]+f[j-1]);
+		}
+
+		return f[n-1];
+	}
+
 	/**
 	 * 131. Palindrome Partitioning
 Given a string s, partition s such that every substring of the partition is a palindrome.
