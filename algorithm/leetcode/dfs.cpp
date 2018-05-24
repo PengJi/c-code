@@ -1,6 +1,63 @@
 class Solution {
 public:
 	/**
+	 * 37. Sudoku Solver
+Write a program to solve a Sudoku puzzle by filling the empty cells.
+
+A sudoku solution must satisfy all of the following rules:
+1. Each of the digits 1-9 must occur exactly once in each row.
+2. Each of the digits 1-9 must occur exactly once in each column.
+3. Each of the the digits 1-9 must occur exactly once in each of the 9 3x3 sub-boxes of the grid.
+
+Empty cells are indicated by the character '.'.
+
+A sudoku puzzle...
+
+...and its solution numbers marked in red.
+
+Note:
+The given board contain only digits 1-9 and the character '.'.
+You may assume that the given Sudoku puzzle will have a single unique solution.
+The given board size is always 9x9.
+
+problem:
+https://leetcode.com/problems/sudoku-solver/description/
+	 */
+	void solveSudoku(vector<vector<char>>& board) {
+		for(int i=0; i<9; ++i)
+			for(int j=0; j<9; ++j){
+				if(board[i][j] == '.'){
+					for(int k=0; k<9; ++k){
+						board[i][j] = '1'+k;
+						if(isValid(board, i, j) && solveSudoku(board))
+							return true;
+						board[i][j] = '.';
+					}
+					return false;
+				}				
+			}
+
+		return true;
+	}
+	bool isValid(const vector<vector<char>> &board, int x, int y){
+		int i,j;
+		for(i=0; i<9; i++) //检查y列
+			if(i != x && board[i][y] == board[x][y])
+				return false;
+
+		for(int j=0; j<9; j++) //检查x行
+			if(j!=y && board[x][j] == board[x][y])
+				return false;
+
+		for(i=3*(x/3); i<3*(x/3+1); i++)
+			for(j=3*(y/3); j<3*(y/3+1); j++)
+				if((i != x || j !=y) && board[i][j]==board[x][y])
+					return false;
+
+		return true;
+	}
+
+	/**
 	 * 40. Combination Sum II
 Given a collection of candidate numbers (candidates) and a target number (target), 
 find all unique combinations in candidates where the candidate numbers sums to target.
@@ -28,6 +85,9 @@ A solution set is:
   [1,2,2],
   [5]
 ]
+
+problem:
+https://leetcode.com/problems/combination-sum-ii/description/
 	 */
 	vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
 		sort(candidates.begin(), candidates.end());
