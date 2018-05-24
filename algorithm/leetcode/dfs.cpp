@@ -61,6 +61,16 @@ https://leetcode.com/problems/unique-paths/description/
     int uniquePaths(int m, int n){
     	vector<int> f(n, 0);
     	f[0] = 1;
+
+    	for(int i=0; i<m; i++){
+    		for(int j=0; j<n; j++){
+    			//左边的f[j]，表示更新后的f[j]，与公式中的f[i][j]对应
+    			//右边的f[j]，表示老的f[j]，与公式中的f[i-1][j]对应
+    			f[j] = f[j] + f[j-1];
+    		}
+    	}
+
+    	return f[n-1];
     }
 
 	/**
