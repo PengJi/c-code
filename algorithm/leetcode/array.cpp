@@ -635,6 +635,80 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-combination-sum-i-ii.html
     }
 
     /**
+     * 42. Trapping Rain Water
+Given n non-negative integers representing an elevation map where the 
+width of each bar is 1, compute how much water it is able to trap after raining.
+
+
+The above elevation map is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. 
+In this case, 6 units of rain water (blue section) are being trapped. 
+Thanks Marcos for contributing this image!
+
+Example:
+Input: [0,1,0,2,1,0,1,3,2,1,2,1]
+Output: 6
+     */
+    //对于每个柱子，找到其左右两边最高的柱子，该柱子能容纳的面积就是min(max_left,max_right)-height。
+    //所以
+    //1. 从左往右扫描一遍，对于每个柱子，求去左边最大值
+    //2. 从右往左扫描一遍，对于每个柱子，求最大右值
+    //3. 再扫描一遍，把每个柱子的面积并累加
+    //也可以
+    //1. 扫描一遍，找到最高的柱子，这个柱子将数组分为两半
+    //2. 处理左边一半
+    //3. 处理右边一半
+    //思路一
+    int trap(vector<int>& height) {
+        const int n = height.size();
+        int *max_left = new int[n]();
+        int *max_right = new int[n]();
+
+        for(int i=1; i<n; i++){
+            max_left[i] = max(max_left[i-1], height[i-1]);
+            max_right[n-1-i] = max(max_right[n-i], height[n-i]);
+        }
+
+        int sum = 0;
+        for(int i=0; i<n; ++i){
+            int h = min(max_left[i], max_right[i]);
+            if(h > height[i]){
+                sum += h - height[i];
+            }
+        }
+
+        delete[] max_left;
+        delete[] max_right;
+
+        return sum;
+    }
+
+    //思路二
+    int trap(vector<int>& height){
+        const int n = height.size();
+        int max=0; //最高的柱子，将数据分为两半
+        for(int i=0; i<n; i++)
+            if(A[i]>A[max])
+                max = i;
+
+        int water = 0;
+        for(int i=0, peak=0; i<max; i++)
+            if(height[i] > peak)
+                peak = A[i];
+            else
+                water += peak-A[i];
+
+        for(int i=n-1, top=0; i>max; i--){
+            if(height[i] > top)
+                top = height[i];
+            else
+                water += top-height[i];
+        }
+
+        return water;
+    }
+
+
+    /**
      * 48. Rotate Image
 You are given an n x n 2D matrix representing an image.
 Rotate the image by 90 degrees (clockwise).
