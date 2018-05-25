@@ -418,6 +418,59 @@ Your function should return length = 2, with the first two elements of nums bein
     }
 
     /**
+     * 31. Next Permutation
+Implement next permutation, which rearranges numbers into the lexicographically 
+next greater permutation of numbers.
+
+If such arrangement is not possible, it must rearrange it as the lowest 
+possible order (ie, sorted in ascending order).
+
+The replacement must be in-place and use only constant extra memory.
+
+Here are some examples. Inputs are in the left-hand column and 
+its corresponding outputs are in the right-hand column.
+
+1,2,3 → 1,3,2
+3,2,1 → 1,2,3
+1,1,5 → 1,5,1
+
+problem:
+https://leetcode.com/problems/next-permutation/description/
+     */
+    void nextPermutation(vector<int>& nums) {
+        next_Permutation(nums.begin(), nums.end());
+    }
+    template<typename BidiIt>
+    bool next_Permutation(BidiIt first, BidiIt last){
+        //get a reversed range to simplify reversed traversal.
+        const auto rfirst = reverse_iterator<BidiIt>(last);
+        const auto rlast = reverse_iterator<BidiIt>(first);
+
+        //begin from the second last element to the first element
+        auto pivot = next(rfirst);
+
+        //find 'pivot', which is the first element that is no less than its successor.
+        //'prev' is used since 'pivot' is a 'reversed_iterator'.
+        while(pivot != rlast && *pivot >= *prev(pivot))
+            ++pivot;
+
+        //no such elements found, current sequence is already the largest
+        //permutation, then rearrange to the first permutation and return false
+        if(pivot == rlast){
+            reverse(rfirst, rlast);
+            return false;
+        }
+
+        //scan from right to left, find the first element that is greater than 'pivot'
+        auto change = find_if(rfirst, pivot, bind1st(less<int>(), *pivot));
+
+        swap(*change, *pivot);
+        reverse(rfirst, pivot);
+
+        return true;
+    }
+
+    /**
      * 33. Search in Rotated Sorted Array
 Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
 (i.e., 0 1 2 4 5 6 7 might become 4 5 6 7 0 1 2).
