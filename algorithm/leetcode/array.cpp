@@ -695,6 +695,54 @@ The array may contain duplicates.
     }
 
     /**
+     * 128. Longest Consecutive Sequence
+Given an unsorted array of integers, 
+find the length of the longest consecutive elements sequence.
+
+Your algorithm should run in O(n) complexity.
+
+Example:
+Input: [100, 4, 200, 1, 3, 2]
+Output: 4
+Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. 
+Therefore its length is 4.
+     */
+    //如果允许O(nlogn)的复杂度，那么可以先排序，但本题要求O(n)
+    //由于序列里的元素是无序的，有要求O(n)，首先要想到用哈希表
+    //用于哈希表unordered_map<int, bool> used记录每个元素是否使用，
+    //对每个元素，以该元素为中心，往左右扩展，知道不连续为止，记录下最长的长度
+    int longestConsecutive(vector<int>& nums) {
+        unordered_map<int ,bool> used;
+
+        for(auto i : nums)
+            used[i] = false;
+
+        int longest = 0;
+
+        for(auto i:nums){
+            if(used[i]) continue;
+
+            int length = 1;
+
+            used[i] = true;
+
+            for(int j=i+1; used.find(j) != used.end(); ++j){
+                used[j] = true;
+                ++length;
+            }
+
+            for(int j=i-1; used.find(j) != used.end(); --j){
+                used[j] = true;
+                ++length;
+            }
+
+            longest = max(longest, length);
+        }
+
+        return longest;
+    }
+
+    /**
      * 135. Candy
 There are N children standing in a line. Each child is assigned a rating value.
 
