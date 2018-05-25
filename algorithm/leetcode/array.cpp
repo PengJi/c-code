@@ -666,6 +666,72 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-merge-intervals.html
     }
 
     /**
+     * 60. Permutation Sequence
+The set [1,2,3,...,n] contains a total of n! unique permutations.
+
+By listing and labeling all of the permutations in order, 
+we get the following sequence for n = 3:
+
+"123"
+"132"
+"213"
+"231"
+"312"
+"321"
+Given n and k, return the kth permutation sequence.
+
+Note:
+Given n will be between 1 and 9 inclusive.
+Given k will be between 1 and n! inclusive.
+
+Example 1:
+Input: n = 3, k = 3
+Output: "213"
+
+Example 2:
+Input: n = 4, k = 9
+Output: "2314"
+
+problem:
+https://leetcode.com/problems/permutation-sequence/description/
+     */
+    //康托编码
+    string getPermutation(int n, int k) {
+        string s(n, '0');
+        string result;
+
+        for(int i=0; i<n; ++i)
+            s[i] += i+1;
+
+        return kth_permutation(s,k);
+    }
+    int factorial(int n){
+        int result = 1;
+        for(int i=1; i<=n; ++i)
+            result *= i;
+
+        return result;
+    }
+    template<typename Sequence>
+    Sequence kth_permutation(const Sequence &seq, int k){
+        const int n = seq.size();
+        Sequence S(seq);
+        Sequence result;
+
+        int base = factorial(n-1);
+        --k;
+
+        for(int i=n-1; i>0; k%=base, base/=i, --i){
+            auto a = next(S.begin(), k/base);
+            result.push_back(*a);
+            S.erase(a);
+        }
+
+        result.push_back(S[0]);
+        return result;
+    }
+
+    /**
      * 66. Plus One
 Given a non-negative integer represented as a non-empty array of digits, plus one to the integer.
 You may assume the integer do not contain any leading zero, except the number 0 itself.
