@@ -133,6 +133,45 @@ A solution set is:
     }
 
     /**
+     * 16. 3Sum Closest
+Given an array nums of n integers and an integer target, 
+find three integers in nums such that the sum is closest to target. 
+Return the sum of the three integers. 
+You may assume that each input would have exactly one solution.
+
+Example:
+Given array nums = [-1, 2, 1, -4], and target = 1.
+The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
+     */
+    //先排序，然后左右夹逼
+    int threeSumClosest(vector<int>& nums, int target) {
+        int result = 0;
+        int min_gap = INT_MAX;
+
+        sort(nums.begin(), nums.end());
+
+        for(auto a=nums.begin(); a!=prev(nums.end(),2); ++a){
+            auto b=next(a);
+            auto c=prev(nums.end());
+
+            while(b<c){
+                const int sum = *a+*b+*c;
+                const int gap = abs(sum-target);
+
+                if(gap< min_gap){
+                    result = sum;
+                    min_gap = gap;
+                }
+
+                if(sum < target) ++b;
+                else --c;
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * 18. 4Sum
 Given an array S of n integers, are there elements a, b, c, 
 and d in S such that a + b + c + d = target? 
