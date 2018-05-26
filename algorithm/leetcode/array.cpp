@@ -976,6 +976,112 @@ Explanation: There are three ways to climb to the top.
     }
 
     /**
+     * 73. Set Matrix Zeroes
+Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in-place.
+
+Example 1:
+Input: 
+[
+  [1,1,1],
+  [1,0,1],
+  [1,1,1]
+]
+Output: 
+[
+  [1,0,1],
+  [0,0,0],
+  [1,0,1]
+]
+
+Example 2:
+Input: 
+[
+  [0,1,2,0],
+  [3,4,5,2],
+  [1,3,1,5]
+]
+Output: 
+[
+  [0,0,0,0],
+  [0,4,5,0],
+  [0,3,1,0]
+]
+
+Follow up:
+A straight forward solution using O(mn) space is probably a bad idea.
+A simple improvement uses O(m + n) space, but still not the best solution.
+Could you devise a constant space solution?
+     */
+    //O(m+n)空间的方法很简单，设置两个bool数组，记录每行和每列是否存在0。
+    //想要常数空间，可以服用第一行和第一列
+    //代码一，时间复杂度O(m*n)，空间复杂度O(m+n)
+    void setZeroes(vector<vector<int>>& matrix) {
+        const size_t m = matrix.size();
+        const size_t n = matrix[0].size();
+
+        vector<bool> row(m, false); //标记该行是否存在0
+        vector<bool> col(n, false); //标记该列是否存在0
+
+        for(size_t i=0; i<m; i++){
+            for(size_t j=0; j<n; j++){
+                if(matrix[i][j] == 0)
+                    row[i] = col[j] = true;
+            }
+        }
+
+        for(size_t i=0; i<m; ++i){
+            if(row[i])
+                fill(&matrix[i][0], &matrix[i][0]+n, 0);
+        }
+        for(size_t j=0; j<n; ++j){
+            if(col[j]){
+                for(size_t i=0; i<m; ++i){
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+    //代码二，时间复杂度O(m*n)，空间复杂度O(1)
+    void setZeroes(vector<vector<int>> &matrix){
+        const size_t m = matrix.size();
+        const size_t n = matrix[0].size();
+        bool row_has_zero = false; //第一行是否存在0
+        bool col_has_zero = false; //第一列是否存在0
+
+        for(size_t i=0; i<n; i++)
+            if(matrix[0][i] == 0){
+                row_has_zero = true;
+                break;
+            }
+
+        for(size_t i=0; i<m; i++)
+            if(matrix[i][0] == 0){
+                col_has_zero = true;
+                break;
+            }
+
+        for(size_t i=1; i<m; i++)
+            for(size_t j=1; j<n; j++)
+                if(matrix[i][j] == 0){
+                    matrix[0][j] = 0;
+                    matrix[i][0] = 0;
+                }
+
+        for(size_t i=1; i<m; i++)
+            for(size_t j=1; j<n; j++)
+                if(matrix[i][0] == 0 || matrix[0][j] == 0)
+                    matrix[i][j] = 0;
+
+        if(row_has_zero)
+            for(size_t i=0; i<n; i++)
+                matrix[0][i] = 0;
+
+        if(col_has_zero)
+            for(size_t i=0; i<m; i++)
+                matrix[i][0] = 0;
+    }
+
+    /**
      * 80. Remove Duplicates from Sorted Array II
 Follow up for "Remove Duplicates":
 What if duplicates are allowed at most twice?
