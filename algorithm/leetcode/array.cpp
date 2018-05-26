@@ -1056,6 +1056,54 @@ The array may contain duplicates.
     }
 
     /**
+     * 89. Gray Code
+The gray code is a binary numeral system where two successive values differ in only one bit.
+
+Given a non-negative integer n representing the total number of bits in the code, 
+print the sequence of gray code. A gray code sequence must begin with 0.
+
+For example, given n = 2, return [0,1,3,2]. Its gray code sequence is:
+00 - 0
+01 - 1
+11 - 3
+10 - 2
+Note:
+For a given n, a gray code sequence is not uniquely defined.
+
+For example, [0,2,3,1] is also a valid gray code sequence according to the above definition.
+
+For now, the judge is able to judge based on one instance of gray code sequence. Sorry about that.
+     */
+    //自然二进制转格雷码
+    //格雷码转自然二进制
+    vector<int> grayCode(int n) {
+        vector<int> result;
+        const size_t size = 1<<n; //2^n
+        result.reserve(size);
+        for(size_t i=0; i<size; ++i)
+            result.push_back(binary_to_gray(i));
+
+        return result;
+    }
+    unsigned int binary_to_gray(unsigned int n){
+        return n^(n>>1);
+    }
+    //Reflect-and-prefix method
+    vector<int> grayCode(int n){
+        vector<int> result;
+        result.reserve(1<<n);
+        result.push_back(0);
+        for(int i=0; i<n; ++i){
+            const int highest_bit = 1 << i;
+            for(int j=result.size()-1; j>=0; j--){
+                result.push_back(highest_bit | result[j]);
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * 128. Longest Consecutive Sequence
 Given an unsorted array of integers, 
 find the length of the longest consecutive elements sequence.
