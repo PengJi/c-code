@@ -687,15 +687,15 @@ Output: 6
         const int n = height.size();
         int max=0; //最高的柱子，将数据分为两半
         for(int i=0; i<n; i++)
-            if(A[i]>A[max])
+            if(height[i]>height[max])
                 max = i;
 
         int water = 0;
         for(int i=0, peak=0; i<max; i++)
             if(height[i] > peak)
-                peak = A[i];
+                peak = height[i];
             else
-                water += peak-A[i];
+                water += peak-height[i];
 
         for(int i=n-1, top=0; i>max; i--){
             if(height[i] > top)
@@ -930,6 +930,49 @@ The digits are stored such that the most significant digit is at the head of the
 
         if(c>0)
             digits.insert(digits.begin(),1);
+    }
+
+    /**
+     * 70. Climbing Stairs
+You are climbing a stair case. It takes n steps to reach to the top.
+
+Each time you can either climb 1 or 2 steps. 
+In how many distinct ways can you climb to the top?
+
+Note: Given n will be a positive integer.
+
+Example 1:
+Input: 2
+Output: 2
+Explanation: There are two ways to climb to the top.
+1. 1 step + 1 step
+2. 2 steps
+
+Example 2:
+Input: 3
+Output: 3
+Explanation: There are three ways to climb to the top.
+1. 1 step + 1 step + 1 step
+2. 1 step + 2 steps
+3. 2 steps + 1 step
+     */
+    //设f(n)表示爬n阶楼梯的不同方法数，为了爬到第n阶楼梯，有两个选择：
+    //从第n-1阶前进1步
+    //从第n-1阶前进2步
+    //因此，有f(n) = f(n-1) + f(n-2)
+    //斐波那契数列
+    //迭代
+    int climbStairs(int n) {
+        int prev = 0;
+        int cur = 1;
+
+        for(int i=1; i<=n; ++i){
+            int tmp = cur;
+            cur += prev;
+            prev = tmp;
+        }
+
+        return cur;
     }
 
     /**
