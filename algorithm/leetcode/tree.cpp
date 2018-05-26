@@ -879,6 +879,72 @@ Return the sum = 12 + 13 = 25.
     return dfs(root->left, sum*10+root->val) + dfs(root->right, sum*10+root->val);
   }
 
+  /**
+   * 144. Binary Tree Preorder Traversal
+Given a binary tree, return the preorder traversal of its nodes' values.
+
+Example:
+Input: [1,null,2,3]
+   1
+    \
+     2
+    /
+   3
+
+Output: [1,2,3]
+Follow up: Recursive solution is trivial, could you do it iteratively?
+
+problem:
+https://leetcode.com/problems/binary-tree-preorder-traversal/description/
+   */
+    //使用栈
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> result;
+        stack<const TreeNode *> s;
+        if(root != nullptr) s.push(root);
+
+        while(!s.empty()){
+            const TreeNode *p = s.top();
+            s.pop();
+            result.push_back(p->val);
+
+            if(p->right != nullptr) s.push(p->right);
+            if(p->left != nullptr) s.push(p->left);
+        }
+
+        return result;
+    }
+    //Morris先序遍历
+    vector<int> preorderTraversal(TreeNode *root){
+        vecotr<int> result;
+        TreeNode *cur = root, *prev = nullptr;
+
+        while(cur != nullptr){
+          if(cur->left == nullptr){
+              result.push_back(cur->val);
+              prev = cur;
+              cur = cur->right;
+          }else{
+              //查找前驱
+              TreeNode *node = cur->left;
+              while(node->right 1= nullptr && node->right != cur)
+                  node = node->right;
+
+              if(node->right == nullptr){ //还没线索化，则建立线索
+                  result.push_back(cur->val); //仅这一行的位置与中序不同
+                  node->right = cur;
+                  prev = cur; //cur刚刚被访问过
+                  cur = cur->left;
+              }else{ //已经线索化，则删除线索
+                  node->right = nullptr;
+                  cur = cur->right;
+              }
+          }
+        }
+
+        return result;
+    }
+
 	/*
 	 * 145. Binary Tree Postorder Traversal
 Given a binary tree, return the postorder traversal of its nodes' values.
