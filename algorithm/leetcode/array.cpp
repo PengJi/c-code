@@ -1392,6 +1392,64 @@ Your algorithm should have a linear runtime complexity. Could you implement it w
         return accumulate(nums.begin(), nums.end(), 0, bit_xor<int>());
     }
 
+    /**
+     * 137. Single Number II
+Given a non-empty array of integers, every element appears three times except for one, 
+which appears exactly once. Find that single one.
+
+Note:
+
+Your algorithm should have a linear runtime complexity. Could you implement it 
+without using extra memory?
+
+Example 1:
+Input: [2,2,3,2]
+Output: 3
+Example 2:
+
+Input: [0,1,0,1,0,1,99]
+Output: 99
+     */
+    //考察位运算
+    //方法1：创建一个长度为sizeof(int)的数组count[sizeof(int)]，count[i]表示在i位出现1的次数。
+    //如果count[i]是3的整数倍，则忽略；否则就把该位取出来组成答案
+    //方法2：用one记录为当前处理的元素为止，二进制1出现1次(mod3之后的1)的有哪些二进制位；
+    //用two记录当前计算的变量为止,二进制1出现2次(mod3之后)的有哪些二进制位。
+    //用one和two中的某一位同时为1时表示该二进制位上1出现了3次，此时需要清零。
+    //即用二进制模拟三进制运算。最终one记录的最终结果
+    //代码1
+    int singleNumber(vector<int>& nums) {
+        const int W = sizeof(int) * 8; //一个整数的bit数，即整数字长
+        int count[W]; //count[i]表示在i位出现的1的次数
+        fill_n(&count[0], W, 0);
+        for(int i=0; i<nums.size(); i++){
+            for(int j=0; j<W; j++){
+                count[j] += (nums[i] >> j) & 1;
+                count[j] %= 3;
+            }
+        }
+
+        int result = 0;
+        for(int i=0; i<W; ++i){
+            result += (count[i] << i);
+        }
+
+        return result;
+    }
+    //代码2
+    int singleNumber(vector<int>& nums){
+        int one = 0, two=0, three=0;
+        for(auto i : nums){
+            two |= (one & i);
+            one ^= i;
+            three = ~(one & two);
+            one &= three;
+            two &= three;
+        }
+
+        return one;
+    }
+
 	/*
 	 * 287. Find the Duplicate Number
 Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), 
