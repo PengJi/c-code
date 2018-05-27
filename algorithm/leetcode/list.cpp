@@ -549,6 +549,71 @@ Given {1,2,3,4}, reorder it to {1,4,2,3}.
         }
     }
 
+    /**
+     * 146. LRU Cache
+Design and implement a data structure for Least Recently Used (LRU) cache. 
+It should support the following operations: get and put.
+
+get(key) - Get the value (will always be positive) of the key if the key exists in the cache, 
+otherwise return -1.
+put(key, value) - Set or insert the value if the key is not already present. 
+When the cache reached its capacity, it should invalidate the least recently 
+used item before inserting a new item.
+
+Follow up:
+Could you do both operations in O(1) time complexity?
+
+Example:
+LRUCache cache = new LRUCache( 2(capacity) );
+cache.put(1, 1);
+cache.put(2, 2);
+cache.get(1);       // returns 1
+cache.put(3, 3);    // evicts key 2
+cache.get(2);       // returns -1 (not found)
+cache.put(4, 4);    // evicts key 1
+cache.get(1);       // returns -1 (not found)
+cache.get(3);       // returns 3
+cache.get(4);       // returns 4
+     */
+    //为了使查找、插入和删除都有较高的性能，我们使用一个双向两表(list)和一个哈希表(unordered_map)，因为：
+    //哈希表保存每个节点的地址，可以基本保证在O(1)时间内查找节点
+    //双向链表插入和删除效率高，单向链表插入和删除时，还要查找节点的前驱节点
+    struct CacheNode{
+        int key;
+        int value;
+        CacheNode(int k, int v):key(k), value(v){}
+    };
+    list<CacheNode> cacheList;
+    unordered_map<int, list<CacheNode>::iterator> cacheMap;
+    int capacity;
+    LRUCache(int capacity) {
+        this->capacity = capacity;
+    }    
+    int get(int key) {
+        if(cacheMap.find(key) == cacheMap.end()) return -1;
+
+        //把当前访问的节点移到链表头部，并且更新map中该节点的地址
+        cacheList.splice(cacheList.begin(), cacheList, cacheMap[key]);
+        cacheMap[key] = cacheList.begin();
+        return cacheMap[key]->value;   
+    }
+    void put(int key, int value) {
+        if(cacheMap.find(key) == cacheMap.end()){
+            if(cacheList.size() == capacity){
+                cacheMap.erase(cacheList.back().key);
+                cacheList.pop_back();
+            }
+            //插入新节点到链表头部，并且在map中增加该节点
+            cacheList.push_front(CacheNode(key, value));
+            cacheMap[key] = cacheList.begin();
+        }else{
+            //更新节点的值，把当前访问的节点移到链表头部，并且更新map中该节点的地址
+            cacheMap[key]->value= value;
+            cacheList.splice(cacheList.begin(), cacheList, cacheMap[key]);
+            cacheMap[key] = cacheList.begin();
+        }
+    }
+
 	/*
 	 * 147. insertion-sort-list
 	 * Sort a linked list using insertion sort.
