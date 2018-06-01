@@ -267,6 +267,61 @@ There are two ways to reach the bottom-right corner:
 	}
 
 	/**
+	 * 79. Word Search
+	 * Given a 2D board and a word, find if the word exists in the grid.
+
+The word can be constructed from letters of sequentially adjacent cell, 
+where "adjacent" cells are those horizontally or vertically neighboring. 
+The same letter cell may not be used more than once.
+
+Example:
+
+board =
+[
+  ['A','B','C','E'],
+  ['S','F','C','S'],
+  ['A','D','E','E']
+]
+
+Given word = "ABCCED", return true.
+Given word = "SEE", return true.
+Given word = "ABCB", return false.
+	 */
+	bool exist(vector<vector<char>>& board, string word) {
+		const int m = board.size();
+		const int n = board[0].size();
+		vector<vector<bool>> visited(m, vector<bool>(n, false));
+		for(int i=0; i<m; ++i)
+			for(int j=0; j<n; ++j)
+				if(dfs(board, word, 0, i, j, visited))
+					return true;
+
+		return false;
+	}
+	static bool dfs(const vector<vector<char>> &board, const string &word,
+		int index, int x, int y, vector<vector<bool>> &visited){
+		if(index == word.size())
+			return true;
+
+		if(x<0 || y<0 || x>=board.size() || y>=board[0].size())
+			return false;
+
+		if(visited[x][y]) return false;
+
+		if(board[x][y] != word[index]) return false;
+
+		visited[x][y]=true;
+		bool ret = dfs(board, word, index+1, x-1, y, visited) || //上
+					dfs(board, word, index+1, x+1, y, visited) || //下
+					dfs(board, word, index+1, x, y-1, visited) || //左
+					dfs(board, word, index+1, x, y+1, visited); //右
+
+		visited[x][y] = false;
+
+		return ret;
+	}
+
+	/**
 	 * 93. Restore IP Addresses
 Given a string containing only digits, restore it by returning all possible valid 
 IP address combinations.
