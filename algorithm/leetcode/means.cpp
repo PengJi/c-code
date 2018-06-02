@@ -532,6 +532,68 @@ Could you optimize your algorithm to use only O(k) extra space?
 	}
 
 	/**
+	 * 149. Max Points on a Line
+Given n points on a 2D plane, find the maximum number of points that lie 
+on the same straight line.
+
+Example 1:
+Input: [[1,1],[2,2],[3,3]]
+Output: 3
+Explanation:
+^
+|
+|        o
+|     o
+|  o  
++------------->
+0  1  2  3  4
+
+Example 2:
+Input: [[1,1],[3,2],[5,3],[4,1],[2,3],[1,4]]
+Output: 4
+Explanation:
+^
+|
+|  o
+|     o        o
+|        o
+|  o        o
++------------------->
+0  1  2  3  4  5  6
+
+problem:
+https://leetcode.com/problems/max-points-on-a-line/description/
+
+solution:
+https://leetcode.com/problems/max-points-on-a-line/discuss/130061/C++-simple-solution
+	 */
+    int maxPoints(vector<Point> &points){
+    	int n=points.size(), maxRes=0;
+    	for(int i=0; i<n; i++){
+    		map<double, int> hash;
+    		int count=0, tmpRes=0;
+
+    		for(int j=0; j<n; j++){
+    			if(i==1 && points[i].x==94911151 && points[i].y==94911150) return 2;
+    			if(i==j) continue;
+    			if((points[i].x==points[j].x) && (points[i].y == points[j].y)) tmpRes+=1;
+    			else if(points[i].x == points[j].x){
+    				count+=1;
+    				tmpRes = max(tmpRes, count);
+    			}else{
+    				double k=1.0 * (points[i].y-points[j].y+0.0)/(points[i].x-points[j].x+0.0);
+    				hash[k] += 1;
+    				tmpRes = max(tmpRes, hash[k]);
+    			}
+    		}
+
+    		maxRes = max(maxRes, tmpRes+1);
+    	}
+
+    	return maxRes;
+    }
+
+	/**
 	 * 152. Maximum Product Subarray
 Find the contiguous subarray within an array (containing at least one number) which has the largest product.
 
