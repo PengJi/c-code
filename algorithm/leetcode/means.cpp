@@ -579,6 +579,68 @@ https://leetcode.com/problems/text-justification/description/
 	}
 
 	/**
+	 * 76. Minimum Window Substring
+Given a string S and a string T, find the minimum window in S which will contain 
+all the characters in T in complexity O(n).
+
+Example:
+Input: S = "ADOBECODEBANC", T = "ABC"
+Output: "BANC"
+
+Note:
+If there is no such window in S that covers all characters in T, return the empty string "".
+If there is such window, you are guaranteed that there will always be only one 
+unique minimum window in S.
+
+problem:
+https://leetcode.com/problems/minimum-window-substring/description/
+	 */
+	//双指针，动态维护一个区间。
+	//尾指针不断往后扫，当扫到有一个窗口包含了所有T的字符后，然后再收缩头指针，知道不能再收缩为止。
+	//最后记录所有可能的情况中窗口最小的
+	string minWindow(string s, string t) {
+		if(s.empty()) return "";
+		if(s.size() < t.size()) return "";
+
+		const int ASCII_MAX=256;
+		int appeared_count[ASCII_MAX];
+		int expected_count[ASCII_MAX];
+		fill(appeared_count, appeared_count+ASCII_MAX, 0);
+		fill(expected_count, expected_count+ASCII_MAX, 0);
+
+		for(size_t i=0; i<t.size(); i++)
+			expected_count[t[i]]++;
+
+		int minWidth = INT_MAX, min_start = 0; //窗口大小，起点
+		int wnd_start = 0;
+		int appeared = 0;
+
+		//尾指针不断往后扫
+		for(size_t wnd_end = 0; wnd_end<s.size(); wnd_end++){
+			if(expected_count[s[wnd_end]] > 0){
+				appeared_count[s[wnd_end]]++;
+				if(appeared_count[s[wnd_end]] <= expected_count[s[wnd_end]])
+					appeared++;
+			}
+			if(appeared == t.size()){ //完整包含了一个T
+				//收缩头指针
+				while(appeared_count[s[wnd_start]] > expected_count[s[wnd_start]] 
+					|| expected_count[s[wnd_start]] == 0){
+					appeared_count[s[wnd_start]]--;
+				wnd_start++;
+				}
+				if(minWidth > (wnd_end - wnd_start + 1)){
+					minWidth = wnd_end - wnd_start + 1;
+					min_start = wnd_start;
+				}
+			}
+		}
+
+		if(minWidth == INT_MAX) return "";
+		else return s.substr(min_start, minWidth);
+	}
+
+	/**
 	 * 118. Pascal's Triangle
 Given a non-negative integer numRows, generate the first numRows of Pascal's triangle.
 
