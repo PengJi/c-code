@@ -231,6 +231,96 @@ Explanation: There exist two distinct solutions to the 4-queens puzzle as shown 
 	}
 
 	/**
+	 * 52. N-Queens II
+The n-queens puzzle is the problem of placing n queens on an n×n chessboard 
+such that no two queens attack each other.
+
+
+
+Given an integer n, return the number of distinct solutions to the n-queens puzzle.
+
+Example:
+Input: 4
+Output: 2
+Explanation: There are two distinct solutions to the 4-queens puzzle as shown below.
+[
+ [".Q..",  // Solution 1
+  "...Q",
+  "Q...",
+  "..Q."],
+
+ ["..Q.",  // Solution 2
+  "Q...",
+  "...Q",
+  ".Q.."]
+]
+	 */
+	//深搜+剪枝
+	int totalNQueens(int n) {
+		this->count = 0;
+
+		vector<int> C(n, 0);
+		dfs(C, 0);
+		return this->count;
+	}
+	int count;
+	void dfs(vector<int> &C, int row){
+		const int N = C.size();
+		if(row == N){
+			++this->count;
+			return;
+		}
+
+		for(int j=0; j<N; ++j){
+			const bool ok = isValid(C, row, j);
+			if(!ok) continue; //剪枝
+			C[row] = j;
+			dfs(C, row+1);
+		}
+	}
+	bool isValid(const vector<int> &C, int row, int col){
+		for(int i=0; i<row; ++i){
+			//在同一列
+			if(C[i] == col) return false;
+			//在同一对角线上
+			if(abs(i-row) == abs(C[i]-col)) return false;
+		}
+
+		return true;
+	}
+	//深搜+剪枝
+	int totalNQueens(int n){
+		this->count = 0;
+		this->columns = vector<bool>(n, false);
+		this->main_diag = vector<bool>(2*n-1, false);
+		this->anti_diag = vector<bool>(2*n-1, false);
+
+		vector<int> C(n,0);
+		dfs(C,0);
+		return this->count;
+	}
+	int count;
+	vector<bool> columns;
+	vector<bool> main_diag;
+	vector<bool> anti_diag;
+	void dfs(vector<int> &C, int row){
+		const int N = C.size();
+		if(row == N){
+			++this->count;
+			return;
+		}
+
+		for(int j=0; j<N; ++j){
+			const bool ok = !columns[j] && !main_diag[row-j+N] && !anti_diag[row+j];
+			if(!ok) continue;
+			C[row] = j;
+			columns[j] = main_diag[row-j+N] = anti_diag[row+j] = true;
+			dfs(C, row+1);
+			columns[j] = main_diag[row-j+N] = anti_diag[row+j] = false;
+		}
+	}
+
+	/**
 	 * 62. Unique Paths
 A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
 
