@@ -121,6 +121,116 @@ https://leetcode.com/problems/combination-sum-ii/description/
 	}
 
 	/**
+	 * 51. N-Queens
+The n-queens puzzle is the problem of placing n queens on an n×n chessboard such that 
+no two queens attack each other.
+
+
+Given an integer n, return all distinct solutions to the n-queens puzzle.
+
+Each solution contains a distinct board configuration of the n-queens' placement, 
+where 'Q' and '.' both indicate a queen and an empty space respectively.
+
+Example:
+Input: 4
+Output: [
+ [".Q..",  // Solution 1
+  "...Q",
+  "Q...",
+  "..Q."],
+
+ ["..Q.",  // Solution 2
+  "Q...",
+  "...Q",
+  ".Q.."]
+]
+Explanation: There exist two distinct solutions to the 4-queens puzzle as shown above.
+	 */
+	//设置一个数组vector<int> C(n,0), C[i]表示第i行皇后所在的列编号，即在位置(i,C[i])上放了一个皇后，
+	//这样放了一个皇后，这样用一个以为数组，就能记录整个棋盘。
+	//深搜+剪枝
+	vector<vector<string>> solveNQueens(int n) {
+		vector<vector<string>> result;
+		vector<int> C(n, -1); //C[i]表示第i行皇后所在的列编号
+		dfs(C, result, 0);
+		return result;
+	}
+	void dfs(vector<int> &C, vector<vector<string>> &result, int row){
+		const int N=C.size();
+		if(row == N){ //终止条件，找到一个可行解
+			vector<string> solution;
+			for(int i=0; i<N; ++i){
+				string s(N, '.');
+				for(int j=0; j<N; ++j){
+					if(j == C[i]) s[j] = 'Q';
+				}
+				solution.push_back(s);
+			}
+			result.push_back(solution);
+			return ;
+		}
+
+		for(int j=0; j<N; ++j){ //扩展状态，一列一列的试
+			const bool ok = isValid(C, row, j);
+			if(!ok) continue; //剪枝，如果非法，继续尝试下一列
+			//执行扩展动作
+			C[row] = j;
+			dfs(C, result, row+1);
+			//撤销动作
+			//C[row] = -1;
+		}
+	}
+	bool isValid(const vector<int> &C, int row, int col){
+		for(int i=0; i<row; ++i){
+			//在同一列
+			if(C[i] == col) return false;
+			//在同一对角线上
+			if(abs(i-row) == abs(C[i]-col)) return false;
+		}
+		return true;
+	}
+	//深搜+剪枝
+	//三个变量用于剪枝
+	vector<bool> columns; //表示已经放置的皇后占据了那些列
+	vector<bool> main_diag; //占据了哪些主对角线
+	vector<bool> anti_diag; //占据了哪些副对角线
+	vector<vector<string>> solveNQueens(int n){
+		this->columns = vector<bool>(n, false);
+		this->main_diag = vector<bool>(2*n-1, false);
+		this->anti_diag = vector<bool>(2*n-1, false);
+
+		vector<vector<string>> result;
+		vector<int> C(n, -1);
+		dfs(C, result, 0);
+		return result;
+	}
+	void dfs(vector<int> &C, vector<vector<string>> &result, int row){
+		const int N = C.size();
+		if(row == N){
+			vector<string> solution;
+			for(int i=0; i<N; ++i){
+				string s(N, '.');
+				for(int j=0; j<N; ++j){
+					if(j == C[i]) s[j] = 'Q';
+				}
+				solution.push_back(s);
+			}
+			result.push_back(solution);
+			return;
+		}
+
+		for(int j=0; j<N; ++j){
+			const bool ok = !columns[j] && !main_diag[row-j+N-1] && !anti_diag[row+j];
+			if(!ok) continue; //剪枝，如果非法，继续尝试下一列
+			//执行扩展动作
+			C[row] = j;
+			columns[j] = main_diag[row-j+N-1] = anti_diag[row+j] = true;
+			dfs(C, result, row+1);
+			columns[j] = main_diag[row-j+N-1] = anti_diag[row+j] = false;
+		}
+	}
+
+	/**
 	 * 62. Unique Paths
 A robot is located at the top-left corner of a m x n grid (marked 'Start' in the diagram below).
 
