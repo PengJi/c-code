@@ -1450,6 +1450,69 @@ Output: 99
         return one;
     }
 
+    /**
+     * 169. Majority Element
+Given an array of size n, find the majority element. 
+The majority element is the element that appears more than ⌊ n/2 ⌋ times.
+
+You may assume that the array is non-empty and the majority element 
+always exist in the array.
+
+Example 1:
+Input: [3,2,3]
+Output: 3
+
+Example 2:
+Input: [2,2,1,1,1,2,2]
+Output: 2
+
+problem:
+https://leetcode.com/problems/majority-element/description/
+
+solution:
+https://leetcode.com/problems/majority-element/discuss/51612/6-Suggested-Solutions-in-C++-with-Explanations
+     */
+    //hash table
+    int majorityElement(vector<int>& nums) {
+        unordered_map<int, int> counts;
+        int n = nums.size();
+
+        for(int i=0; i<n; i++){
+            if(++counts[nums[i]] > n/2)
+                return nums[i];
+        }
+    }
+    //moore voting algorithm
+    int majorityElement(vector<int>& nums){
+        int major, counts=0, n=nums.size();
+        for(int i=0; i<n; i++){
+            if(!counts){
+                major = nums[i];
+                counts = 1;
+            }else{
+                counts += major == nums[i]?1:-1;
+            }
+        }
+
+        return major;
+    }
+    //Bit Manipulation
+    int majorityElement(vector<int>& nums){
+        int major=0, n=nums.size();
+        for(int i=0, mask=1; i<32; i++, mask<<=1){
+            int bitCounts = 0;
+            for(int j=0; j<n; j++){
+                if(nums[j] & mask) bitCounts++;
+                if(bitCounts > n/2){
+                    major |= mask;
+                    break;
+                }
+            }
+        }
+
+        return major;
+    }
+
 	/*
 	 * 287. Find the Duplicate Number
 Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), 
