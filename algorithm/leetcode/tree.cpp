@@ -875,8 +875,8 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-flatten-binary-tree-to-linked.ht
     	preorder(root->right,allNodes);
     }
 
-    /**
-     * 116. Populating Next Right Pointers in Each Node
+  /**
+   * 116. Populating Next Right Pointers in Each Node
 Given a binary tree
 
 struct TreeLinkNode {
@@ -909,7 +909,7 @@ After calling your function, the tree should look like:
   2 -> 3 -> NULL
  / \  / \
 4->5->6->7 -> NULL
-     */
+  */
   void connect(TreeLinkNode *root) {
     connect(root, NULL);
   }
