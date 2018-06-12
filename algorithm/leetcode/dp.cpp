@@ -5,7 +5,8 @@ class Solution {
 public:
     /**
      * 5. Longest Palindromic Substring
-Given a string s, find the longest palindromic substring in s. You may assume that the maximum length of s is 1000.
+Given a string s, find the longest palindromic substring in s. 
+You may assume that the maximum length of s is 1000.
 
 Example:
 Input: "babad"
@@ -48,7 +49,8 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-longest-palindromic-substring.ht
 
     /**
      * 53. Maximum Subarray
-Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+Given an integer array nums, find the contiguous subarray (containing at least one number) 
+which has the largest sum and return its sum.
 
 Example:
 Input: [-2,1,-3,4,-1,2,1,-5,4],
@@ -56,7 +58,8 @@ Output: 6
 Explanation: [4,-1,2,1] has the largest sum = 6.
 Follow up:
 
-If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, which is more subtle.
+If you have figured out the O(n) solution, try coding another solution using the divide and conquer approach, 
+which is more subtle.
      */
     //最大连续子序列和
 	int maxSubArray(vector<int>& nums) {
@@ -250,7 +253,9 @@ exection -> execution (insert 'u')
 
     /**
      * 85. Maximal Rectangle
-Given a 2D binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.
+Given a 2D binary matrix filled with 0's and 1's, 
+find the largest rectangle containing only 1's 
+and return its area.
 
 Example:
 Input:
@@ -299,6 +304,91 @@ Output: 6
 
 		return ret;
 	}
+
+	/**
+	 * 87. Scramble String
+Given a string s1, we may represent it as a binary tree by partitioning it to 
+two non-empty substrings recursively.
+
+Below is one possible representation of s1 = "great":
+
+    great
+   /    \
+  gr    eat
+ / \    /  \
+g   r  e   at
+           / \
+          a   t
+To scramble the string, we may choose any non-leaf node and swap its two children.
+
+For example, if we choose the node "gr" and swap its two children, 
+it produces a scrambled string "rgeat".
+
+    rgeat
+   /    \
+  rg    eat
+ / \    /  \
+r   g  e   at
+           / \
+          a   t
+We say that "rgeat" is a scrambled string of "great".
+
+Similarly, if we continue to swap the children of nodes "eat" and "at", 
+it produces a scrambled string "rgtae".
+
+    rgtae
+   /    \
+  rg    tae
+ / \    /  \
+r   g  ta  e
+       / \
+      t   a
+We say that "rgtae" is a scrambled string of "great".
+
+Given two strings s1 and s2 of the same length, determine if s2 is a scrambled string of s1.
+
+Example 1:
+Input: s1 = "great", s2 = "rgeat"
+Output: true
+
+Example 2:
+Input: s1 = "abcde", s2 = "caebd"
+Output: false
+
+problem:
+https://leetcode.com/problems/scramble-string/description/
+	 */
+	//动规
+	//设状态f[n][i][j]表示长度为n，起点为s1[i]和起点为s2[j]两个字符串是否互为scramble，则状态转移方程为
+	//f[n][i][j] = (f[k][i][j] && f[n-k][i+k][j+k])
+	//				|| (f[k][i][j+n-k] && f[n-k][i+k][j])
+	bool isScramble(string s1, string s2) {
+        const int N = s1.size();
+        if(N != s2.size()) return false;
+
+        bool f[N+1][N][N];
+        fill_n(&f[0][0][0], (N+1)*N*N, false);
+
+        for(int i=0; i<N; i++)
+        	for(int j=0; j<N; j++)
+        		f[1][i][j] = s1[i] == s2[j];
+
+        for(int n=1; n<=N; ++n){
+        	for(int i=0; i+n<=N; ++i){
+        		for(int j=0; j+n<=N; ++j){
+        			for(int k=1; k<n; ++k){
+        				if((f[k][i][j] && f[n-k][i+k][j+k]) 
+        					|| (f[k][i][j+n-k]) && f[n-k][i+k][j]){
+        					f[n][i][j] = true;
+        					break;
+        				}
+        			}
+        		}
+        	}
+        }
+
+        return f[N][0][0];
+    }
 
 	/**
 	 * 91. Decode Ways
@@ -410,9 +500,64 @@ Output: false
 		return f[s2.length()];
 	}
 
+	/**
+	 * 115. Distinct Subsequences
+Given a string S and a string T, count the number of distinct subsequences of S which equals T.
+
+A subsequence of a string is a new string which is formed from the original string 
+by deleting some (can be none) of the characters without disturbing the relative positions 
+of the remaining characters. (ie, "ACE" is a subsequence of "ABCDE" while "AEC" is not).
+
+Example 1:
+Input: S = "rabbbit", T = "rabbit"
+Output: 3
+Explanation:
+As shown below, there are 3 ways you can generate "rabbit" from S.
+(The caret symbol ^ means the chosen letters)
+rabbbit
+^^^^ ^^
+rabbbit
+^^ ^^^^
+rabbbit
+^^^ ^^^
+
+Example 2:
+Input: S = "babgbag", T = "bag"
+Output: 5
+Explanation:
+As shown below, there are 5 ways you can generate "bag" from S.
+(The caret symbol ^ means the chosen letters)
+babgbag
+^^ ^
+babgbag
+^^    ^
+babgbag
+^    ^^
+babgbag
+  ^  ^^
+babgbag
+    ^^^
+	 */
+	//设状态为f(i,j)，表示T[0,j]在S[0,i]里出现的次数。
+	//首先，无论S[i]和T[j]是否相等，若不使用S[i]，则f(i,j)=f(i-1,j);
+	//若S[i]==T[j]，则可以使用S[i]，此时f(i,j)=f(i-1,j)+f(i-1,j-1)。
+	//二维动态规划+滚动数组
+	int numDistinct(string s, string t) {
+		vector<int> f(t.size()+1);
+		f[0]=1;
+		for(int i=0; i<s.size(); ++i){
+			for(int j=t.size()-1; j>=0; --j){
+				f[j+1] += s[i] == t[j] ? f[j] : 0;
+			}
+		}
+
+		return f[t.size()];
+	}
+
     /**
      * 120. Triangle
-Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the row below.
+Given a triangle, find the minimum path sum from top to bottom. 
+Each step you may move to adjacent numbers on the row below.
 
 For example, given the following triangle
 [
@@ -525,6 +670,170 @@ Explanation: In this case, no transaction is done, i.e. max profit = 0.
 			}
 		}
 		return d[0];
+	}
+
+	/**
+	 * 139. Word Break
+Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, 
+determine if s can be segmented into a space-separated sequence of one or more dictionary words.
+
+Note:
+The same word in the dictionary may be reused multiple times in the segmentation.
+You may assume the dictionary does not contain duplicate words.
+
+Example 1:
+Input: s = "leetcode", wordDict = ["leet", "code"]
+Output: true
+Explanation: Return true because "leetcode" can be segmented as "leet code".
+
+Example 2:
+Input: s = "applepenapple", wordDict = ["apple", "pen"]
+Output: true
+Explanation: Return true because "applepenapple" can be segmented as "apple pen apple".
+             Note that you are allowed to reuse a dictionary word.
+
+Example 3:
+Input: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
+Output: false
+	 */
+    vector<bool> state;
+    bool wordBreak(string s, vector<string>& wordDict){
+    	if(!s.size())
+    		return true;
+
+    	if(!wordDict.size() && s.size())
+    		return false;
+
+    	state.resize(s.size() + 1);
+    	fill(state.begin(), state.end(), false);
+
+    	sort(wordDict.begin(), wordDict.end(), [](const string& a, const string& b){
+    		if(a.size() == b.size())
+    			return a<b;
+    		return a.size() < b.size();
+    	});
+
+    	int i=s.size();
+    	state[s.size()] = true;
+    	while(i){
+    		if(state[i])
+    			for(auto w: wordDict){
+    				int j = i-w.size();
+
+    				if(j<0)
+    					break;
+
+    				if(s.substr(j, w.size()) == w)
+    					state[j] = true;
+    			}
+
+    		--i;
+    	}
+
+    	return state[0];
+    }
+
+    /**
+     * 140. Word Break II
+Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, 
+add spaces in s to construct a sentence where each word is a valid dictionary word. 
+Return all such possible sentences.
+
+Note:
+The same word in the dictionary may be reused multiple times in the segmentation.
+You may assume the dictionary does not contain duplicate words.
+
+Example 1:
+Input:
+s = "catsanddog"
+wordDict = ["cat", "cats", "and", "sand", "dog"]
+Output:
+[
+  "cats and dog",
+  "cat sand dog"
+]
+
+Example 2:
+Input:
+s = "pineapplepenapple"
+wordDict = ["apple", "pen", "applepen", "pine", "pineapple"]
+Output:
+[
+  "pine apple pen apple",
+  "pineapple pen apple",
+  "pine applepen apple"
+]
+Explanation: Note that you are allowed to reuse a dictionary word.
+
+Example 3:
+Input:
+s = "catsandog"
+wordDict = ["cats", "dog", "sand", "and", "cat"]
+Output:
+[]
+     */
+	vector<string> wordBreak(string s, vector<string>& wordDict) {
+		unordered_set<string> dict(wordDict.begin(), wordDict.end());
+		unordered_map<size_t, vector<string>> cache;
+
+		cache[s.length()] = {""};
+		return wordBreak(s, dict, 0UL, cache);
+    }
+    vector<string> wordBreak(string& s, unordered_set<string>& dict, 
+    	size_t index, unordered_map<size_t, vector<string>> &cache){
+    	vector<string> out;
+
+    	for(size_t i=index; i<s.length(); ++i){
+    		string sub = s.substr(index, i-index+1);
+    		if(dict.find(sub) != dict.end()){
+    			bool found = (cache.find(i+1) != cache.end());
+    			vector<string> &result = cache[i+1];
+    			if(!found){
+    				result = wordBreak(s, dict, i+1, cache);
+    			}
+
+    			for(string& subsub : result){
+    				out.emplace_back(sub + (subsub.length() ? (string(" ") + subsub) : ""));
+    			}
+    		}
+    	}
+
+    	return out;
+    }
+
+    /**
+     * 198. House Robber
+You are a professional robber planning to rob houses along a street. 
+Each house has a certain amount of money stashed, the only constraint 
+stopping you from robbing each of them is that adjacent houses have 
+security system connected and it will automatically contact the police 
+if two adjacent houses were broken into on the same night.
+
+Given a list of non-negative integers representing the amount of money 
+of each house, determine the maximum amount of money you can rob tonight 
+without alerting the police.
+
+Example 1:
+Input: [1,2,3,1]
+Output: 4
+Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
+             Total amount you can rob = 1 + 3 = 4.
+
+Example 2:
+Input: [2,7,9,3,1]
+Output: 12
+Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).
+             Total amount you can rob = 2 + 9 + 1 = 12.
+     */
+	int rob(vector<int>& nums) {
+		int i=0, e=0;
+		for(int k=0; k<nums.size(); k++){
+			int tmp = i;
+			i = nums[k]+e;
+			e = Math.max(tmp, e);
+		}
+
+		return Math.max(i,e);
 	}
 
 	/**

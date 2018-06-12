@@ -133,6 +133,45 @@ A solution set is:
     }
 
     /**
+     * 16. 3Sum Closest
+Given an array nums of n integers and an integer target, 
+find three integers in nums such that the sum is closest to target. 
+Return the sum of the three integers. 
+You may assume that each input would have exactly one solution.
+
+Example:
+Given array nums = [-1, 2, 1, -4], and target = 1.
+The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).
+     */
+    //先排序，然后左右夹逼
+    int threeSumClosest(vector<int>& nums, int target) {
+        int result = 0;
+        int min_gap = INT_MAX;
+
+        sort(nums.begin(), nums.end());
+
+        for(auto a=nums.begin(); a!=prev(nums.end(),2); ++a){
+            auto b=next(a);
+            auto c=prev(nums.end());
+
+            while(b<c){
+                const int sum = *a+*b+*c;
+                const int gap = abs(sum-target);
+
+                if(gap< min_gap){
+                    result = sum;
+                    min_gap = gap;
+                }
+
+                if(sum < target) ++b;
+                else --c;
+            }
+        }
+
+        return result;
+    }
+
+    /**
      * 18. 4Sum
 Given an array S of n integers, are there elements a, b, c, 
 and d in S such that a + b + c + d = target? 
@@ -314,9 +353,11 @@ For example, given n = 3, a solution set is:
 
     /**
      * 26. Remove Duplicates from Sorted Array
-Given a sorted array, remove the duplicates in-place such that each element appear only once and return the new length.
+Given a sorted array, remove the duplicates in-place such that each element appear only once 
+and return the new length.
 
-Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.
+Do not allocate extra space for another array, you must do this by 
+modifying the input array in-place with O(1) extra memory.
 
 Example:
 Given nums = [1,1,2],
@@ -354,7 +395,8 @@ It doesn't matter what you leave beyond the new length.
     /**
      * 27. Remove Element
 Given an array and a value, remove all instances of that value in-place and return the new length.
-Do not allocate extra space for another array, you must do this by modifying the input array in-place with O(1) extra memory.
+Do not allocate extra space for another array, 
+you must do this by modifying the input array in-place with O(1) extra memory.
 The order of elements can be changed. It doesn't matter what you leave beyond the new length.
 
 Example:
@@ -373,6 +415,59 @@ Your function should return length = 2, with the first two elements of nums bein
     //使用remove
     int removeElement(vector<int>& nums, int val){
         return distance(nums.begin(),remove(nums.begin(),nums.end(),val));
+    }
+
+    /**
+     * 31. Next Permutation
+Implement next permutation, which rearranges numbers into the lexicographically 
+next greater permutation of numbers.
+
+If such arrangement is not possible, it must rearrange it as the lowest 
+possible order (ie, sorted in ascending order).
+
+The replacement must be in-place and use only constant extra memory.
+
+Here are some examples. Inputs are in the left-hand column and 
+its corresponding outputs are in the right-hand column.
+
+1,2,3 → 1,3,2
+3,2,1 → 1,2,3
+1,1,5 → 1,5,1
+
+problem:
+https://leetcode.com/problems/next-permutation/description/
+     */
+    void nextPermutation(vector<int>& nums) {
+        next_Permutation(nums.begin(), nums.end());
+    }
+    template<typename BidiIt>
+    bool next_Permutation(BidiIt first, BidiIt last){
+        //get a reversed range to simplify reversed traversal.
+        const auto rfirst = reverse_iterator<BidiIt>(last);
+        const auto rlast = reverse_iterator<BidiIt>(first);
+
+        //begin from the second last element to the first element
+        auto pivot = next(rfirst);
+
+        //find 'pivot', which is the first element that is no less than its successor.
+        //'prev' is used since 'pivot' is a 'reversed_iterator'.
+        while(pivot != rlast && *pivot >= *prev(pivot))
+            ++pivot;
+
+        //no such elements found, current sequence is already the largest
+        //permutation, then rearrange to the first permutation and return false
+        if(pivot == rlast){
+            reverse(rfirst, rlast);
+            return false;
+        }
+
+        //scan from right to left, find the first element that is greater than 'pivot'
+        auto change = find_if(rfirst, pivot, bind1st(less<int>(), *pivot));
+
+        swap(*change, *pivot);
+        reverse(rfirst, pivot);
+
+        return true;
     }
 
     /**
@@ -407,6 +502,92 @@ You may assume no duplicate exists in the array.
         return -1;
     } 
 
+    /**
+     * 36. Valid Sudoku
+Determine if a 9x9 Sudoku board is valid. Only the filled cells need to be 
+validated according to the following rules:
+1. Each row must contain the digits 1-9 without repetition.
+2. Each column must contain the digits 1-9 without repetition.
+3. Each of the 9 3x3 sub-boxes of the grid must contain the digits 1-9 without repetition.
+
+A partially filled sudoku which is valid.
+
+The Sudoku board could be partially filled, where empty cells are filled with the character '.'.
+
+Example 1:
+Input:
+[
+  ["5","3",".",".","7",".",".",".","."],
+  ["6",".",".","1","9","5",".",".","."],
+  [".","9","8",".",".",".",".","6","."],
+  ["8",".",".",".","6",".",".",".","3"],
+  ["4",".",".","8",".","3",".",".","1"],
+  ["7",".",".",".","2",".",".",".","6"],
+  [".","6",".",".",".",".","2","8","."],
+  [".",".",".","4","1","9",".",".","5"],
+  [".",".",".",".","8",".",".","7","9"]
+]
+Output: true
+
+Example 2:
+Input:
+[
+  ["8","3",".",".","7",".",".",".","."],
+  ["6",".",".","1","9","5",".",".","."],
+  [".","9","8",".",".",".",".","6","."],
+  ["8",".",".",".","6",".",".",".","3"],
+  ["4",".",".","8",".","3",".",".","1"],
+  ["7",".",".",".","2",".",".",".","6"],
+  [".","6",".",".",".",".","2","8","."],
+  [".",".",".","4","1","9",".",".","5"],
+  [".",".",".",".","8",".",".","7","9"]
+]
+Output: false
+Explanation: Same as Example 1, except with the 5 in the top left corner being 
+    modified to 8. Since there are two 8's in the top left 3x3 sub-box, it is invalid.
+
+Note:
+A Sudoku board (partially filled) could be valid but is not necessarily solvable.
+Only the filled cells need to be validated according to the mentioned rules.
+The given board contain only digits 1-9 and the character '.'.
+The given board size is always 9x9.
+     */
+    bool isValidSudoku(vector<vector<char>>& board) {
+        bool used[9];
+
+        for(int i=0; i<9; ++i){
+            fill(used, used+9, false);
+
+            for(int j=0; j<9; ++j) //检查行
+                if(!check(board[i][j], used))
+                    return false;
+
+            fill(used, used+9, false);
+
+            for(int j=0; j<9; ++j) //检查列
+                if(!check(board[j][i], used))
+                    return false;
+        }
+
+        for(int r=0; r<3; ++r) //检查9个格子
+            for(int c=0; c<3; ++c){
+                fill(used, used+9, false);
+
+                for(int i=r*3; i<r*3+3; ++i)
+                    for(int j=c*3; j<c*3+3; ++j)
+                        if(!check(board[i][j], used))
+                            return false;
+            }
+
+        return true;
+    }
+    bool check(char ch, bool used[9]){
+        if(ch =='.') return true;
+        if(used[ch - '1']) return false;
+
+        return used[ch-'1'] = true;
+    }
+
     /*
      * 39. Combination Sum
 Given a set of candidate numbers (C) (without duplicates) and a target number (T), 
@@ -436,7 +617,8 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-combination-sum-i-ii.html
         return allSol;
     }
     
-    void findCombSum(vector<int> &candidates, int start, int target, vector<int> &sol, vector<vector<int>> &allSol) {
+    void findCombSum(vector<int> &candidates, int start, int target, 
+        vector<int> &sol, vector<vector<int>> &allSol) {
         if(target==0) {
             allSol.push_back(sol);
             return;
@@ -453,11 +635,86 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-combination-sum-i-ii.html
     }
 
     /**
+     * 42. Trapping Rain Water
+Given n non-negative integers representing an elevation map where the 
+width of each bar is 1, compute how much water it is able to trap after raining.
+
+
+The above elevation map is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. 
+In this case, 6 units of rain water (blue section) are being trapped. 
+Thanks Marcos for contributing this image!
+
+Example:
+Input: [0,1,0,2,1,0,1,3,2,1,2,1]
+Output: 6
+     */
+    //对于每个柱子，找到其左右两边最高的柱子，该柱子能容纳的面积就是min(max_left,max_right)-height。
+    //所以
+    //1. 从左往右扫描一遍，对于每个柱子，求去左边最大值
+    //2. 从右往左扫描一遍，对于每个柱子，求最大右值
+    //3. 再扫描一遍，把每个柱子的面积并累加
+    //也可以
+    //1. 扫描一遍，找到最高的柱子，这个柱子将数组分为两半
+    //2. 处理左边一半
+    //3. 处理右边一半
+    //思路一
+    int trap(vector<int>& height) {
+        const int n = height.size();
+        int *max_left = new int[n]();
+        int *max_right = new int[n]();
+
+        for(int i=1; i<n; i++){
+            max_left[i] = max(max_left[i-1], height[i-1]);
+            max_right[n-1-i] = max(max_right[n-i], height[n-i]);
+        }
+
+        int sum = 0;
+        for(int i=0; i<n; ++i){
+            int h = min(max_left[i], max_right[i]);
+            if(h > height[i]){
+                sum += h - height[i];
+            }
+        }
+
+        delete[] max_left;
+        delete[] max_right;
+
+        return sum;
+    }
+
+    //思路二
+    int trap(vector<int>& height){
+        const int n = height.size();
+        int max=0; //最高的柱子，将数据分为两半
+        for(int i=0; i<n; i++)
+            if(height[i]>height[max])
+                max = i;
+
+        int water = 0;
+        for(int i=0, peak=0; i<max; i++)
+            if(height[i] > peak)
+                peak = height[i];
+            else
+                water += peak-height[i];
+
+        for(int i=n-1, top=0; i>max; i--){
+            if(height[i] > top)
+                top = height[i];
+            else
+                water += top-height[i];
+        }
+
+        return water;
+    }
+
+
+    /**
      * 48. Rotate Image
 You are given an n x n 2D matrix representing an image.
 Rotate the image by 90 degrees (clockwise).
 Note:
-You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. DO NOT allocate another 2D matrix and do the rotation.
+You have to rotate the image in-place, which means you have to modify the input 2D matrix directly. 
+DO NOT allocate another 2D matrix and do the rotation.
 
 Example 1:
 Given input matrix = 
@@ -569,6 +826,72 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-merge-intervals.html
     }
 
     /**
+     * 60. Permutation Sequence
+The set [1,2,3,...,n] contains a total of n! unique permutations.
+
+By listing and labeling all of the permutations in order, 
+we get the following sequence for n = 3:
+
+"123"
+"132"
+"213"
+"231"
+"312"
+"321"
+Given n and k, return the kth permutation sequence.
+
+Note:
+Given n will be between 1 and 9 inclusive.
+Given k will be between 1 and n! inclusive.
+
+Example 1:
+Input: n = 3, k = 3
+Output: "213"
+
+Example 2:
+Input: n = 4, k = 9
+Output: "2314"
+
+problem:
+https://leetcode.com/problems/permutation-sequence/description/
+     */
+    //康托编码
+    string getPermutation(int n, int k) {
+        string s(n, '0');
+        string result;
+
+        for(int i=0; i<n; ++i)
+            s[i] += i+1;
+
+        return kth_permutation(s,k);
+    }
+    int factorial(int n){
+        int result = 1;
+        for(int i=1; i<=n; ++i)
+            result *= i;
+
+        return result;
+    }
+    template<typename Sequence>
+    Sequence kth_permutation(const Sequence &seq, int k){
+        const int n = seq.size();
+        Sequence S(seq);
+        Sequence result;
+
+        int base = factorial(n-1);
+        --k;
+
+        for(int i=n-1; i>0; k%=base, base/=i, --i){
+            auto a = next(S.begin(), k/base);
+            result.push_back(*a);
+            S.erase(a);
+        }
+
+        result.push_back(S[0]);
+        return result;
+    }
+
+    /**
      * 66. Plus One
 Given a non-negative integer represented as a non-empty array of digits, plus one to the integer.
 You may assume the integer do not contain any leading zero, except the number 0 itself.
@@ -607,6 +930,155 @@ The digits are stored such that the most significant digit is at the head of the
 
         if(c>0)
             digits.insert(digits.begin(),1);
+    }
+
+    /**
+     * 70. Climbing Stairs
+You are climbing a stair case. It takes n steps to reach to the top.
+
+Each time you can either climb 1 or 2 steps. 
+In how many distinct ways can you climb to the top?
+
+Note: Given n will be a positive integer.
+
+Example 1:
+Input: 2
+Output: 2
+Explanation: There are two ways to climb to the top.
+1. 1 step + 1 step
+2. 2 steps
+
+Example 2:
+Input: 3
+Output: 3
+Explanation: There are three ways to climb to the top.
+1. 1 step + 1 step + 1 step
+2. 1 step + 2 steps
+3. 2 steps + 1 step
+     */
+    //设f(n)表示爬n阶楼梯的不同方法数，为了爬到第n阶楼梯，有两个选择：
+    //从第n-1阶前进1步
+    //从第n-1阶前进2步
+    //因此，有f(n) = f(n-1) + f(n-2)
+    //斐波那契数列
+    //迭代
+    int climbStairs(int n) {
+        int prev = 0;
+        int cur = 1;
+
+        for(int i=1; i<=n; ++i){
+            int tmp = cur;
+            cur += prev;
+            prev = tmp;
+        }
+
+        return cur;
+    }
+
+    /**
+     * 73. Set Matrix Zeroes
+Given a m x n matrix, if an element is 0, set its entire row and column to 0. Do it in-place.
+
+Example 1:
+Input: 
+[
+  [1,1,1],
+  [1,0,1],
+  [1,1,1]
+]
+Output: 
+[
+  [1,0,1],
+  [0,0,0],
+  [1,0,1]
+]
+
+Example 2:
+Input: 
+[
+  [0,1,2,0],
+  [3,4,5,2],
+  [1,3,1,5]
+]
+Output: 
+[
+  [0,0,0,0],
+  [0,4,5,0],
+  [0,3,1,0]
+]
+
+Follow up:
+A straight forward solution using O(mn) space is probably a bad idea.
+A simple improvement uses O(m + n) space, but still not the best solution.
+Could you devise a constant space solution?
+     */
+    //O(m+n)空间的方法很简单，设置两个bool数组，记录每行和每列是否存在0。
+    //想要常数空间，可以服用第一行和第一列
+    //代码一，时间复杂度O(m*n)，空间复杂度O(m+n)
+    void setZeroes(vector<vector<int>>& matrix) {
+        const size_t m = matrix.size();
+        const size_t n = matrix[0].size();
+
+        vector<bool> row(m, false); //标记该行是否存在0
+        vector<bool> col(n, false); //标记该列是否存在0
+
+        for(size_t i=0; i<m; i++){
+            for(size_t j=0; j<n; j++){
+                if(matrix[i][j] == 0)
+                    row[i] = col[j] = true;
+            }
+        }
+
+        for(size_t i=0; i<m; ++i){
+            if(row[i])
+                fill(&matrix[i][0], &matrix[i][0]+n, 0);
+        }
+        for(size_t j=0; j<n; ++j){
+            if(col[j]){
+                for(size_t i=0; i<m; ++i){
+                    matrix[i][j] = 0;
+                }
+            }
+        }
+    }
+    //代码二，时间复杂度O(m*n)，空间复杂度O(1)
+    void setZeroes(vector<vector<int>> &matrix){
+        const size_t m = matrix.size();
+        const size_t n = matrix[0].size();
+        bool row_has_zero = false; //第一行是否存在0
+        bool col_has_zero = false; //第一列是否存在0
+
+        for(size_t i=0; i<n; i++)
+            if(matrix[0][i] == 0){
+                row_has_zero = true;
+                break;
+            }
+
+        for(size_t i=0; i<m; i++)
+            if(matrix[i][0] == 0){
+                col_has_zero = true;
+                break;
+            }
+
+        for(size_t i=1; i<m; i++)
+            for(size_t j=1; j<n; j++)
+                if(matrix[i][j] == 0){
+                    matrix[0][j] = 0;
+                    matrix[i][0] = 0;
+                }
+
+        for(size_t i=1; i<m; i++)
+            for(size_t j=1; j<n; j++)
+                if(matrix[i][0] == 0 || matrix[0][j] == 0)
+                    matrix[i][j] = 0;
+
+        if(row_has_zero)
+            for(size_t i=0; i<n; i++)
+                matrix[0][i] = 0;
+
+        if(col_has_zero)
+            for(size_t i=0; i<m; i++)
+                matrix[i][0] = 0;
     }
 
     /**
@@ -690,6 +1162,165 @@ The array may contain duplicates.
     }
 
     /**
+     * 89. Gray Code
+The gray code is a binary numeral system where two successive values differ in only one bit.
+
+Given a non-negative integer n representing the total number of bits in the code, 
+print the sequence of gray code. A gray code sequence must begin with 0.
+
+For example, given n = 2, return [0,1,3,2]. Its gray code sequence is:
+00 - 0
+01 - 1
+11 - 3
+10 - 2
+Note:
+For a given n, a gray code sequence is not uniquely defined.
+
+For example, [0,2,3,1] is also a valid gray code sequence according to the above definition.
+
+For now, the judge is able to judge based on one instance of gray code sequence. Sorry about that.
+     */
+    //自然二进制转格雷码
+    //格雷码转自然二进制
+    vector<int> grayCode(int n) {
+        vector<int> result;
+        const size_t size = 1<<n; //2^n
+        result.reserve(size);
+        for(size_t i=0; i<size; ++i)
+            result.push_back(binary_to_gray(i));
+
+        return result;
+    }
+    unsigned int binary_to_gray(unsigned int n){
+        return n^(n>>1);
+    }
+    //Reflect-and-prefix method
+    vector<int> grayCode(int n){
+        vector<int> result;
+        result.reserve(1<<n);
+        result.push_back(0);
+        for(int i=0; i<n; ++i){
+            const int highest_bit = 1 << i;
+            for(int j=result.size()-1; j>=0; j--){
+                result.push_back(highest_bit | result[j]);
+            }
+        }
+
+        return result;
+    }
+
+    /**
+     * 128. Longest Consecutive Sequence
+Given an unsorted array of integers, 
+find the length of the longest consecutive elements sequence.
+
+Your algorithm should run in O(n) complexity.
+
+Example:
+Input: [100, 4, 200, 1, 3, 2]
+Output: 4
+Explanation: The longest consecutive elements sequence is [1, 2, 3, 4]. 
+Therefore its length is 4.
+     */
+    //如果允许O(nlogn)的复杂度，那么可以先排序，但本题要求O(n)
+    //由于序列里的元素是无序的，有要求O(n)，首先要想到用哈希表
+    //用于哈希表unordered_map<int, bool> used记录每个元素是否使用，
+    //对每个元素，以该元素为中心，往左右扩展，知道不连续为止，记录下最长的长度
+    int longestConsecutive(vector<int>& nums) {
+        unordered_map<int ,bool> used;
+
+        for(auto i : nums)
+            used[i] = false;
+
+        int longest = 0;
+
+        for(auto i:nums){
+            if(used[i]) continue;
+
+            int length = 1;
+
+            used[i] = true;
+
+            for(int j=i+1; used.find(j) != used.end(); ++j){
+                used[j] = true;
+                ++length;
+            }
+
+            for(int j=i-1; used.find(j) != used.end(); --j){
+                used[j] = true;
+                ++length;
+            }
+
+            longest = max(longest, length);
+        }
+
+        return longest;
+    }
+
+    /**
+     * 134. Gas Station
+There are N gas stations along a circular route, where the amount of gas at station i is gas[i].
+
+You have a car with an unlimited gas tank and it costs cost[i] of gas to travel 
+from station i to its next station (i+1). 
+You begin the journey with an empty tank at one of the gas stations.
+
+Return the starting gas station's index if you can travel around the circuit once 
+in the clockwise direction, otherwise return -1.
+
+Note:
+If there exists a solution, it is guaranteed to be unique.
+Both input arrays are non-empty and have the same length.
+Each element in the input arrays is a non-negative integer.
+
+Example 1:
+Input: 
+gas  = [1,2,3,4,5]
+cost = [3,4,5,1,2]
+Output: 3
+
+Explanation:
+Start at station 3 (index 3) and fill up with 4 unit of gas. Your tank = 0 + 4 = 4
+Travel to station 4. Your tank = 4 - 1 + 5 = 8
+Travel to station 0. Your tank = 8 - 2 + 1 = 7
+Travel to station 1. Your tank = 7 - 3 + 2 = 6
+Travel to station 2. Your tank = 6 - 4 + 3 = 5
+Travel to station 3. The cost is 5. Your gas is just enough to travel back to station 3.
+Therefore, return 3 as the starting index.
+
+Example 2:
+Input: 
+gas  = [2,3,4]
+cost = [3,4,3]
+Output: -1
+
+Explanation:
+You can't start at station 0 or 1, as there is not enough gas to travel to the next station.
+Let's start at station 2 and fill up with 4 unit of gas. Your tank = 0 + 4 = 4
+Travel to station 0. Your tank = 4 - 3 + 2 = 3
+Travel to station 1. Your tank = 3 - 3 + 3 = 3
+You cannot travel back to station 2, as it requires 4 unit of gas but you only have 3.
+Therefore, you can't travel around the circuit once no matter where you start.
+     */
+    //O(N)的解法是，设置两个变量，sum判断当前的指针的有效性
+    //total则判断整个数组是否有解，有就返回通过sum得到的下标，没有则返回-1
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int total = 0;
+        int j = -1;
+        for(int i=0, sum=0; i<gas.size(); ++i){
+            sum += gas[i] - cost[i];
+            total += gas[i] - cost[i];
+
+            if(sum < 0){
+                j=i;
+                sum = 0;
+            }
+        }
+
+        return total >= 0 ? j+1 : -1;
+    }
+
+    /**
      * 135. Candy
 There are N children standing in a line. Each child is assigned a rating value.
 
@@ -761,10 +1392,132 @@ Your algorithm should have a linear runtime complexity. Could you implement it w
         return accumulate(nums.begin(), nums.end(), 0, bit_xor<int>());
     }
 
+    /**
+     * 137. Single Number II
+Given a non-empty array of integers, every element appears three times except for one, 
+which appears exactly once. Find that single one.
+
+Note:
+
+Your algorithm should have a linear runtime complexity. Could you implement it 
+without using extra memory?
+
+Example 1:
+Input: [2,2,3,2]
+Output: 3
+Example 2:
+
+Input: [0,1,0,1,0,1,99]
+Output: 99
+     */
+    //考察位运算
+    //方法1：创建一个长度为sizeof(int)的数组count[sizeof(int)]，count[i]表示在i位出现1的次数。
+    //如果count[i]是3的整数倍，则忽略；否则就把该位取出来组成答案
+    //方法2：用one记录为当前处理的元素为止，二进制1出现1次(mod3之后的1)的有哪些二进制位；
+    //用two记录当前计算的变量为止,二进制1出现2次(mod3之后)的有哪些二进制位。
+    //用one和two中的某一位同时为1时表示该二进制位上1出现了3次，此时需要清零。
+    //即用二进制模拟三进制运算。最终one记录的最终结果
+    //代码1
+    int singleNumber(vector<int>& nums) {
+        const int W = sizeof(int) * 8; //一个整数的bit数，即整数字长
+        int count[W]; //count[i]表示在i位出现的1的次数
+        fill_n(&count[0], W, 0);
+        for(int i=0; i<nums.size(); i++){
+            for(int j=0; j<W; j++){
+                count[j] += (nums[i] >> j) & 1;
+                count[j] %= 3;
+            }
+        }
+
+        int result = 0;
+        for(int i=0; i<W; ++i){
+            result += (count[i] << i);
+        }
+
+        return result;
+    }
+    //代码2
+    int singleNumber(vector<int>& nums){
+        int one = 0, two=0, three=0;
+        for(auto i : nums){
+            two |= (one & i);
+            one ^= i;
+            three = ~(one & two);
+            one &= three;
+            two &= three;
+        }
+
+        return one;
+    }
+
+    /**
+     * 169. Majority Element
+Given an array of size n, find the majority element. 
+The majority element is the element that appears more than ⌊ n/2 ⌋ times.
+
+You may assume that the array is non-empty and the majority element 
+always exist in the array.
+
+Example 1:
+Input: [3,2,3]
+Output: 3
+
+Example 2:
+Input: [2,2,1,1,1,2,2]
+Output: 2
+
+problem:
+https://leetcode.com/problems/majority-element/description/
+
+solution:
+https://leetcode.com/problems/majority-element/discuss/51612/6-Suggested-Solutions-in-C++-with-Explanations
+     */
+    //hash table
+    int majorityElement(vector<int>& nums) {
+        unordered_map<int, int> counts;
+        int n = nums.size();
+
+        for(int i=0; i<n; i++){
+            if(++counts[nums[i]] > n/2)
+                return nums[i];
+        }
+    }
+    //moore voting algorithm
+    int majorityElement(vector<int>& nums){
+        int major, counts=0, n=nums.size();
+        for(int i=0; i<n; i++){
+            if(!counts){
+                major = nums[i];
+                counts = 1;
+            }else{
+                counts += major == nums[i]?1:-1;
+            }
+        }
+
+        return major;
+    }
+    //Bit Manipulation
+    int majorityElement(vector<int>& nums){
+        int major=0, n=nums.size();
+        for(int i=0, mask=1; i<32; i++, mask<<=1){
+            int bitCounts = 0;
+            for(int j=0; j<n; j++){
+                if(nums[j] & mask) bitCounts++;
+                if(bitCounts > n/2){
+                    major |= mask;
+                    break;
+                }
+            }
+        }
+
+        return major;
+    }
+
 	/*
 	 * 287. Find the Duplicate Number
 Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), 
-prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.
+prove that at least one duplicate number must exist. Assume that there is only one duplicate number, 
+find the duplicate one.
 
 Note:
 You must not modify the array (assume the array is read only).

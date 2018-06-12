@@ -15,7 +15,7 @@ int main(){
 	printf("str1[1]: %c\n", str1[1]);
 	printf("str1[1]: %d\n", str1[1]-'0'); //字符转换为整型
 
-	printf("the num is: %d\n", atoi(str1));
+	printf("the num is: %d\n", atoi(str1)); //gcc支持atoi
 
 	return 0;
 }

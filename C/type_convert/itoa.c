@@ -18,7 +18,7 @@ int main(){
 	sprintf(str,"%d",num);
 	printf("The number is(sprintf): %s\n",str);
 
-	//itoa(num,str,10);
+	//itoa(num,str,10); //gcc不支持
 	//printf("The number is: %s", str);
 	
 	//浮点型转为字符型

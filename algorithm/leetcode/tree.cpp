@@ -56,7 +56,8 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-binary-tree-inorder-traversal.ht
 
   /**
    * 95. Unique Binary Search Trees II
-Given an integer n, generate all structurally unique BST's (binary search trees) that store values 1...n.
+Given an integer n, generate all structurally unique BST's (binary search trees) 
+that store values 1...n.
 
 For example,
 Given n = 3, your program should return all 5 unique BST's shown below.
@@ -66,44 +67,42 @@ Given n = 3, your program should return all 5 unique BST's shown below.
      3     2     1      1   3      2
     /     /       \                 \
    2     1         2                 3
-   */
-/**
- * Definition for a binary tree node.
- * struct TreeNode {
- *     int val;
- *     TreeNode *left;
- *     TreeNode *right;
- *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
- * };
- */
-public:
-	vector<TreeNode*> generateTrees(int n) {
-		if(n == 0)
-			return generate(1,0);
-	return generate(1,n);
-	}
-private:
-	vector<TreeNode *> generate(int start, int end){
-		vector<TreeNode*> subTree;
-		if(start > end){
-			subTree.push_back(nullptr);
-		return subTree;
-    }
-    for(int k=start; k <= end; ++k){
-      vector<TreeNode*> leftSubs = generate(start, k-1);
-      vector<TreeNode*> rightSubs = generate(k+1,end);
-      for(auto i : leftSubs){
-        for(auto j : rightSubs){
-          TreeNode *node = new TreeNode(k);
-          node->left = i;
-          node->right = j;
-          subTree.push_back(node);
-        }
-      }
-    }
 
-    return subTree;
-  }
+problem:
+https://leetcode.com/problems/unique-binary-search-trees-ii/description/
+
+solution:
+https://leetcode.com/problems/unique-binary-search-trees-ii/discuss/133025/More-clean-and-readable-than-Top-discuss.(C++-version-from-jiuzhang-algorithm)
+   */
+    vector<TreeNode *> generate(int beg, int end){
+      vector<TreeNode*> ret;
+      if(beg>end){
+        ret.push_back(NULL);
+        return ret;
+      }
+
+      for(int i=beg; i<=end; i++){
+        vector<TreeNode*> leftTree = generate(beg, i-1);
+        vector<TreeNode*> rightTree = generate(i+1, end);
+        for(int j=0; j<leftTree.size(); j++ )
+          for(int k=0; k<rightTree.size(); k++){
+            TreeNode *node = new TreeNode(i+1);
+            ret.push_back(node);
+            node->left = leftTree[j];
+            node->right = rightTree[k];
+          }
+      }
+
+      return ret;
+    }
+    vector<TreeNode*> generateTrees(int n){
+      if(n==0){
+        vector<TreeNode *> ret;
+        return ret;
+      }
+
+      return generate(0, n-1);
+    }
 
   /**
    * 96. Unique Binary Search Trees
@@ -468,6 +467,86 @@ return its depth = 3.
   }
 
   /**
+   * 105. Construct Binary Tree from Preorder and Inorder Traversal
+Given preorder and inorder traversal of a tree, construct the binary tree.
+
+Note:
+You may assume that duplicates do not exist in the tree.
+
+For example, given
+preorder = [3,9,20,15,7]
+inorder = [9,3,15,20,7]
+Return the following binary tree:
+    3
+   / \
+  9  20
+    /  \
+   15   7
+   */
+  TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+    return buildTree(begin(preorder), end(preorder), 
+      begin(inorder), end(inorder));
+  }
+  template<typename InputIterator>
+  TreeNode *buildTree(InputIterator pre_first, InputIterator pre_last,
+    InputIterator in_first, InputIterator in_last){
+    if(pre_first == pre_last) return nullptr;
+    if(in_first == in_last) return nullptr;
+
+    auto root = new TreeNode(*pre_first);
+
+    auto inRootPos = find(in_first, in_last, *pre_first);
+    auto leftSize = distance(in_first, inRootPos);
+
+    root->left = buildTree(next(pre_first), next(pre_first,
+      leftSize + 1), in_first, next(in_first, leftSize));
+    root->right = buildTree(next(pre_first, leftSize+1), pre_last,
+      next(inRootPos), in_last);
+
+    return root;
+  }
+
+  /**
+   * 106. Construct Binary Tree from Inorder and Postorder Traversal
+Given inorder and postorder traversal of a tree, construct the binary tree.
+
+Note:
+You may assume that duplicates do not exist in the tree.
+
+For example, given
+inorder = [9,3,15,20,7]
+postorder = [9,15,7,20,3]
+Return the following binary tree:
+    3
+   / \
+  9  20
+    /  \
+   15   7
+   */
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+      return buildTree(begin(inorder), end(inorder),
+        begin(postorder), end(postorder));
+    }
+    template<typename BidiIt>
+    TreeNode *buildTree(BidiIt in_first, BidiIt in_last,
+      BidiIt post_first, BidiIt post_last){
+      if(in_first == in_last) return nullptr;
+      if(post_first == post_last) return nullptr;
+
+      const auto val = *prev(post_last);
+      TreeNode *root = new TreeNode(val);
+
+      auto in_root_pos = find(in_first, in_last, val);
+      auto left_size = distance(in_first, in_root_pos);
+      auto post_left_last = next(post_first, left_size);
+
+      root->left = buildTree(in_first, in_root_pos, post_first, post_left_last);
+      root->right = buildTree(next(in_root_pos), in_last, post_left_last, prev(post_last));
+
+      return root;
+    }
+
+  /**
    * 107. Binary Tree Level Order Traversal II
 Given a binary tree, return the bottom-up level order traversal of its nodes' values. 
 (ie, from left to right, level by level from leaf to root).
@@ -571,6 +650,47 @@ One possible answer is: [0,-3,9,-10,null,5], which represents the following heig
 
       return root;
     }
+
+    /**
+     * 109. Convert Sorted List to Binary Search Tree
+Given a singly linked list where elements are sorted in ascending order, 
+convert it to a height balanced BST.
+
+For this problem, a height-balanced binary tree is defined as a binary tree 
+in which the depth of the two subtrees of every node never differ by more than 1.
+
+Example:
+Given the sorted linked list: [-10,-3,0,5,9],
+One possible answer is: [0,-3,9,-10,null,5], which represents the following height balanced BST:
+      0
+     / \
+   -3   9
+   /   /
+ -10  5
+     */
+  //自底向上
+  TreeNode* sortedListToBST(ListNode* head) {
+    int len = 0;
+    ListNode *p = head;
+    while(p){
+      len++;
+      p = p->next;
+    }
+
+    return sortedListToBST(head, 0, len-1);
+  }
+  TreeNode *sortedListToBST(ListNode*& list, int start, int end){
+    if(start>end) return nullptr;
+
+    int mid = start+(end-start)/2;
+    TreeNode *leftChild = sortedListToBST(list, start, mid-1);
+    TreeNode *parent = new TreeNode(list->val);
+    parent->left = leftChild;
+    list = list->next;
+    parent->right = sortedListToBST(list, mid+1, end);
+
+    return parent;
+  }
 
     /**
      * 110. Balanced Binary Tree
@@ -756,6 +876,57 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-flatten-binary-tree-to-linked.ht
     }
 
   /**
+   * 116. Populating Next Right Pointers in Each Node
+Given a binary tree
+
+struct TreeLinkNode {
+  TreeLinkNode *left;
+  TreeLinkNode *right;
+  TreeLinkNode *next;
+}
+
+Populate each next pointer to point to its next right node. 
+If there is no next right node, the next pointer should be set to NULL.
+
+Initially, all next pointers are set to NULL.
+
+Note:
+You may only use constant extra space.
+Recursive approach is fine, implicit stack space does not count as extra space for this problem.
+You may assume that it is a perfect binary tree (ie, all leaves are at the same level,
+ and every parent has two children).
+
+Example:
+Given the following perfect binary tree,
+     1
+   /  \
+  2    3
+ / \  / \
+4  5  6  7
+After calling your function, the tree should look like:
+     1 -> NULL
+   /  \
+  2 -> 3 -> NULL
+ / \  / \
+4->5->6->7 -> NULL
+  */
+  void connect(TreeLinkNode *root) {
+    connect(root, NULL);
+  }
+  void connect(TreeLinkNode *root, TreeLinkNode *sibling){
+    if(root == nullptr)
+      return;
+    else
+      root->next = sibling;
+
+    connect(root->left, root->right);
+    if(sibling)
+      connect(root->right, sibling->left);
+    else
+      connect(root->right, nullptr);
+  }
+
+  /**
      * 117. Populating Next Right Pointers in Each Node II
 Follow up for problem "Populating Next Right Pointers in Each Node".
 
@@ -878,6 +1049,72 @@ Return the sum = 12 + 13 = 25.
 
     return dfs(root->left, sum*10+root->val) + dfs(root->right, sum*10+root->val);
   }
+
+  /**
+   * 144. Binary Tree Preorder Traversal
+Given a binary tree, return the preorder traversal of its nodes' values.
+
+Example:
+Input: [1,null,2,3]
+   1
+    \
+     2
+    /
+   3
+
+Output: [1,2,3]
+Follow up: Recursive solution is trivial, could you do it iteratively?
+
+problem:
+https://leetcode.com/problems/binary-tree-preorder-traversal/description/
+   */
+    //使用栈
+    vector<int> preorderTraversal(TreeNode* root) {
+        vector<int> result;
+        stack<const TreeNode *> s;
+        if(root != nullptr) s.push(root);
+
+        while(!s.empty()){
+            const TreeNode *p = s.top();
+            s.pop();
+            result.push_back(p->val);
+
+            if(p->right != nullptr) s.push(p->right);
+            if(p->left != nullptr) s.push(p->left);
+        }
+
+        return result;
+    }
+    //Morris先序遍历
+    vector<int> preorderTraversal(TreeNode *root){
+        vecotr<int> result;
+        TreeNode *cur = root, *prev = nullptr;
+
+        while(cur != nullptr){
+          if(cur->left == nullptr){
+              result.push_back(cur->val);
+              prev = cur;
+              cur = cur->right;
+          }else{
+              //查找前驱
+              TreeNode *node = cur->left;
+              while(node->right 1= nullptr && node->right != cur)
+                  node = node->right;
+
+              if(node->right == nullptr){ //还没线索化，则建立线索
+                  result.push_back(cur->val); //仅这一行的位置与中序不同
+                  node->right = cur;
+                  prev = cur; //cur刚刚被访问过
+                  cur = cur->left;
+              }else{ //已经线索化，则删除线索
+                  node->right = nullptr;
+                  cur = cur->right;
+              }
+          }
+        }
+
+        return result;
+    }
 
 	/*
 	 * 145. Binary Tree Postorder Traversal

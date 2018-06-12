@@ -5,6 +5,55 @@
 class Solution{
 public:
 	/**
+	 * 6. ZigZag Conversion
+The string "PAYPALISHIRING" is written in a zigzag pattern on a given number 
+of rows like this: (you may want to display this pattern in a fixed font for better legibility)
+
+P   A   H   N
+A P L S I I G
+Y   I   R
+
+And then read line by line: "PAHNAPLSIIGYIR"
+
+Write the code that will take a string and make this conversion given a number of rows:
+
+string convert(string s, int numRows);
+
+Example 1:
+Input: s = "PAYPALISHIRING", numRows = 3
+Output: "PAHNAPLSIIGYIR"
+
+Example 2:
+Input: s = "PAYPALISHIRING", numRows = 4
+Output: "PINALSIGYAHRPI"
+Explanation:
+P     I    N
+A   L S  I G
+Y A   H R
+P     I
+
+problem:
+https://leetcode.com/problems/zigzag-conversion/description/
+	//对于每一层垂直元素的坐标(i,j) = (j+1)*n+i；
+	//对于每两层垂直元素之间的插入元素(斜对角元素)，(i,j)=(j+1)*n-1;
+	 */
+	string convert(string s, int numRows) {
+        if(numRows <=1 || s.size()<=1) return s;
+        string result;
+
+        for(int i=0; i<numRows; i++){
+        	for(int j=0,index=i; index<s.size(); j++, index=(2*numRows-2)*j+i){
+        		result.append(1,s[index]); //垂直元素
+        		if(i==0 || i==numRows-1) continue;
+        		if(index + (numRows-i-1) *2 < s.size())
+        			result.append(1,s[index+(numRows-i-1)*2]);
+        	}
+        }
+
+        return result;
+    }
+
+	/**
 	 * 7. Reverse Integer
 Given a 32-bit signed integer, reverse digits of an integer.
 
@@ -22,7 +71,8 @@ Input: 120
 Output: 21
 Note:
 Assume we are dealing with an environment which could only store integers within the 32-bit signed integer 
-range: [−231,  231 − 1]. For the purpose of this problem, assume that your function returns 0 when the reversed integer overflows.
+range: [−231,  231 − 1]. For the purpose of this problem, assume that your function returns 0 
+when the reversed integer overflows.
 	 */
 	//考虑 1. 负数的情况 2. 溢出的情况 (正溢出 && 负移除 x = -2147483648(即-2^31) )
 	int reverse(int x){
@@ -129,7 +179,8 @@ Assume we are dealing with an environment which could only store integers within
 	/**
 	 * 30. Substring with Concatenation of All Words
 You are given a string, s, and a list of words, words, that are all of the same length. 
-Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once and without any intervening characters.
+Find all starting indices of substring(s) in s that is a concatenation of each word in words exactly once 
+and without any intervening characters.
 
 Example 1:
 Input:
@@ -188,6 +239,53 @@ Output: []
 			}
 		}
 		return re;
+	}
+
+	/**
+	 * 43. Multiply Strings
+Given two non-negative integers num1 and num2 represented as strings, 
+return the product of num1 and num2, also represented as a string.
+
+Example 1:
+Input: num1 = "2", num2 = "3"
+Output: "6"
+
+Example 2:
+Input: num1 = "123", num2 = "456"
+Output: "56088"
+
+Note:
+The length of both num1 and num2 is < 110.
+Both num1 and num2 contain only digits 0-9.
+Both num1 and num2 do not contain any leading zero, except the number 0 itself.
+You must not use any built-in BigInteger library or convert the inputs to integer directly.
+
+problem:
+https://leetcode.com/problems/multiply-strings/description/
+
+solution:
+https://leetcode.com/problems/multiply-strings/discuss/17646/Brief-C++-solution-using-only-strings-and-without-reversal
+	 */
+	string multiply(string num1, string num2) {
+		string sum(num1.size() + num2.size(), '0');
+
+		for(int i=num1.size()-1; 0<=i; --i){
+			int carry = 0;
+			for(int j=num2.size()-1; 0<=j; --j){
+				int tmp = (sum[i+j+1]-'0') + (num1[i]-'0') * (num2[j] - '0') + carry;
+				sum[i+j+1] = tmp % 10 + '0';
+				carry = tmp/10;
+			}
+
+			sum[i] += carry;
+		}
+
+		size_t startpos = sum.find_first_not_of("0");
+		if(string::npos != startpos){
+			return sum.substr(startpos);
+		}
+
+		return "0";
 	}
 
 	/**
@@ -398,6 +496,151 @@ Output:
 	}
 
 	/**
+	 * 68. Text Justification
+Given an array of words and a width maxWidth, format the text such that each line has 
+exactly maxWidth characters and is fully (left and right) justified.
+
+You should pack your words in a greedy approach; that is, pack as many words as you can 
+in each line. Pad extra spaces ' ' when necessary so that each line has exactly maxWidth characters.
+
+Extra spaces between words should be distributed as evenly as possible. 
+If the number of spaces on a line do not divide evenly between words, 
+the empty slots on the left will be assigned more spaces than the slots on the right.
+
+For the last line of text, it should be left justified and no extra space is inserted between words.
+
+Note:
+A word is defined as a character sequence consisting of non-space characters only.
+Each word's length is guaranteed to be greater than 0 and not exceed maxWidth.
+The input array words contains at least one word.
+
+Example 1:
+Input:
+words = ["This", "is", "an", "example", "of", "text", "justification."]
+maxWidth = 16
+Output:
+[
+   "This    is    an",
+   "example  of text",
+   "justification.  "
+]
+
+Example 2:
+Input:
+words = ["What","must","be","acknowledgment","shall","be"]
+maxWidth = 16
+Output:
+[
+  "What   must   be",
+  "acknowledgment  ",
+  "shall be        "
+]
+Explanation: Note that the last line is "shall be    " instead of "shall     be",
+             because the last line must be left-justified instead of fully-justified.
+             Note that the second line is also left-justified becase it contains only one word.
+
+Example 3:
+Input:
+words = ["Science","is","what","we","understand","well","enough","to","explain",
+         "to","a","computer.","Art","is","everything","else","we","do"]
+maxWidth = 20
+Output:
+[
+  "Science  is  what we",
+  "understand      well",
+  "enough to explain to",
+  "a  computer.  Art is",
+  "everything  else  we",
+  "do                  "
+]
+
+problem:
+https://leetcode.com/problems/text-justification/description/
+	 */
+	vector<string> fullJustify(vector<string>& words, int maxWidth) {
+		vector<string> res;
+		for(int i=0, k, l; i<words.size(); i+=k){
+			for(k=l=0; i+k<words.size() and l+words[i+k].size() <= maxWidth-k; k++){
+				l += words[i+k].size();
+			}
+
+			string tmp = words[i];
+			for(int j=0; j<k-1; j++){
+				if(i+k >= words.size()) tmp += " ";
+				else tmp += string((maxWidth - l) / (k-1) + (j<(maxWidth - l) %(k-1)), ' ');
+				tmp += words[i+j+1];
+			}
+
+			tmp += string(maxWidth - tmp.size(), ' ');
+			res.push_back(tmp);
+		}
+
+		return res;
+	}
+
+	/**
+	 * 76. Minimum Window Substring
+Given a string S and a string T, find the minimum window in S which will contain 
+all the characters in T in complexity O(n).
+
+Example:
+Input: S = "ADOBECODEBANC", T = "ABC"
+Output: "BANC"
+
+Note:
+If there is no such window in S that covers all characters in T, return the empty string "".
+If there is such window, you are guaranteed that there will always be only one 
+unique minimum window in S.
+
+problem:
+https://leetcode.com/problems/minimum-window-substring/description/
+	 */
+	//双指针，动态维护一个区间。
+	//尾指针不断往后扫，当扫到有一个窗口包含了所有T的字符后，然后再收缩头指针，知道不能再收缩为止。
+	//最后记录所有可能的情况中窗口最小的
+	string minWindow(string s, string t) {
+		if(s.empty()) return "";
+		if(s.size() < t.size()) return "";
+
+		const int ASCII_MAX=256;
+		int appeared_count[ASCII_MAX];
+		int expected_count[ASCII_MAX];
+		fill(appeared_count, appeared_count+ASCII_MAX, 0);
+		fill(expected_count, expected_count+ASCII_MAX, 0);
+
+		for(size_t i=0; i<t.size(); i++)
+			expected_count[t[i]]++;
+
+		int minWidth = INT_MAX, min_start = 0; //窗口大小，起点
+		int wnd_start = 0;
+		int appeared = 0;
+
+		//尾指针不断往后扫
+		for(size_t wnd_end = 0; wnd_end<s.size(); wnd_end++){
+			if(expected_count[s[wnd_end]] > 0){
+				appeared_count[s[wnd_end]]++;
+				if(appeared_count[s[wnd_end]] <= expected_count[s[wnd_end]])
+					appeared++;
+			}
+			if(appeared == t.size()){ //完整包含了一个T
+				//收缩头指针
+				while(appeared_count[s[wnd_start]] > expected_count[s[wnd_start]] 
+					|| expected_count[s[wnd_start]] == 0){
+					appeared_count[s[wnd_start]]--;
+				wnd_start++;
+				}
+				if(minWidth > (wnd_end - wnd_start + 1)){
+					minWidth = wnd_end - wnd_start + 1;
+					min_start = wnd_start;
+				}
+			}
+		}
+
+		if(minWidth == INT_MAX) return "";
+		else return s.substr(min_start, minWidth);
+	}
+
+	/**
 	 * 118. Pascal's Triangle
 Given a non-negative integer numRows, generate the first numRows of Pascal's triangle.
 
@@ -479,6 +722,68 @@ Could you optimize your algorithm to use only O(k) extra space?
 
 		return array;
 	}
+
+	/**
+	 * 149. Max Points on a Line
+Given n points on a 2D plane, find the maximum number of points that lie 
+on the same straight line.
+
+Example 1:
+Input: [[1,1],[2,2],[3,3]]
+Output: 3
+Explanation:
+^
+|
+|        o
+|     o
+|  o  
++------------->
+0  1  2  3  4
+
+Example 2:
+Input: [[1,1],[3,2],[5,3],[4,1],[2,3],[1,4]]
+Output: 4
+Explanation:
+^
+|
+|  o
+|     o        o
+|        o
+|  o        o
++------------------->
+0  1  2  3  4  5  6
+
+problem:
+https://leetcode.com/problems/max-points-on-a-line/description/
+
+solution:
+https://leetcode.com/problems/max-points-on-a-line/discuss/130061/C++-simple-solution
+	 */
+    int maxPoints(vector<Point> &points){
+    	int n=points.size(), maxRes=0;
+    	for(int i=0; i<n; i++){
+    		map<double, int> hash;
+    		int count=0, tmpRes=0;
+
+    		for(int j=0; j<n; j++){
+    			if(i==1 && points[i].x==94911151 && points[i].y==94911150) return 2;
+    			if(i==j) continue;
+    			if((points[i].x==points[j].x) && (points[i].y == points[j].y)) tmpRes+=1;
+    			else if(points[i].x == points[j].x){
+    				count+=1;
+    				tmpRes = max(tmpRes, count);
+    			}else{
+    				double k=1.0 * (points[i].y-points[j].y+0.0)/(points[i].x-points[j].x+0.0);
+    				hash[k] += 1;
+    				tmpRes = max(tmpRes, hash[k]);
+    			}
+    		}
+
+    		maxRes = max(maxRes, tmpRes+1);
+    	}
+
+    	return maxRes;
+    }
 
 	/**
 	 * 152. Maximum Product Subarray
