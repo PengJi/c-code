@@ -16,8 +16,8 @@
  */
 class Solution {
 public:
-	/*
-	 * 94. Binary Tree Inorder Traversal
+  /*
+     * 94. Binary Tree Inorder Traversal
 Given a binary tree, return the inorder traversal of its nodes' values.
 
 For example:
@@ -33,28 +33,28 @@ Note: Recursive solution is trivial, could you do it iteratively?
 
 solution:
 http://bangbingsyb.blogspot.ca/2014/11/leetcode-binary-tree-inorder-traversal.html
-	 */
-	vector<int> inorderTraversal(TreeNode* root) {
+     */
+  vector<int> inorderTraversal(TreeNode* root) {
         vector<int> allNodeValues;
         TreeNode *cur = root;
         stack<TreeNode*> s;
 
         while(cur || !s.empty()){
-        	if(!cur){
-        		cur = s.top();
-        		s.pop();
-        		allNodeValues.push_back(cur->val);
-        		cur = cur->right;
-        	}else{
-        		s.push(cur);
-        		cur = cur->left;
-        	}
+            if(!cur){
+                cur = s.top();
+                s.pop();
+                allNodeValues.push_back(cur->val);
+                cur = cur->right;
+            }else{
+                s.push(cur);
+                cur = cur->left;
+            }
         }
 
         return allNodeValues;
     }
 
-  /**
+    /**
    * 95. Unique Binary Search Trees II
 Given an integer n, generate all structurally unique BST's (binary search trees) 
 that store values 1...n.
@@ -81,7 +81,7 @@ https://leetcode.com/problems/unique-binary-search-trees-ii/discuss/133025/More-
         return ret;
       }
 
-      for(int i=beg; i<=end; i++){
+        for(int i=beg; i<=end; i++){
         vector<TreeNode*> leftTree = generate(beg, i-1);
         vector<TreeNode*> rightTree = generate(i+1, end);
         for(int j=0; j<leftTree.size(); j++ )
@@ -150,15 +150,15 @@ Example 2:
   2   3
 Binary tree [1,2,3], return false.
    */
-	bool isValidBST(TreeNode* root) {
-		return isValidBST(root,NULL,NULL);
-	}
-	bool isValidBST(TreeNode *root,TreeNode* lower, TreeNode* upper){
-		if(root == nullptr)
-			return true;
-		if(lower && root->val <= lower->val || upper && root->val >= upper->val)
-			return false;
-		return isValidBST(root->left,lower,root) && isValidBST(root->right,root,upper);
+    bool isValidBST(TreeNode* root) {
+        return isValidBST(root,NULL,NULL);
+    }
+    bool isValidBST(TreeNode *root,TreeNode* lower, TreeNode* upper){
+        if(root == nullptr)
+            return true;
+        if(lower && root->val <= lower->val || upper && root->val >= upper->val)
+            return false;
+        return isValidBST(root->left,lower,root) && isValidBST(root->right,root,upper);
   }
 
   /**
@@ -182,7 +182,7 @@ A solution using O(n) space is pretty straight forward. Could you devise a const
     TreeNode* cur = root;
 
     while(cur != nullptr){
-      if(cur->left == nullptr){
+        if(cur->left == nullptr){
         detect(broken,prev,cur);
         prev = cur;
         cur = cur->right;
@@ -287,8 +287,8 @@ Output: false
     return true;
   }
 
-	/*
-	 * 101. Symmetric Tree
+    /*
+     * 101. Symmetric Tree
 Given a binary tree, check whether it is a mirror of itself (ie, symmetric around its center).
 
 For example, this binary tree [1,2,2,3,4,4,3] is symmetric:
@@ -306,7 +306,7 @@ But the following [1,2,2,null,3,null,3] is not:
    3    3
 Note:
 Bonus points if you could solve it both recursively and iteratively.
-	 */
+     */
   bool isSymmetric(TreeNode *root) {
         TreeNode *left, *right;
         if (!root)
@@ -738,19 +738,19 @@ Return false.
     return max(left,right) + 1; //三方合并
   }
 
-	/*
-	 * 111. Minimum Depth of Binary Tree
-	 * Given a binary tree, find its minimum depth.
-	 * The minimum depth is the number of nodes along the shortest 
-	 * path from the root node down to the nearest leaf node.
-	 */
+    /*
+     * 111. Minimum Depth of Binary Tree
+     * Given a binary tree, find its minimum depth.
+     * The minimum depth is the number of nodes along the shortest 
+     * path from the root node down to the nearest leaf node.
+     */
     int minDepth(TreeNode* root) {
         if(!root)
-        	return 0;
+            return 0;
         if(!root->left)
-        	return 1+minDepth(root->right);
+            return 1+minDepth(root->right);
         if(!root->right)
-        	return 1+minDepth(root->left);
+            return 1+minDepth(root->left);
 
         return 1+min(minDepth(root->left),minDepth(root->right));
     }
@@ -855,24 +855,24 @@ If you notice carefully in the flattened tree, each node's right child points to
 solution:
 http://bangbingsyb.blogspot.ca/2014/11/leetcode-flatten-binary-tree-to-linked.html
      */
-	  void flatten(TreeNode* root) {
+      void flatten(TreeNode* root) {
         if(!root)
-        	return;
+            return;
         vector<TreeNode *> allNodes;
         preorder(root,allNodes);
         int n = allNodes.size();
         for(int i=0;i<n-1;i++){
-        	allNodes[i]->left = NULL;
-        	allNodes[i]->right = allNodes[i+1];
+            allNodes[i]->left = NULL;
+            allNodes[i]->right = allNodes[i+1];
         }
         allNodes[n-1]->left = allNodes[n-1]->right = NULL;
     }
     void preorder(TreeNode *root,vector<TreeNode*> &allNodes){
-    	if(!root)
-    		return;
-    	allNodes.push_back(root);
-    	preorder(root->left,allNodes);
-    	preorder(root->right,allNodes);
+        if(!root)
+            return;
+        allNodes.push_back(root);
+        preorder(root->left,allNodes);
+        preorder(root->right,allNodes);
     }
 
   /**
@@ -1116,8 +1116,8 @@ https://leetcode.com/problems/binary-tree-preorder-traversal/description/
         return result;
     }
 
-	/*
-	 * 145. Binary Tree Postorder Traversal
+    /*
+     * 145. Binary Tree Postorder Traversal
 Given a binary tree, return the postorder traversal of its nodes' values.
 
 For example:
@@ -1130,8 +1130,8 @@ Given binary tree {1,#,2,3},
 return [3,2,1].
 
 Note: Recursive solution is trivial, could you do it iteratively?
-	 */
-	vector<int> postorderTraversal(TreeNode *root) {
+     */
+    vector<int> postorderTraversal(TreeNode *root) {
         vector<int> vec;
         stack<TreeNode *> stk;
         TreeNode *node = root;
@@ -1155,5 +1155,90 @@ Note: Recursive solution is trivial, could you do it iteratively?
         }
         
         return vec;
+    }    
+};
+
+
+    /**
+     * 208. Implement Trie (Prefix Tree)
+Implement a trie with insert, search, and startsWith methods.
+
+Example:
+Trie trie = new Trie();
+
+trie.insert("apple");
+trie.search("apple");   // returns true
+trie.search("app");     // returns false
+trie.startsWith("app"); // returns true
+trie.insert("app");   
+trie.search("app");     // returns true
+
+Note:
+You may assume that all inputs are consist of lowercase letters a-z.
+All inputs are guaranteed to be non-empty strings.
+
+problem:
+https://leetcode.com/problems/implement-trie-prefix-tree/description/
+
+solution:
+https://leetcode.com/problems/implement-trie-prefix-tree/discuss/58842/Maybe-the-code-is-not-too-much-by-using-%22next26%22-C++
+     */
+class TrieNode
+{
+public:
+    TrieNode *next[26];
+    bool is_word;
+    
+    // Initialize your data structure here.
+    TrieNode(bool b = false)
+    {
+        memset(next, 0, sizeof(next));
+        is_word = b;
+    }
+};
+
+class Trie
+{
+    TrieNode *root;
+public:
+    Trie()
+    {
+        root = new TrieNode();
+    }
+
+    // Inserts a word into the trie.
+    void insert(string s)
+    {
+        TrieNode *p = root;
+        for(int i = 0; i < s.size(); ++ i)
+        {
+            if(p -> next[s[i] - 'a'] == NULL)
+                p -> next[s[i] - 'a'] = new TrieNode();
+            p = p -> next[s[i] - 'a'];
+        }
+        p -> is_word = true;
+    }
+
+    // Returns if the word is in the trie.
+    bool search(string key)
+    {
+        TrieNode *p = find(key);
+        return p != NULL && p -> is_word;
+    }
+
+    // Returns if there is any word in the trie
+    // that starts with the given prefix.
+    bool startsWith(string prefix)
+    {
+        return find(prefix) != NULL;
+    }
+
+private:
+    TrieNode* find(string key)
+    {
+        TrieNode *p = root;
+        for(int i = 0; i < key.size() && p != NULL; ++ i)
+            p = p -> next[key[i] - 'a'];
+        return p;
     }
 };
