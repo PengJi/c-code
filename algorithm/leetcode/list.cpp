@@ -746,4 +746,59 @@ https://leetcode.com/problems/intersection-of-two-linked-lists/discuss/49789/My-
         return prev;
     }
 
+    /**
+     * 234. Palindrome Linked List
+Given a singly linked list, determine if it is a palindrome.
+
+Example 1:
+Input: 1->2
+Output: false
+
+Example 2:
+Input: 1->2->2->1
+Output: true
+
+Follow up:
+Could you do it in O(n) time and O(1) space?
+
+problem:
+https://leetcode.com/problems/palindrome-linked-list/description/
+     */
+    bool isPalindrome(ListNode* head) {
+        if(head == nullptr){
+            return true;
+        }
+
+        int cnt = 1;
+        int i;
+
+        ListNode *idx = head;
+        while(idx->next != nullptr){
+            cnt++;
+            idx = idx->next;
+        }
+
+        idx = head;
+        if(cnt % 2 == 0){
+            i = cnt/2;
+
+        }else{
+            i = cnt/2+1;
+        }
+
+        while(--i > 0){
+            idx = idx->next;
+        }
+
+        while(head->val == idx->val){
+            head = head->next;
+            idx = idx->next;
+        }
+
+        if(head->val != idx->val){
+            return false;
+        }
+
+        return true;
+    }
 };
