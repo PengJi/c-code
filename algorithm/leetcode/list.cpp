@@ -2,14 +2,6 @@
  * 线性表
  * 链表
  */
-/**
- * Definition for singly-linked list.
- * struct ListNode {
- *     int val;
- *     ListNode *next;
- *     ListNode(int x) : val(x), next(NULL) {}
- * };
- */
 class Solution {
 public:
 	/*
@@ -252,7 +244,8 @@ return 4->5->1->2->3->NULL.
 
     /**
      * 82. Remove Duplicates from Sorted List II
-Given a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list.
+Given a sorted linked list, delete all nodes that have duplicate numbers, 
+leaving only distinct numbers from the original list.
 
 For example,
 Given 1->2->3->3->4->4->5, return 1->2->5.
@@ -358,7 +351,8 @@ Given 1->1->2->3->3, return 1->2->3.
 
     /**
      * 86. Partition List
-Given a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.
+Given a linked list and a value x, partition it such that all nodes less than x come 
+before nodes greater than or equal to x.
 
 You should preserve the original relative order of the nodes in each of the two partitions.
 
@@ -422,7 +416,8 @@ Given m, n satisfy the following condition:
 
     /**
      * 138. Copy List with Random Pointer
-A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null.
+A linked list is given such that each node contains an additional random pointer 
+which could point to any node in the list or null.
 
 Return a deep copy of the list.
      */
@@ -475,7 +470,8 @@ Can you solve it without using extra space?
 
     /**
      * 142. Linked List Cycle II
-Given a linked list, return the node where the cycle begins. If there is no cycle, return null.
+Given a linked list, return the node where the cycle begins. If there is no cycle, 
+return null.
 
 Note: Do not modify the linked list.
 
@@ -765,7 +761,7 @@ problem:
 https://leetcode.com/problems/palindrome-linked-list/description/
      */
     bool isPalindrome(ListNode* head) {
-        if(head == nullptr){
+        if(head == nullptr || head->next == nullptr){
             return true;
         }
 
@@ -786,16 +782,20 @@ https://leetcode.com/problems/palindrome-linked-list/description/
             i = cnt/2+1;
         }
 
-        while(--i > 0){
+        --i;
+        while(i>0 || i==0){
             idx = idx->next;
+            --i;
         }
 
-        while(head->val == idx->val){
-            head = head->next;
-            idx = idx->next;
+        while(head != nullptr && idx != nullptr ){
+            if(head->val == idx->val){
+                head = head->next;
+                idx = idx->next; 
+            }
         }
 
-        if(head->val != idx->val){
+        if(head->next != nullptr || idx->next != nullptr){
             return false;
         }
 

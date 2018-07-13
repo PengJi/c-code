@@ -92,6 +92,73 @@ void RemoveNode(ListNode** pHead, int value){
     }
 }
 
+    bool isPalindrome(ListNode* head) {
+        if(head == nullptr || head->next == nullptr){
+            return true;
+        }
+
+        int cnt = 1;
+        int i;
+
+        ListNode *idx = head;
+        while(idx->next != nullptr){
+            cnt++;
+            idx = idx->next;
+        }
+
+        printf("cnt is: %d\n", cnt);
+
+        idx = head;
+        if(cnt % 2 == 0){
+            i = cnt/2;
+
+        }else{
+            i = cnt/2+1;
+        }
+
+        printf("i is: %d\n", i);
+
+        --i;
+        while(i>0 || i==0){
+            idx = idx->next;
+            --i;
+        }
+
+        printf("idx value is: %d\n", idx->val);
+        printf("head value is: %d\n", head->val);
+
+        while(head != nullptr && idx != nullptr ){
+            if(head->val == idx->val){
+                head = head->next;
+                idx = idx->next; 
+            }else{
+                break;
+            }
+        }
+
+        if(head == nullptr && idx == nullptr)
+            return true;
+        
+        if(head->next != nullptr || idx->next != nullptr){
+            return false;
+        }
+
+        return true;
+    }
+
+void test_isPalindrome(){
+    ListNode* pNode1 = CreateListNode(1);
+    ListNode* pNode2 = CreateListNode(2);
+
+    ConnectListNodes(pNode1, pNode2);
+
+    PrintList(pNode1);
+
+    printf("isPalindrome result %d\n", isPalindrome(pNode1));
+
+    DestroyList(pNode1);
+}
+
 int main(){
     ListNode* pNode1 = CreateListNode(1);
     ListNode* pNode2 = CreateListNode(2);
@@ -114,6 +181,8 @@ int main(){
     PrintList(pNode1);
 
     DestroyList(pNode1);
+
+    test_isPalindrome();
 
     return 0;
 }
