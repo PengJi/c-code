@@ -92,6 +92,39 @@ void RemoveNode(ListNode** pHead, int value){
     }
 }
 
+public boolean isPalindrome(ListNode head) {
+    ListNode fast = head, slow = head;
+    while (fast != null && fast.next != null) {
+        fast = fast.next.next;
+        slow = slow.next;
+    }
+    if (fast != null) { // odd nodes: let right half smaller
+        slow = slow.next;
+    }
+    slow = reverse(slow);
+    fast = head;
+    
+    while (slow != null) {
+        if (fast.val != slow.val) {
+            return false;
+        }
+        fast = fast.next;
+        slow = slow.next;
+    }
+    return true;
+}
+
+public ListNode reverse(ListNode head) {
+    ListNode prev = null;
+    while (head != null) {
+        ListNode next = head.next;
+        head.next = prev;
+        prev = head;
+        head = next;
+    }
+    return prev;
+}
+
     bool isPalindrome(ListNode* head) {
         if(head == nullptr || head->next == nullptr){
             return true;
@@ -190,6 +223,23 @@ void test_isPalindrome2(){
     DestroyList(pNode1);
 }
 
+void test_isPalindrome3(){
+    ListNode* pNode1 = CreateListNode(1);
+    ListNode* pNode2 = CreateListNode(2);
+    ListNode* pNode3 = CreateListNode(2);
+    ListNode* pNode4 = CreateListNode(1);
+
+    ConnectListNodes(pNode1, pNode2);
+    ConnectListNodes(pNode2, pNode3);
+    ConnectListNodes(pNode3, pNode4);
+
+    PrintList(pNode1);
+
+    printf("isPalindrome result %d\n", isPalindrome(pNode1));
+
+    DestroyList(pNode1);
+}
+
 int main(){
     ListNode* pNode1 = CreateListNode(1);
     ListNode* pNode2 = CreateListNode(2);
@@ -216,6 +266,7 @@ int main(){
     test_isPalindrome();
     test_isPalindrome1();
     test_isPalindrome2();
+    test_isPalindrome3();
 
     return 0;
 }
