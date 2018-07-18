@@ -92,95 +92,39 @@ void RemoveNode(ListNode** pHead, int value){
     }
 }
 
-public boolean isPalindrome(ListNode head) {
-    ListNode fast = head, slow = head;
-    while (fast != null && fast.next != null) {
-        fast = fast.next.next;
-        slow = slow.next;
-    }
-    if (fast != null) { // odd nodes: let right half smaller
-        slow = slow.next;
-    }
-    slow = reverse(slow);
-    fast = head;
-    
-    while (slow != null) {
-        if (fast.val != slow.val) {
-            return false;
-        }
-        fast = fast.next;
-        slow = slow.next;
-    }
-    return true;
-}
-
-public ListNode reverse(ListNode head) {
-    ListNode prev = null;
-    while (head != null) {
-        ListNode next = head.next;
-        head.next = prev;
+ListNode* reverse(ListNode *head){
+    ListNode *prev = nullptr;
+    while(head != nullptr){
+        ListNode *next = head->next;
+        head->next = prev;
         prev = head;
         head = next;
     }
+
     return prev;
 }
+bool isPalindrome(ListNode* head) {
+    ListNode *fast = head, *slow = head;
+    while(fast != nullptr && fast->next != nullptr){
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    if(fast != nullptr){
+        slow = slow->next;
+    }
+    slow = reverse(slow);
+    fast = head;
 
-    bool isPalindrome(ListNode* head) {
-        if(head == nullptr || head->next == nullptr){
-            return true;
-        }
-
-        int cnt = 1;
-        int a,b;
-
-        ListNode *idx = head;
-        while(idx->next != nullptr){
-            cnt++;
-            idx = idx->next;
-        }
-
-        printf("cnt is: %d\n", cnt);
-
-        idx = head;
-        if(cnt % 2 == 0){
-            a = cnt/2;
-
-        }else{
-            a = cnt/2+1;
-        }
-
-        b=cnt/2;
-        printf("a is: %d\n", a);
-
-        --a;
-        while(a>0 || a==0){
-            idx = idx->next;
-            --a;
-        }
-
-        printf("idx value is: %d\n", idx->val);
-        printf("head value is: %d\n", head->val);
-
-        while(idx != nullptr ){
-            if(head->val == idx->val){
-                head = head->next;
-                idx = idx->next; 
-                b--;
-            }else{
-                break;
-            }
-        }
-
-        printf("b is: %d\n", b);
-        if(b == 0)
-            return true;
-        
-        if(head->next != nullptr || idx->next != nullptr){
+    while(slow != nullptr){
+        if(fast->val != slow->val){
             return false;
         }
-
-        return true;
+        fast = fast->next;
+        slow = slow->next;
     }
+
+    return true;
+}
 
 void test_isPalindrome(){
     ListNode* pNode1 = CreateListNode(1);

@@ -760,45 +760,37 @@ Could you do it in O(n) time and O(1) space?
 problem:
 https://leetcode.com/problems/palindrome-linked-list/description/
      */
-    bool isPalindrome(ListNode* head) {
-        if(head == nullptr || head->next == nullptr){
-            return true;
-        }
+bool isPalindrome(ListNode* head) {
+    ListNode *fast = head, *slow = head;
+    while(fast != nullptr && fast->next != nullptr){
+        fast = fast->next->next;
+        slow = slow->next;
+    }
+    if(fast != nullptr){
+        slow = slow->next;
+    }
+    slow = reverse(slow);
+    fast = head;
 
-        int cnt = 1;
-        int i;
-
-        ListNode *idx = head;
-        while(idx->next != nullptr){
-            cnt++;
-            idx = idx->next;
-        }
-
-        idx = head;
-        if(cnt % 2 == 0){
-            i = cnt/2;
-
-        }else{
-            i = cnt/2+1;
-        }
-
-        --i;
-        while(i>0 || i==0){
-            idx = idx->next;
-            --i;
-        }
-
-        while(head != nullptr && idx != nullptr ){
-            if(head->val == idx->val){
-                head = head->next;
-                idx = idx->next; 
-            }
-        }
-
-        if(head->next != nullptr || idx->next != nullptr){
+    while(slow != nullptr){
+        if(fast->val != slow->val){
             return false;
         }
-
-        return true;
+        fast = fast->next;
+        slow = slow->next;
     }
+
+    return true;
+}
+ListNode* reverse(ListNode *head){
+    ListNode *prev = nullptr;
+    while(head != nullptr){
+        ListNode *next = head->next;
+        head->next = prev;
+        prev = head;
+        head = next;
+    }
+
+    return prev;
+}
 };
