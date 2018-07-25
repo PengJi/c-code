@@ -1,6 +1,3 @@
-#include <iostream>
-#include <cstdio>
-#include <vector>
 #include "list.h"
 
 using namespace std;
