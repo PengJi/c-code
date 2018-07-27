@@ -62,8 +62,16 @@ void DestroyTree(TreeNode* pRoot){
 
 int main(){
     TreeNode *node1 = CreateTreeNode(1);
+    TreeNode *node2 = CreateTreeNode(2);
+    TreeNode *node3 = CreateTreeNode(3);
+    TreeNode *node4 = CreateTreeNode(4);
+    TreeNode *node5 = CreateTreeNode(5);
 
     delete node1;
+    delete node2;
+    delete node3;
+    delete node4;
+    delete node5;
 
     return 0;
 }
