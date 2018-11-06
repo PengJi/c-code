@@ -11,9 +11,6 @@ using namespace std;
  * 3. 从某个函数返回动态申请内存的所有权
  * 4. 在容器中保存指针
  * 5. auto_ptr应该具有的功能
- *
- * 编译
- * g++ unique_ptr.cpp -std=c++11
  */
 
 class Test
@@ -64,7 +61,10 @@ int main(){
 	return 0;
 }
 
-/*
+/**
+ * 编译
+ * g++ unique_ptr.cpp -std=c++11
+ * 
  * 输出:
  * Test create
  * Test create

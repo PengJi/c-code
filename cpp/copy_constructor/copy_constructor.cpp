@@ -3,7 +3,7 @@
 
 using namespace std;
 
-/*
+/**
  * 默认拷贝构造函数
  * http://blog.csdn.net/lwbeyond/article/details/6202256
  */

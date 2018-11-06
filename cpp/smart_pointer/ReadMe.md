@@ -1,2 +1,3 @@
 智能指针
-g++ test.cpp -std=c++11
+
+g++ -std=c++11 test.cpp

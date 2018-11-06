@@ -1,4 +1,4 @@
-/*
+/**
  * main.c
  * Fourer1D
  *

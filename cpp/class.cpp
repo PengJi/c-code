@@ -9,7 +9,7 @@ public:
 };
 
 // 单例模式
-// 设计一个类，该类不能被集成，且只能实例化3词
+// 设计一个类，该类不能被集成，且只能实例化3次
 class FinalClass{
 public:
 	static int count;

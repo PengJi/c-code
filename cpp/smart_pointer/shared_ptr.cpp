@@ -2,11 +2,6 @@
 #include <memory>
 #include <string>
 
-/*
- * 编译
- * g++ shared_ptr.cpp -std=c++11
- */
-
 using namespace std;
 
 class Test{
@@ -73,6 +68,9 @@ int main(){
 }
 
 /*
+ * 编译
+ * g++ -std=c++11 shared_ptr.cpp 
+ * 
  * Test create
  * Test create
  * 456
