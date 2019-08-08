@@ -352,7 +352,7 @@ return its level order traversal as:
   [15,7]
 ]
    */
-  vector<vector<int>> levelOrder(TreeNode* root) {
+  vector<int> levelOrder(TreeNode* root) {
     vector<vector<int>> result;
     traverse(root,1,result);
     return result;

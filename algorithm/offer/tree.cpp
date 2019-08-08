@@ -584,8 +584,8 @@ public:
 	 * （2）如果tree1为空，tree2为空，说明匹配。
      */
 	public boolean HasSubtree(TreeNode root1,TreeNode root2) {
-        boolean result = false;
-            if(root1 != null && root2 != null){
+        boolean result = false;
+        if(root1 != null && root2 != null){
                 if(root1.val == root2.val){
                     result = DoesTree1HaveTree2(root1,root2);
                 }
