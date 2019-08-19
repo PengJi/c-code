@@ -16,44 +16,6 @@
  */
 class Solution {
 public:
-  /*
-     * 94. Binary Tree Inorder Traversal
-Given a binary tree, return the inorder traversal of its nodes' values.
-
-For example:
-Given binary tree [1,null,2,3],
-   1
-    \
-     2
-    /
-   3
-return [1,3,2].
-
-Note: Recursive solution is trivial, could you do it iteratively?
-
-solution:
-http://bangbingsyb.blogspot.ca/2014/11/leetcode-binary-tree-inorder-traversal.html
-     */
-  vector<int> inorderTraversal(TreeNode* root) {
-        vector<int> allNodeValues;
-        TreeNode *cur = root;
-        stack<TreeNode*> s;
-
-        while(cur || !s.empty()){
-            if(!cur){
-                cur = s.top();
-                s.pop();
-                allNodeValues.push_back(cur->val);
-                cur = cur->right;
-            }else{
-                s.push(cur);
-                cur = cur->left;
-            }
-        }
-
-        return allNodeValues;
-    }
-
     /**
    * 95. Unique Binary Search Trees II
 Given an integer n, generate all structurally unique BST's (binary search trees) 
