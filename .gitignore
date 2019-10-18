@@ -9,21 +9,21 @@
 *.out
 *.swp
 *.db
+*.o
+*.a
 
 #cmake generate
 CMakeCache.txt
 CMakeFiles/
 CTestTestfile.cmake
 Demo
-Makefile
 cmake_install.cmake
-config.h
 math/CMakeFiles/
 math/Makefile
 math/Makefile
 math/cmake_install.cmake
-*.a
 
+test
 test.c
 
 in

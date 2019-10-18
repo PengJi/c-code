@@ -7,7 +7,7 @@ BinaryTreeNode* CreateBinaryTreeNode(int value){
     pNode->m_pLeft = nullptr;
     pNode->m_pRight = nullptr;
 
-    return pNode
+    return pNode;
 }
 
 void ConnectTreeNodes(BinaryTreeNode*  pParent, BinaryTreeNode* pLeft, BinaryTreeNode* pRight){
@@ -34,7 +34,7 @@ void PrintTreeNode(const BinaryTreeNode* pNode){
         printf("this node is nullptr.\n");
     }
 
-    printf("\n")
+    printf("\n");
 }
 
 void PrintTree(const BinaryTreeNode* pRoot){
