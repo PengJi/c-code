@@ -4,8 +4,8 @@
  */
 class Solution {
 public:
-	/**
-	 * 1. Two Sum
+    /**
+     * 1. Two Sum
 Given an array of integers, return indices of the two numbers such that they add up to a specific target.
 
 You may assume that each input would have exactly one solution, and you may not use the same element twice.
@@ -14,28 +14,28 @@ Example:
 Given nums = [2, 7, 11, 15], target = 9,
 Because nums[0] + nums[1] = 2 + 7 = 9,
 return [0, 1].
-	 */
-	vector<int> twoSum(vector<int> &numbers, int target){
-		//Key is the number and value is its index in the vector.
-		unordered_map<int,int> hash;
-		vector<int> vec;
+     */
+    vector<int> twoSum(vector<int> &numbers, int target){
+        //Key is the number and value is its index in the vector.
+        unordered_map<int,int> hash;
+        vector<int> vec;
 
-		for(int i = 0;i<numbers.size();i++){
-			int numberToFind = target-numbers[i];
-			//if numberToFind is found in map, return them
-			if(hash.find(numberToFind) != hash.end()){
-				vec.push_back(hash[numberToFind]);
-				vec.push_back(i);
-				return vec;
-			}
+        for(int i = 0;i<numbers.size();i++){
+            int numberToFind = target-numbers[i];
+            //if numberToFind is found in map, return them
+            if(hash.find(numberToFind) != hash.end()){
+                vec.push_back(hash[numberToFind]);
+                vec.push_back(i);
+                return vec;
+            }
 
-			//number was not found. Put it in the map.
-			hash[numbers[i]] = i;
-		}
-	}
+            //number was not found. Put it in the map.
+            hash[numbers[i]] = i;
+        }
+    }
 
-	/*
-	 * 4. Median of Two Sorted Arrays
+    /*
+     * 4. Median of Two Sorted Arrays
 There are two sorted arrays nums1 and nums2 of size m and n respectively.
 
 Find the median of the two sorted arrays. The overall run time complexity should be O(log (m+n)).
@@ -50,29 +50,29 @@ nums1 = [1, 2]
 nums2 = [3, 4]
 
 The median is (2 + 3)/2 = 2.5
-	 */
-	double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+     */
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
         int N1 = nums1.size();
         int N2 = nums2.size();
         if(N1 < N2)
-        	return findMedianSortedArrays(nums2,nums1); // Make sure A2 is the shorter one.
+            return findMedianSortedArrays(nums2,nums1); // Make sure A2 is the shorter one.
 
         int lo = 0, hi = N2 * 2;
         while(lo <= hi){
-        	int mid2 = (lo+hi)/2; // Try Cut 2 
-        	int mid1 = N1+N2-mid2; // Calculate Cut 1 accordingly
+            int mid2 = (lo+hi)/2; // Try Cut 2
+            int mid1 = N1+N2-mid2; // Calculate Cut 1 accordingly
 
-        	double L1 = (mid1 == 0)?INT_MIN:nums1[(mid1-1)/2];
-        	double L2 = (mid2 == 0)?INT_MIN:nums2[(mid2-1)/2];
-        	double R1 = (mid1 == N1*2)?INT_MAX:nums1[mid1/2];
-        	double R2 = (mid2 == N2*2)?INT_MAX:nums2[mid2/2];
+            double L1 = (mid1 == 0)?INT_MIN:nums1[(mid1-1)/2];
+            double L2 = (mid2 == 0)?INT_MIN:nums2[(mid2-1)/2];
+            double R1 = (mid1 == N1*2)?INT_MAX:nums1[mid1/2];
+            double R2 = (mid2 == N2*2)?INT_MAX:nums2[mid2/2];
 
-        	if(L1 > R2)
-        		lo = mid2+1; // A1's lower half is too big; need to move C1 left (C2 right)
-        	else if(L2 > R1)
-        		hi = mid2-1; // A2's lower half too big; need to move C2 left.
-        	else 
-        		return (max(L1,L2) + min(R1,R2))/2; // Otherwise, that's the right cut.
+            if(L1 > R2)
+                lo = mid2+1; // A1's lower half is too big; need to move C1 left (C2 right)
+            else if(L2 > R1)
+                hi = mid2-1; // A2's lower half too big; need to move C2 left.
+            else
+                return (max(L1,L2) + min(R1,R2))/2; // Otherwise, that's the right cut.
 
         }
 
@@ -328,26 +328,26 @@ For example, given n = 3, a solution set is:
 ]
      */
     vector<string> generateParenthesis(int n){
-    	vector<string> allComb;
-    	string comb;
-    	findParenthesis(n,0,0,comb,allComb);
-    	return allComb;
+        vector<string> allComb;
+        string comb;
+        findParenthesis(n,0,0,comb,allComb);
+        return allComb;
     }
     void findParenthesis(int n,int nleft,int nright,string &comb,vector<string> &allComb){
-    	if(nleft==n && nright==n){
-    		allComb.push_back(comb);
-    		return;
-    	}
-    	if(nleft < n){
-    		comb.push_back('(');
-    		findParenthesis(n,nleft+1,nright,comb,allComb);
-    		comb.pop_back();
-    	}
-    	if(nright < nleft){
-    		comb.push_back(')');
-    		findParenthesis(n,nleft,nright+1,comb,allComb);
-    		comb.pop_back();
-    	}
+        if(nleft==n && nright==n){
+            allComb.push_back(comb);
+            return;
+        }
+        if(nleft < n){
+            comb.push_back('(');
+            findParenthesis(n,nleft+1,nright,comb,allComb);
+            comb.pop_back();
+        }
+        if(nright < nleft){
+            comb.push_back(')');
+            findParenthesis(n,nleft,nright+1,comb,allComb);
+            comb.pop_back();
+        }
     }
 
     /**
@@ -499,7 +499,7 @@ You may assume no duplicate exists in the array.
         }
 
         return -1;
-    } 
+    }
 
     /**
      * 36. Valid Sudoku
@@ -615,14 +615,14 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-combination-sum-i-ii.html
         findCombSum(candidates, 0, target, sol, allSol);
         return allSol;
     }
-    
-    void findCombSum(vector<int> &candidates, int start, int target, 
-        vector<int> &sol, vector<vector<int>> &allSol) {
+
+    void findCombSum(vector<int> &candidates, int start, int target,
+                     vector<int> &sol, vector<vector<int>> &allSol) {
         if(target==0) {
             allSol.push_back(sol);
             return;
         }
-        
+
         for(int i=start; i<candidates.size(); i++) {
             if(i>start && candidates[i]==candidates[i-1]) continue;
             if(candidates[i]<=target) {
@@ -772,28 +772,32 @@ rotate the input matrix in-place such that it becomes:
 
     /*
      * 55. Jump Game
-Given an array of non-negative integers, you are initially positioned at the first index of the array.
-
-Each element in the array represents your maximum jump length at that position.
-
-Determine if you are able to reach the last index.
+     *
+     * Given an array of non-negative integers,
+     * you are initially positioned at the first index of the array.
+     *
+     * Each element in the array represents your maximum jump length at that position.
+     * Determine if you are able to reach the last index.
 
 For example:
 A = [2,3,1,1,4], return true.
 A = [3,2,1,0,4], return false.
 
+problem:
+     https://leetcode.com/problems/jump-game/
+
 solution:
 http://bangbingsyb.blogspot.ca/2014/11/leetcode-jump-game-i-ii.html
      */
-	bool canJump(vector<int>& nums) {
+    bool canJump(vector<int>& nums) {
         int maxIndex = 0;
         int n = nums.size();
-        for(int i=0;i<n;i++){
-        	if(i>maxIndex || maxIndex >= (n-1))
-        		break;
-        	maxIndex = max(maxIndex,i+nums[i]);
+        for(int i=0; i<n; i++){
+            if(i > maxIndex || maxIndex >= (n-1))
+                break;
+            maxIndex = max(maxIndex,i+nums[i]);
         }
-        return maxIndex >= (n-1)?true:false;
+        return maxIndex >= (n-1);
     }
 
     /*
@@ -1344,7 +1348,7 @@ What is the minimum candies you must give?
         for(int i=n-2, inc=1; i>=0; i--){
             if(ratings[i]>ratings[i+1])
                 increment[i] = max(inc++, increment[i]);
-            else 
+            else
                 inc=1;
         }
 
@@ -1651,10 +1655,10 @@ the three lines of height 5 should be merged into one in the final output as suc
         return corners;
     }
 
-	/*
-	 * 287. Find the Duplicate Number
-Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), 
-prove that at least one duplicate number must exist. Assume that there is only one duplicate number, 
+    /*
+     * 287. Find the Duplicate Number
+Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive),
+prove that at least one duplicate number must exist. Assume that there is only one duplicate number,
 find the duplicate one.
 
 Note:
@@ -1662,50 +1666,50 @@ You must not modify the array (assume the array is read only).
 You must use only constant, O(1) extra space.
 Your runtime complexity should be less than O(n2).
 There is only one duplicate number in the array, but it could be repeated more than once.
-	 */
-	int findDuplicate3(vector<int>& nums)
-	{
-		if (nums.size() > 1)
-		{
-			int slow = nums[0];
-			int fast = nums[nums[0]];
-			while (slow != fast)
-			{
-				slow = nums[slow];
-				fast = nums[nums[fast]];
-			}
+     */
+    int findDuplicate3(vector<int>& nums)
+    {
+        if (nums.size() > 1)
+        {
+            int slow = nums[0];
+            int fast = nums[nums[0]];
+            while (slow != fast)
+            {
+                slow = nums[slow];
+                fast = nums[nums[fast]];
+            }
 
-			fast = 0;
-			while (fast != slow)
-			{
-				fast = nums[fast];
-				slow = nums[slow];
-			}
-			return slow;
-		}
-		return -1;
-	}
+            fast = 0;
+            while (fast != slow)
+            {
+                fast = nums[fast];
+                slow = nums[slow];
+            }
+            return slow;
+        }
+        return -1;
+    }
 
-	/*
-	 * 347. Top K Frequent Elements
+    /*
+     * 347. Top K Frequent Elements
 Given a non-empty array of integers, return the k most frequent elements.
 
 For example,
 Given [1,1,1,2,2,3] and k = 2, return [1,2].
 
-Note: 
+Note:
 You may assume k is always valid, 1 ≤ k ≤ number of unique elements.
 Your algorithm's time complexity must be better than O(n log n), where n is the array's size.
-	 */
-	vector<int> topKFrequent(vector<int>& nums, int k) {
+     */
+    vector<int> topKFrequent(vector<int>& nums, int k) {
         unordered_map<int,int> map;
         for(int num : nums){
             map[num]++;
         }
-        
+
         vector<int> res;
         // pair<first, second>: first is frequency,  second is number
-        priority_queue<pair<int,int>> pq; 
+        priority_queue<pair<int,int>> pq;
         for(auto it = map.begin(); it != map.end(); it++){
             pq.push(make_pair(it->second, it->first));
             if(pq.size() > (int)map.size() - k){
