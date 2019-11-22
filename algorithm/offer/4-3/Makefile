@@ -2,11 +2,12 @@
 BINNAME = test
 
 # 指定编译时依赖的头文件目录，然后放进编译选项
-INC_DIR := ./src/inc
+INC_DIR := ../lib
+INC_DIR +=
 
 # 指出源文件存放路径
 SRC_DIR := ./
-SRC_DIR +=
+SRC_DIR += ../lib
 
 # 设置 .o 文件输出路径
 OBJDIR = ./
@@ -30,8 +31,7 @@ LD_OPTS :=
 # SRC = $(shell find $(SRC_DIR) -maxdepth 1 -name '*.cpp')
 # 第二种方法：直接指定
 SRC := Tree.cpp BinaryTree.cpp
-#SRC += 32_01-PrintTreeFromTopToBottom.cpp
-SRC += 32_02-PrintTreesInLines.cpp
+SRC += 32_01-PrintTreeFromTopToBottom.cpp
 
 # 生成需要输出的 .o 文件名
 OBJ_0 = $(notdir $(patsubst %.cpp, %.o, $(SRC)))
