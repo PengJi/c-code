@@ -30,14 +30,17 @@ LD_OPTS :=
 # VPATH = $(SRC_DIR)
 # SRC = $(shell find $(SRC_DIR) -maxdepth 1 -name '*.cpp')
 # 第二种方法：直接指定
-SRC := Tree.cpp BinaryTree.cpp
-SRC += 32_01-PrintTreeFromTopToBottom.cpp
+SRC := Tree.cpp
+SRC += BinaryTree.cpp
+SRC_MAIN += 32_01-PrintTreeFromTopToBottom.cpp
 
 # 生成需要输出的 .o 文件名
 OBJ_0 = $(notdir $(patsubst %.cpp, %.o, $(SRC)))
+OBJ_0_MAIN = $(notdir $(patsubst %.cpp, %.o, $(SRC_MAIN)))
 
 # 加上 .o 文件存放路径前缀
 OBJ = $(foreach file, $(OBJ_0), $(OBJDIR)/$(file))
+OBJ_MAIN = $(foreach file, $(OBJ_0_MAIN), $(OBJDIR)/$(file))
 
 .PHONY: all setup bin clean
 
@@ -47,11 +50,15 @@ setup:
 	@echo $(SRC)
 	@echo $(OBJ_0)
 	@echo $(OBJ)
+	@echo $(OBJ_MAIN)
 
-bin: $(OBJ)
-	$(CC) $(OBJ) $(LD_OPTS) -o $(BINNAME)
+bin: $(OBJ) $(OBJ_MAIN)
+	$(CC) $(OBJ) $(OBJ_MAIN) $(LD_OPTS) -o $(BINNAME)
 
-$(OBJ): %.o : %.cpp
+$(OBJ_MAIN): %.o : %.cpp
+	$(CC) $(CC_OPTS) -o $@ -c $<
+
+$(OBJ): %.o : ../lib/%.cpp
 	$(CC) $(CC_OPTS) -o $@ -c $<
 
 clean:

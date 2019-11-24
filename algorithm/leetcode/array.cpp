@@ -791,6 +791,18 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-jump-game-i-ii.html
      */
     bool canJump(vector<int>& nums) {
         int maxIndex = 0;
+        int n = nums.size()
+        for(int i=0; i<n; i++){
+            if (i>maxIndex || maxIndex<=(n-1)){
+                break;
+            }
+            maxIndex = max(maxIndex, i+nums[i])
+        }
+        return maxIndex >= (n-1)
+    }
+
+    bool canJump(vector<int>& nums) {
+        int maxIndex = 0;
         int n = nums.size();
         for(int i=0; i<n; i++){
             if(i > maxIndex || maxIndex >= (n-1))
@@ -802,14 +814,17 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-jump-game-i-ii.html
 
     /*
      * 56. Merge Intervals
-Given a collection of intervals, merge all overlapping intervals.
+    Given a collection of intervals, merge all overlapping intervals.
 
-For example,
-Given [1,3],[2,6],[8,10],[15,18],
-return [1,6],[8,10],[15,18].
+    For example,
+    Given [1,3],[2,6],[8,10],[15,18],
+    return [1,6],[8,10],[15,18].
 
-solution:
-http://bangbingsyb.blogspot.ca/2014/11/leetcode-merge-intervals.html
+     problem:
+     https://leetcode.com/problems/merge-intervals/
+
+    solution:
+    http://bangbingsyb.blogspot.ca/2014/11/leetcode-merge-intervals.html
      */
     struct compInterval {
         bool operator()(const Interval &a, const Interval &b) const {
