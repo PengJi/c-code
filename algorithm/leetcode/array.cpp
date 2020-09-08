@@ -790,15 +790,6 @@ solution:
 http://bangbingsyb.blogspot.ca/2014/11/leetcode-jump-game-i-ii.html
      */
     bool canJump(vector<int>& nums) {
-        int maxIndex = 0;
-        int n = nums.size()
-        for(int i=0; i<n; i++){
-            if (i>maxIndex || maxIndex<=(n-1)){
-                break;
-            }
-            maxIndex = max(maxIndex, i+nums[i])
-        }
-        return maxIndex >= (n-1)
     }
 
     bool canJump(vector<int>& nums) {
@@ -826,6 +817,35 @@ http://bangbingsyb.blogspot.ca/2014/11/leetcode-jump-game-i-ii.html
     solution:
     http://bangbingsyb.blogspot.ca/2014/11/leetcode-merge-intervals.html
      */
+    vector<vector<int>> merge(vector<vector<int>>& intervals) {
+        if(intervals.empty())
+            return intervals;
+
+        vector<int> res;
+        sort(intervals.begin(), intervals.end(), [](vector<int> a, vector<int> b){return a[1]<b[1];});
+
+        res.push_back(intervals[0]);
+        for(int i=1; i<intervals.size(); i++){
+            if(res.back().end < res[1].start)
+                res.push_back(intervals[i]);
+            else
+                res.back().end = max(res.back().end, ins[i].end);
+        }
+    }
+
+    vector<Interval> merge(vector<Interval>& ins) {
+        if (ins.empty()) return vector<Interval>{};
+        vector<Interval> res;
+        sort(ins.begin(), ins.end(), [](Interval a, Interval b){return a.start < b.start;});
+        res.push_back(ins[0]);
+        for (int i = 1; i < ins.size(); i++) {
+            if (res.back().end < ins[i].start) res.push_back(ins[i]);
+            else
+                res.back().end = max(res.back().end, ins[i].end);
+        }
+        return res;
+    }
+
     struct compInterval {
         bool operator()(const Interval &a, const Interval &b) const {
             return a.start<b.start;

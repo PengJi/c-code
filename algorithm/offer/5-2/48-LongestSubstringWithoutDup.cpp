@@ -50,7 +50,7 @@ bool hasDuplication(const std::string& str, int position[])
     return false;
 }
 
-// 方法一：动态规划
+// 方法二：动态规划
 int longestSubstringWithoutDuplication_2(const std::string& str)
 {
     int curLength = 0;
